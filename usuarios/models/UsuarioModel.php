@@ -11,9 +11,15 @@ class UsuarioModel extends Conexion
     public function traerUsuarios()
     {
         $sql = "select * from usuarios ";
-        $consulta = mysql_query($sql,$this->connectMysql());
-        $usuarios = $this->get_table_assoc($consulta);
-        return $usuarios;
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+        return $results;
+        // $consulta = mysql_query($sql,$this->connectMysql());
+        // $usuarios = $this->get_table_assoc($consulta);
+        // return $usuarios;
+
     }
 
     public function crearUsuario($request)

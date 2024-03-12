@@ -39,7 +39,7 @@ class tarifasView
         <body>
             <div>
                 Tarifas <button 
-                            class="btn btn-primary"
+                            class="btn btn-warning"
                             data-bs-toggle="modal" 
                             data-bs-target="#modalNuevoTarifa"
                             onclick="formuNuevaTarifa();"
@@ -106,6 +106,10 @@ class tarifasView
                            $infoTipoVehiculo = $this->tipoVehiculoModel->traerTipoVehiculoId($tarifa['idTipoVehiculo']);
                            $infoParqueadero = $this->parqueaderoModel->traerParqueaderoId($tarifa['idParqueadero']);
                            $tipoTarifa  =   $this->tipoTarifaModel->traerTipoTarifaId($tarifa['idTipoTarifa']);
+                            // echo '<pre>'; 
+                            // print_r($tipoTarifa); 
+                            // echo '</pre>';
+                            // die();
                           echo '<tr>';  
                           echo '<td>'.$tarifa['descripcion'].'</td>'; 
                           echo '<td>'.$infoParqueadero['nombre'].'</td>'; 

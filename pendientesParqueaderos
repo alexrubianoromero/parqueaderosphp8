@@ -17,3 +17,8 @@ volar el menu superior
 
 revisar porque no muestra el alert cuando el usuario o la clave no coiciden
 
+al registrar un vehiculo deberia mostrar de una vez ventana con el ticket
+
+verificar que no permita hacer ninguna accion en en controlador si no  hay sesion de usuario o si no existe id_usuario 
+o id_usuario esta en blanco 
+

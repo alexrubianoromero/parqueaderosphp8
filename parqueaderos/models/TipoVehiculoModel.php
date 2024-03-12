@@ -11,16 +11,25 @@ class TipoVehiculoModel extends Conexion
     public function traerTiposVehiculos()
     {
         $sql = "select * from tiposVehiculo ";
-        $consulta = mysql_query($sql,$this->connectMysql());
-        $data = $this->get_table_assoc($consulta);
-        return $data;
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+        // $consulta = mysql_query($sql,$this->connectMysql());
+        // $data = $this->get_table_assoc($consulta);
+        return $results;
     }
 
     public function traerTipoVehiculoId($id)
     {
         $sql = "select * from tiposVehiculo where id = '".$id."'  ";
-        $consulta = mysql_query($sql,$this->connectMysql());
-        $data = mysql_fetch_assoc($consulta);
-        return $data;
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetch(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+
+        // $consulta = mysql_query($sql,$this->connectMysql());
+        // $data = mysql_fetch_assoc($consulta);
+        return $results;
     }
 }

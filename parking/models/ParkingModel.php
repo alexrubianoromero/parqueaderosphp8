@@ -11,32 +11,43 @@ class ParkingModel extends Conexion
     public function traerVehiculosParking()
     {
         $sql = "select * from parking where estado = 0 and idParqueadero = '".$_SESSION['idSucursal']."'   ";
-        $consulta = mysql_query($sql,$this->connectMysql());
-        $data = $this->get_table_assoc($consulta);
-        return $data;
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+        return $results;
     }
+
+
     public function traerVehiculosParkingGerencial($idParqueadero)
     {
         $sql = "select * from parking where estado = 0 and idParqueadero = '".$idParqueadero."'   ";
-        $consulta = mysql_query($sql,$this->connectMysql());
-        $data = $this->get_table_assoc($consulta);
-        return $data;
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+        return $results;
     }
+
 
     public function traerHistorialVehiculosParking()
     {
         $sql = "select * from parking where estado > 0 and idParqueadero = '".$_SESSION['idSucursal']."'   ";
-        $consulta = mysql_query($sql,$this->connectMysql());
-        $data = $this->get_table_assoc($consulta);
-        return $data;
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+        return $results;
     }
 
     public function buscarPlacaVehiculosParking($placa)
     {
-        $sql = "select * from parking where placa like '%".$placa."%' ";
-        $consulta = mysql_query($sql,$this->connectMysql());
-        $data = $this->get_table_assoc($consulta);
-        return $data;
+        $sql = "select * from parking where placa like '%".$placa."%' and estado = 0 and idparqueadero = '".$_SESSION['idSucursal']."'  ";
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+        return $results;
     }
 
     /*
@@ -49,12 +60,16 @@ class ParkingModel extends Conexion
         $filas = $this->verificarPlacaEstadoCeroParking($request['placa']);
         if($filas==0)
         {
-            $sql = "insert into parking  (idTipoVehiculo,placa
-            ,horaIngreso,idTarifa,idParqueadero)    
-            values ('".$request['idTipoVehiculo']."','".$request['placa']."'
-            ,now(),'".$request['idTarifa']."','".$_SESSION['idSucursal']."'
-            ) ";
-            $consulta = mysql_query($sql,$this->connectMysql());
+            $sql = "insert into parking  (idTipoVehiculo,placa,idTarifa,idParqueadero,usuarioIngreso)  
+            values(:idTipoVehiculo,:placa,:idTarifa,:idParqueadero,:usuarioIngreso)";
+            $query = $this->connectMysql()->prepare($sql); 
+            $query->bindParam(':idTipoVehiculo',$request['idTipoVehiculo'],PDO::PARAM_STR, 25);
+            $query->bindParam(':placa',$request['placa'],PDO::PARAM_STR, 25);
+            $query->bindParam(':idTarifa',$request['idTarifa'],PDO::PARAM_STR, 25);
+            $query->bindParam(':idParqueadero',$_SESSION['idSucursal'],PDO::PARAM_STR, 25);
+            $query->bindParam(':usuarioIngreso',$_SESSION['id_usuario'],PDO::PARAM_STR, 25);
+            $query->execute();
+            $this->desconectar();
             return 0;
         }else{
             return 1;
@@ -66,10 +81,12 @@ class ParkingModel extends Conexion
         $sql = "select * from parking  
         where placa = '".$placa."' 
         and estado = 0 ";
-        $consulta = mysql_query($sql,$this->connectMysql());
-        $filas = mysql_num_rows($consulta);
-        // die('el valor de filas '.$filas); 
-        return $filas;  
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetch(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+        $filas = $query->rowCount();
+        return $filas;
     }
 
     public function traerInfoParkingPlaca($placa)
@@ -77,18 +94,28 @@ class ParkingModel extends Conexion
         $sql = "select * from parking  
         where placa = '".$placa."' 
         and estado = 0 ";
-        $consulta = mysql_query($sql,$this->connectMysql());
-        $placa = mysql_fetch_assoc($consulta);
-        return $placa; 
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetch(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+        return $results;
+        // $consulta = mysql_query($sql,$this->connectMysql());
+        // $placa = mysql_fetch_assoc($consulta);
+        // return $placa; 
     }
     public function traerInfoParkingIdParking($id)
     {
         $sql = "select * from parking  
         where id = '".$id."' 
         and estado = 0 ";
-        $consulta = mysql_query($sql,$this->connectMysql());
-        $parking = mysql_fetch_assoc($consulta);
-        return $parking; 
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetch(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+        return $results;
+        // $consulta = mysql_query($sql,$this->connectMysql());
+        // $parking = mysql_fetch_assoc($consulta);
+        // return $parking; 
     }
 
 
@@ -98,7 +125,10 @@ class ParkingModel extends Conexion
         set estado = '".$estado."' 
         where  id = '".$idParking."'
         ";
-        $consulta = mysql_query($sql,$this->connectMysql());
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $this->desconectar();
+        // $consulta = mysql_query($sql,$this->connectMysql());
     }
 
 
@@ -108,7 +138,10 @@ class ParkingModel extends Conexion
         set idReciboCaja = '".$idRecibo."' 
         where  id = '".$idParking."'
         ";
-        $consulta = mysql_query($sql,$this->connectMysql());
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $this->desconectar();
+        // $consulta = mysql_query($sql,$this->connectMysql());
     }
 
    

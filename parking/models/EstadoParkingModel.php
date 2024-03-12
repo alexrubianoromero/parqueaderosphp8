@@ -11,17 +11,23 @@ class EstadoParkingModel extends Conexion
     public function traerEstadosParking()
     {
         $sql = "select * from estadosParking  ";
-        $consulta = mysql_query($sql,$this->connectMysql());
-        $data = $this->get_table_assoc($consulta);
-        return $data;
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+        return $results;
+        // $consulta = mysql_query($sql,$this->connectMysql());
+        // $data = $this->get_table_assoc($consulta);
+        // return $data;
     }
     public function traerEstadosParkingId($id)
     {
         $sql = "select * from estadosParking where id='".$id."' ";
-        // die($sql);
-        $consulta = mysql_query($sql,$this->connectMysql());
-        $data = mysql_fetch_assoc($consulta);
-        return $data;
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetch(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+        return $results;
     }
 
 

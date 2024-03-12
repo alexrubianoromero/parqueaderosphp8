@@ -118,7 +118,7 @@ class parkingView extends vista
             </div>
         </div>
          <!-- este div es para colocar mensajes como registro grabado o cosas asi -->
-        <div class="row" id="mensajesdePrograma" style="padding:1px;color:blue;"></div>
+        <div class="row" id="mensajesdePrograma" style="padding:1px;color:blue;font-size:20px"></div>
         <!-- aqui es el div que muestra la informacion de los vehiculos relacionadosa parqueadero  -->
         <div class="row mt-3" style="padding:5px;">
             <div class="row mt-1">
