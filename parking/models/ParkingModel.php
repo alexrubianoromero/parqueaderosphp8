@@ -21,7 +21,7 @@ class ParkingModel extends Conexion
 
     public function traerVehiculosParkingGerencial($idParqueadero)
     {
-        $sql = "select * from parking where estado = 0 and idParqueadero = '".$idParqueadero."'   ";
+        $sql = "select * from parking where estado = 0 and idParqueadero = '".$idParqueadero."' order by idTipoVehiculo  ";
         $query = $this->connectMysql()->prepare($sql); 
         $query -> execute(); 
         $results = $query -> fetchAll(PDO::FETCH_ASSOC); 

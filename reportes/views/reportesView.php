@@ -39,7 +39,7 @@ class reportesView extends vista
         </head>
         <body class="container">
             <div style="padding:5px;">
-                <div><button class="btn btn-primary" onclick="verReporteOcupacion();">Reporte Ocupacion</button></div>
+                <div><button class="btn btn-warning" onclick="verReporteOcupacion();">Reporte Ocupacion</button></div>
             </div>
             <div class="row" id="divResultadosReportes"></div>
         </body>
@@ -47,7 +47,96 @@ class reportesView extends vista
      <?php
     }
 
+    public function contadorPorTipoVehiculo($idTipoVe,$parking)
+    {
+        $infoTipo = $this->tipoVehiculoModel->traerTipoVehiculoId($idTipoVe);
+
+        $total = 0;
+        foreach($parking as $park)
+        {
+            if($park['idTipoVehiculo']== $idTipoVe){ $total = $total +1 ; } 
+        } 
+        $respu['descripTipo']= $infoTipo['descripcion'] ;
+        $respu['total']= $total;
+        return $respu ; 
+    }
+
+    public function pintarTotalesPorParqueadero($idParqueadero)
+    {
+        $parking = $this->model->traerVehiculosParkingGerencial($idParqueadero);
+        $tiposVehiculos =   $this->tipoVehiculoModel->traerTiposVehiculos();
+        foreach($tiposVehiculos as $tiposVehiculo)
+        {
+            $conteo =  $this->contadorPorTipoVehiculo($tiposVehiculo['id'],$parking);
+            echo ' '.$conteo['descripTipo'].'s: '.$conteo['total'];
+        } 
+    }
+
     public function verReporteOcupacion()
+    {
+
+        // echo 'reporte ocupacion';
+        echo '<div class="row">';
+        $parqueaderos = $this->parqueaderoModel->traerParqueaderos();
+        foreach($parqueaderos as $parqueadero )
+        {
+            $parking = $this->model->traerVehiculosParkingGerencial($parqueadero['id']);
+            // echo '<div class="col-lg-3 row" style="border: 1px solid black;" style="padding:5px;">';
+            //     echo '<h3>'.$parqueadero['nombre'].'</h3>';
+            //     echo '<div style="font-size:20px;">';
+            //     foreach($parking as $park)
+            //     {
+                //         echo '<br>'.$park['placa'];
+                //     } 
+                //     echo '</div>';
+                // echo '</div>'; 
+           
+                
+            ?>
+            <div class="card text-bg-warning mb-3" style="max-width: 18rem;margin:10px;">
+            <div class="card-header"><?php   echo $parqueadero['nombre']; ?></div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    <?php
+                          $this->pintarTotalesPorParqueadero($parqueadero['id']);  
+                    ?>
+                </h5>
+                <p class="card-text">
+                    <?php
+                        echo '<table class="table table-striped">';
+                        echo '<tr class="table-dark">';
+                        echo '<th>Tipo</th>';  
+                        echo '<th>Placa</th>';  
+                        echo '</tr>'; 
+                        foreach($parking as $park)
+                        { 
+                            $infoTipo = $this->tipoVehiculoModel->traerTipoVehiculoId($park['idTipoVehiculo']);
+                            // echo '<br>'.$infoTipo['descripcion'].' '.$park['placa'];  
+                            echo '<tr class="table-warning ">';
+                            echo '<td>'.$infoTipo['descripcion'].'</td>';
+                            echo '<td>'.$park['placa'].'</td>';
+                            echo '</tr>'; 
+                        } 
+                        echo '</table>';
+                    ?>
+                </p>
+            </div>
+            </div>
+                <!-- <div class="col-sm-6">
+                    <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                    </div>
+                </div> -->
+           <?php         
+
+        }
+        echo '</div>';
+    }
+    public function verReporteOcupacion_ante()
     {
 
         // echo 'reporte ocupacion';

@@ -10,7 +10,7 @@ class ParqueaderoModel extends Conexion
 
     public function traerParqueaderos()
     {
-        $sql = "select * from parqueaderos  order by id desc";
+        $sql = "select * from parqueaderos  order by id asc";
         $query = $this->connectMysql()->prepare($sql); 
         $query -> execute(); 
         $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
