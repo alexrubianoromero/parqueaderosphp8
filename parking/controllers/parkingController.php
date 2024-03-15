@@ -72,6 +72,10 @@ class parkingController
             // die('passoooo11');
             $this->view->liquidarSalidaVehiculo($_REQUEST['idParking']);
         } 
+        if($_REQUEST['opcion']=='reiniciarSelectTarifas'){
+            // die('passoooo11');
+            $this->view->reiniciarSelectTarifas();
+        } 
         if($_REQUEST['opcion']=='facturarSalidaVehiculo'){
             $this->facturarSalidaVehiculo($_REQUEST);
         } 
@@ -81,12 +85,14 @@ class parkingController
     public function facturarSalidaVehiculo($request)
     {
         $reciboNo = $this->reciboDeCajaModel->grabarReciboDeCaja($request);
-        echo 'Recibo Grabado '.$reciboNo;
         //cambiar el estado de parking y asignar numero de recibo
         $this->model->cambiarEstadoParking($request['idParking'],1);
         //adignar reciboCaja a parking
         $this->model->actualizarReciboCajaParking($request['idParking'],$reciboNo);
-
+        $this->model->actualizarHoraSalidaUsuarioSalidaParking($request['idParking'],$reciboNo);
+        
+        echo 'Recibo Grabado '.$reciboNo;
+        echo '<a target="_blank" href="parking/views/verTicket.php?idParking='.$request['idParking'].'">Ver Recibo</a>'; 
 
         // $this->view->mostrarInfoParking($parking); 
     }

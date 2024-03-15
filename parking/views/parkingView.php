@@ -180,7 +180,12 @@ class parkingView extends vista
      
      <?php
     }
-
+    public function reiniciarSelectTarifas()
+    {
+        $tarifas =   $this->tarifaModel->traerTarifaIdParqueadero($_SESSION['idSucursal']); 
+        $this->colocarSelectCampoConOpcionSeleccionada($tarifas,1);
+        
+    }
     public function modalNuevoIngresoParking()
     {
         ?>
@@ -221,8 +226,8 @@ class parkingView extends vista
                     
                 </div>
                 <div class="modal-footer">
-                    <!-- <button  type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="parking();" >Cerrar</button>
-                    <button  type="button" class="btn btn-primary"  id="btnEnviar"  onclick=";" >Grabar</button> -->
+                    <button  type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="parking();" >Cerrar</button>
+                    <!-- <button  type="button" class="btn btn-primary"  id="btnEnviar"  onclick=";" >Grabar</button> -->
                 </div>
                 </div>
             </div>
@@ -367,6 +372,8 @@ class parkingView extends vista
                 <label for="">Valor: <?php echo number_format($cobroMinutos,0,",",".") ?></label>
         </div>
         <div class="row">
+            <input type="hidden"  id="inputCobroMinutos" value = "<?php echo round($cobroMinutos) ?>">
+            <input type="hidden"  id="inputPlaca" value = "<?php echo $infoParking['placa']?>">
                 <label class="col-lg-4">Forma de pago</label>
                 <div class="col-lg-8">
                     <select class="form-control" id="idFormaPago">
@@ -388,12 +395,18 @@ class parkingView extends vista
                 </div>
                 <label class="col-lg-4 mt-3">Valor Recibido</label>
                 <div class="col-lg-8 mt-3">
-                    <input type="text" id="valorRecibido" class ="form-control">
+                    <input type="text" id="valorRecibido" class ="form-control" onkeyup="calcularVueltas();">
+                </div>
+                <label class="col-lg-4 mt-3">Valor Vueltas</label>
+                <div class="col-lg-8 mt-3">
+                    <input type="text" id="valorVueltas" class ="form-control" onfocus="blur();">
                 </div>
                 
         </div>
         <div>
-            <button class="btn btn-warning btn-block mt-3" onclick="facturarSalidaVehiculo(<?php   echo $idParking  ?>);">Facturar</button>
+            <!-- <button class="btn btn-warning btn-block mt-3" onclick="facturarSalidaVehiculo(<?php   echo $idParking  ?>);">Facturar</button> -->
+            <!-- <a target="_blank"  href="parking/views/verTicket.php?idParking=<?php echo $idParking;  ?>" class="btn btn-warning btn-block mt-3" onclick="facturarSalidaVehiculo(<?php   echo $idParking  ?>);">Facturar</a> -->
+            <button  class="btn btn-warning btn-block mt-3" onclick="facturarSalidaVehiculo(<?php   echo $idParking  ?>);">Facturar</button>
         </div>
         <?php
     }

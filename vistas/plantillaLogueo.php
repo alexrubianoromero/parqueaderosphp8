@@ -26,6 +26,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <br><br><br><br>
         <div>
             <div class="row" >
+                <H1 class="col-lg-6 offset-lg-3 mt-5 text-center" style="color:#fcb900;" >CRECIENTE PARKING</H1>
                 <div class="col-lg-6 offset-lg-3 mt-5"  >
                     <div class="card" style="background-color:#fcb900;padding:20px;">
                         <div class="card-body">

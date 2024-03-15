@@ -30,13 +30,37 @@ class ReciboDeCajaModel extends Conexion
         */
         public function grabarReciboDeCaja($request)
         {
-            $sql = "insert into recibosDeCaja  (idParking,fecha,valor,usuario,idParqueadero,placa,idFormaDePago)    
-            values ('".$request['idParking']."',now()
-            ,'".$request['valorRecibido']."','".$_SESSION['id_usuario']."','".$_SESSION['idSucursal']."'
-            ,'placa','".$request['idFormaPago']."'
-            ) ";
+            //  echo '<pre>'; 
+            //  print_r($request); 
+            //  echo '</pre>';
+            //  die();
+
+
+            // $sql = "insert into recibosDeCaja  (idParking,fecha,valor,usuario,idParqueadero,placa,idFormaDePago,valorPagado,cambio)    
+            // values ('".$request['idParking']."',now()
+            // ,'".$request['valorRecibido']."','".$_SESSION['id_usuario']."','".$_SESSION['idSucursal']."'
+            // ,'placa','".$request['idFormaPago']."'
+            // ) ";
             // die($sql);
-            $consulta = mysql_query($sql,$this->connectMysql());
+            // $consulta = mysql_query($sql,$this->connectMysql());
+
+            ///////////
+            $valorMinRedondeado = round($request['inputCobroMinutos']);
+            $sql = "insert into recibosDeCaja  (idParking,valor,usuario,idParqueadero,placa,idFormaDePago,valorPagado,cambio)    
+                                         values(:idParking,:valor,:usuario,:idParqueadero,:placa,:idFormaDePago,:valorPagado,:cambio)";
+            $query = $this->connectMysql()->prepare($sql); 
+            $query->bindParam(':idParking',$request['idParking'],PDO::PARAM_STR, 25);
+            $query->bindParam(':valor',$valorMinRedondeado,PDO::PARAM_STR, 25);
+            $query->bindParam(':usuario',$_SESSION['id_usuario'],PDO::PARAM_STR, 25);
+            $query->bindParam(':idParqueadero',$_SESSION['idSucursal'],PDO::PARAM_STR, 25);
+            $query->bindParam(':placa',$request['placa'],PDO::PARAM_STR, 25);
+            $query->bindParam(':idFormaDePago',$request['idFormaPago'],PDO::PARAM_STR, 25);
+            $query->bindParam(':valorPagado',$request['valorRecibido'],PDO::PARAM_STR, 25);
+            $query->bindParam(':cambio',$request['valorVueltas'],PDO::PARAM_STR, 25);
+            $query->execute();
+            $this->desconectar();
+    
+            //////////////
 
             $maximo = $this->traerMaximoId();
             return $maximo; 
@@ -45,11 +69,25 @@ class ReciboDeCajaModel extends Conexion
         public function traerMaximoId()
         {
             $sql = "select max(id) as max from recibosDeCaja  "; 
-            // die($sql);
-            $consulta = mysql_query($sql,$this->connectMysql());
-            $arr = mysql_fetch_assoc($consulta);
-            return $arr['max']; 
+            $query = $this->connectMysql()->prepare($sql); 
+            $query -> execute(); 
+            $results = $query -> fetch(PDO::FETCH_ASSOC); 
+            $this->desconectar();
+            return $results['max']; 
         }
+
+        
+        public function traerReciboCajaId($id)
+        {
+            $sql = "select * from recibosDeCaja where id = '".$id."'  "; 
+            $query = $this->connectMysql()->prepare($sql); 
+            $query -> execute(); 
+            $results = $query -> fetch(PDO::FETCH_ASSOC); 
+            $this->desconectar();
+            return $results; 
+        }
+
+
  
 
   

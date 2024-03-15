@@ -36,7 +36,7 @@ class usuarioView
         <body>
             <div>
                 Usuarios <button 
-                            class="btn btn-primary"
+                            class="btn btn-warning"
                             data-bs-toggle="modal" 
                             data-bs-target="#modalNuevoUsuario1"
                             onclick="pedirInfoUsuarioNuevo();"

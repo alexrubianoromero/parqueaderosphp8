@@ -138,8 +138,42 @@ function registrarIngresoVehiculo()
                 +'&placa='+placa
     );
     }
+
     mostrarInfoParking();
+    limpiarInfoCasillasIngresoVehiculo();
 }
+
+
+function limpiarInfoCasillasIngresoVehiculo()
+{
+    document.getElementById('idTipoVehiculoIngresoLabel').value='';
+    document.getElementById('placaIngreso').value='';
+    document.getElementById('placaIngreso').value='';
+    reiniciarSelectTarifas();
+}
+
+function reiniciarSelectTarifas()
+{
+    // document.getElementById('idTipoVehiculoIngreso').value = idTipoVehiculo;
+    // traerDescripcionTipoVehiculo(idTipoVehiculo);
+    const http=new XMLHttpRequest();
+    const url = 'parking/parking.php';
+    http.onreadystatechange = function(){
+
+        if(this.readyState == 4 && this.status ==200){
+            var  resp = JSON.parse(this.responseText); 
+                        //   alert(resp.descripcion);
+                             document.getElementById("idTarifa").innerHTML  = this.responseText;
+        }
+    };
+    http.open("POST",url);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send('opcion=reiniciarSelectTarifas'
+                // +'&idTipo='+idTipoVehiculo
+    );
+}
+
+
 
 function limpiarMensajeRegistro()
 {
@@ -251,6 +285,28 @@ function buscarPlacaEnParking()
         );
     }
 }
+function calcularVueltas()
+{
+    
+    var valorRecibido = document.getElementById('valorRecibido').value;
+    var inputCobroMinutos = document.getElementById('inputCobroMinutos').value;
+    var valorVueltas = Math.round(inputCobroMinutos) -  valorRecibido ;
+    document.getElementById('valorVueltas').value = -Math.round(valorVueltas);
+    //  alert('inputCobroMinutos'+inputCobroMinutos);
+        // const http=new XMLHttpRequest();
+        // const url = 'parking/parking.php';
+        // http.onreadystatechange = function(){
+            
+        //     if(this.readyState == 4 && this.status ==200){
+        //         document.getElementById("divResultadosPlacaParking").innerHTML  = this.responseText;
+        //     }
+        // };
+        // http.open("POST",url);
+        // http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        // http.send('opcion=calcularVueltas'
+        // +'&placa='+placa
+        // );
+}
 
 function  validaInfoPlaca()
 {
@@ -269,7 +325,10 @@ function facturarSalidaVehiculo(idParking)
     {
         //  alert('ingresovehiculo'+idTipoVehiculo);
         var idFormaPago = document.getElementById('idFormaPago').value;
+        var inputCobroMinutos = document.getElementById('inputCobroMinutos').value;
         var valorRecibido = document.getElementById('valorRecibido').value;
+        var valorVueltas = document.getElementById('valorVueltas').value;
+        var placa = document.getElementById('inputPlaca').value;
         const http=new XMLHttpRequest();
         const url = 'parking/parking.php';
         http.onreadystatechange = function(){
@@ -282,11 +341,36 @@ function facturarSalidaVehiculo(idParking)
         http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         http.send('opcion=facturarSalidaVehiculo'
                     +'&idFormaPago='+idFormaPago
+                    +'&inputCobroMinutos='+inputCobroMinutos
                     +'&valorRecibido='+valorRecibido
+                    +'&valorVueltas='+valorVueltas
                     +'&idParking='+idParking
+                    +'&placa='+placa
         );
-
+        //refrescar la pantalla de parking
+        // setTimeout(() => {
+        //     // myModal.hide();
+        //     refrescarParking();
+        //     document.getElementById("modalSalidaParking").hide();
+        // }, 500);
     }
+}
+
+function refrescarParking()
+{
+    const http=new XMLHttpRequest();
+    const url = './parking/parking.php';
+    http.onreadystatechange = function(){
+
+        if(this.readyState == 4 && this.status ==200){
+               document.getElementById("div_content_wrapper").innerHTML  = this.responseText;
+
+        }
+    };
+    http.open("POST",url);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send('opcion=parkingMenu');
+
 }
 
 
@@ -305,6 +389,10 @@ function  validaInfoPago()
  
     return 1;
 }
+
+
+
+
 
 
 // function verReporteOcupacion()

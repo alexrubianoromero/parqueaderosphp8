@@ -4,9 +4,16 @@ $raiz =dirname(dirname(dirname(__file__)));
 //   die('rutamodelsucursal '.$raiz);
 
 require_once($raiz.'/conexion/Conexion.php');
+require_once($raiz.'/recibosDeCaja/models/ReciboDeCajaModel.php');
 
 class ParkingModel extends Conexion
 {
+    protected $reciboModel; 
+
+    public function __construct()
+    {
+        $this->reciboModel = new ReciboDeCajaModel(); 
+    }
 
     public function traerVehiculosParking()
     {
@@ -136,6 +143,23 @@ class ParkingModel extends Conexion
     {
         $sql = "update parking 
         set idReciboCaja = '".$idRecibo."' 
+        where  id = '".$idParking."'
+        ";
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $this->desconectar();
+        // $consulta = mysql_query($sql,$this->connectMysql());
+    }
+
+
+    //esta funcion actualiza la hora de salida de parking con base 
+    //en la hora del recibode caja 
+    public function actualizarHoraSalidaUsuarioSalidaParking($idParking,$idRecibo)
+    {
+        $infoRecibo =  $this->reciboModel->traerReciboCajaId($idRecibo);
+        $sql = "update parking 
+        set horaSalida = '".$infoRecibo['fecha']."', 
+            usuarioSalida = '".$infoRecibo['usuario']."' 
         where  id = '".$idParking."'
         ";
         $query = $this->connectMysql()->prepare($sql); 
