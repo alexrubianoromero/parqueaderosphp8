@@ -333,16 +333,29 @@ class parkingView extends vista
 
     function cantidadMinutos($intervalo)
     {
-        $horasAminutos = $intervalo->h * 60;
-        $segundosMinutos = $intervalo->s /60;
-        $minutos = $horasAminutos+$segundosMinutos+$intervalo->s;
+        $horasEnMinutos = $intervalo->h *60;
+        $minutos = $intervalo->i ;
+        $segundosEnMinutos = $intervalo->s/60 ;
+        // if($segundosMinutos<0){
+        //     $minutos = $horasAminutos+$segundosMinutos;
+        // }else{
+            $minutos = $horasEnMinutos+$minutos+$segundosEnMinutos;
+        // }
+        // echo '<br>horasMInutos:'.$horasEnMinutos.'<br>segundosMinutos:'.$minutos; 
+        // echo '<br>Segundos:'.$segundosEnMinutos;
+        // echo '<br>Minutos:'.$minutos;
+        //  echo '<pre>'; 
+        // print_r($intervalo->s);
+        // echo '</pre>';
+        // die();
+
         return  $minutos;
     }
     function cantidadHoras($intervalo)
     {
         // $horasAminutos = $intervalo->h * 60;
         $segundosHoras = $intervalo->s /3600;
-        $segundosHoras = $intervalo->i /60;
+        $segundosHoras = $intervalo->i ;
         $totalHoras = $segundosHoras+$segundosHoras+$intervalo->h;
         return  $totalHoras;
     }
@@ -353,7 +366,7 @@ class parkingView extends vista
         $infoParking = $this->model->traerInfoParkingIdParking($idParking);
         $tipoVehiculo = $this->tipoVehiculoModel->traerTipoVehiculoId($infoParking['idTipoVehiculo']);
         $infoTarifa  =  $this->tarifaModel->traerTarifaId($infoParking['idTarifa']);  
-        $intervalo = $this->restafechas($infoParking['horaIngreso'] );  
+        $intervalo = $this->restafechas($infoParking['horaIngreso'] ); 
         $cantidadMinutos = $this->cantidadMinutos($intervalo);
         $cantidadHoras = $this->cantidadHoras($intervalo);
         $cobroMinutos = $cantidadMinutos * $infoTarifa['valorMinuto'];
@@ -519,6 +532,53 @@ class parkingView extends vista
                           echo '<td>'.$infoTipo['descripcion'].'</td>'; 
                           echo '<td>'.substr($park['horaIngreso'],11,8).'</td>'; 
                           echo '<td>'.substr($park['horaIngreso'],0,10).'</td>'; 
+                          echo '<td>'.$infoEstadoPArking['descripcion'].'</td>'; 
+                       
+                          echo '</tr>';  
+                        }  
+                        ?>
+                </tbody>
+            </table>
+        </div>
+
+        <?php
+
+    }
+    public function mostrarInfoParkingMovimientos($parking)
+    {
+        ?>
+        <div class="row">
+        <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Placa</th>
+                        <th>Tipo Vehiculo</th>
+                        <th>Hora Ingreso</th>
+                        <th>Fecha Ingreso</th> 
+                        <th>Hora Salida</th>
+                        <th>Fecha Salida</th> 
+                        <th>Estado</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach($parking as $park)
+                    {
+                          $infoTipo = $this->tipoVehiculoModel->traerTipoVehiculoId($park['idTipoVehiculo']); 
+                          $infoEstadoPArking =    $this->estadoParkingModel->traerEstadosParkingId($park['estado']); 
+                          echo '<tr>';  
+                        //   echo '<td><button 
+                        //                 class="btn btn-warning " 
+                        //                 data-bs-toggle="modal" 
+                        //                 data-bs-target="#modalSalidaParking"
+                        //                 onclick ="liquidarSalidaVehiculo('.$park['id'].');" 
+                        //                 >'.$park['placa'].'</button></td>'; 
+                          echo '<td>'.$park['placa'].'</td>'; 
+                          echo '<td>'.$infoTipo['descripcion'].'</td>'; 
+                          echo '<td>'.substr($park['horaIngreso'],11,8).'</td>'; 
+                          echo '<td>'.substr($park['horaIngreso'],0,10).'</td>'; 
+                          echo '<td>'.substr($park['horaSalida'],11,8).'</td>'; 
+                          echo '<td>'.substr($park['horaSalida'],0,10).'</td>'; 
                           echo '<td>'.$infoEstadoPArking['descripcion'].'</td>'; 
                        
                           echo '</tr>';  

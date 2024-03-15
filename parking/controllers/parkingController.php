@@ -111,7 +111,7 @@ class parkingController
     public function mostrarMovimientosEnParqueadero()
     {
         $parking = $this->model->traerHistorialVehiculosParking();
-        $this->view->mostrarInfoParking($parking); 
+        $this->view->mostrarInfoParkingMovimientos($parking); 
     }
 
     public function asignarInfoPorTipoVehiculo($idTipo)
