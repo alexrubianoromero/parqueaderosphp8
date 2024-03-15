@@ -32,19 +32,22 @@ revisar que cuando se realice salida de un vehiculo actualice los valores en la 
 se podria hacer que cuando escoja el tipo de vehiculo de una vez coloque la tarifa  por defecto para ese tipo de vehiculo 
 despues de registrar un vechiculol debe limpiar las casillas correspondientes a placa tarifa y tipo 
 
+*crear la tabla y el modelo de empresa 
 *hacer que se grabe tambien como se pago y cuanto se devolvio en facturar salida
 *la hora de salida no esta registrandose en parking actualizarla con base en la hora del recibo de caja
+*revisar la forma como liquida las tarifas especielmente cuando solo son segundos 
 
 
--revisar la forma como liquida las tarifas especielmente cuando solo son segundos 
--como imprimir el ticket  se debe generarcuando se dice facturar cuadrar la pagina que se va a imprimir
-seria bueno un control para que no deje grabar si las vueltas son negativas
-*crear la tabla y el modelo de empresa 
-verificar como se va a manejar lo de los convenios
+-como imprimir el ticket  se debe generar cuando se dice facturar cuadrar la pagina que se va a imprimir
+grabar tambien el tiempo que se va a cobrar 
 verificar que aveces no muestra el vehiculo que se acaba de ingresar en la parte de vehiculos 
+seria bueno un control para que no deje grabar si las vueltas son negativas
+verificar como se va a manejar lo de los convenios
 colocar un logo al inicio de creciente parkin (pedir un logo sin fondo)
 agrandar los numeros un poco para ingresar la placa 
 colocar la opcion de cambio de clave 
 revisar boton de usuario nuevo cambiar color
+en movimientos de parqueadero mostrar hora de salida 
+que se puedan volver a ver o imprimir el recibo generado para un vehiculo
 
 

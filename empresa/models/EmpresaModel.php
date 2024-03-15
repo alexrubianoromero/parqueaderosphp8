@@ -8,7 +8,7 @@ require_once($raiz.'/conexion/Conexion.php');
 class EmpresaModel extends Conexion
 {
 
-    public function traerParqueaderos()
+    public function traerInfoEmpresa()
     {
         $sql = "select * from empresa ";
         $query = $this->connectMysql()->prepare($sql); 

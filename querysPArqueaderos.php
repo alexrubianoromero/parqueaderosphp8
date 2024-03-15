@@ -1,6 +1,6 @@
 truncate perfiles;
 
 truncate parking;
-delete from recibosDeCaja;
+truncate recibosDeCaja;
 
 update parking set estado = 0 ; 

@@ -1,16 +1,40 @@
 <?php
-echo '<pre>'; 
-print_r($_REQUEST); 
-echo '</pre>';
+session_start();
+// echo '<pre>'; 
+// print_r($_SESSION); 
+// echo '</pre>';
+
+// echo '<pre>'; 
+// print_r($_REQUEST); 
+// echo '</pre>';
+// echo $raiz;
+
 $raiz =dirname(dirname(dirname(__file__)));
-echo $raiz;
 require_once($raiz.'/parking/models/ParkingModel.php');
+require_once($raiz.'/empresa/models/EmpresaModel.php');
+require_once($raiz.'/parqueaderos/models/ParqueaderoModel.php');
+require_once($raiz.'/parqueaderos/models/TipoVehiculoModel.php'); 
+require_once($raiz.'/recibosDeCaja/models/ReciboDeCajaModel.php'); 
+require_once($raiz.'/formasDepago/models/FormaDePagoModel.php'); 
+
 $parkingModel = new ParkingModel(); 
+$empresaModel = new EmpresaModel(); 
+$parqueaderoModel = new ParqueaderoModel(); 
+$tipoVehiculoModel = new TipoVehiculoModel();
+$reciboModel = new ReciboDeCajaModel();
+$formaPagoModel = new FormaDePagoModel();
+
 $infoParking = $parkingModel->traerInfoParkingIdParking($_REQUEST['idParking']); 
-echo '<pre>'; 
-print_r($infoParking); 
-echo '</pre>';
-die(); 
+$empresaInfo = $empresaModel->traerInfoEmpresa();
+$infoParqueadero = $parqueaderoModel->traerParqueaderoId($_SESSION['idSucursal']);
+$infoTipoVehiculo = $tipoVehiculoModel->traerTipoVehiculoId($infoParking['idTipoVehiculo']);
+$infoRecibo = $reciboModel->traerReciboCajaId($infoParking['idReciboCaja']);
+$infoFormaPago = $formaPagoModel->traerFormasDePagoId($infoRecibo['idFormaDePago']);
+$fechaHoy = date("Y-m-d H:i:s");
+// echo 'assadsa<pre>'; 
+// print_r($infoParking); 
+// echo '</pre>';
+// die(); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +44,66 @@ die();
     <title>Document</title>
 </head>
 <body>
-    <h3>CRECIENTE PARKING</h3>
+    <div class="">
 
+        <h3>CRECIENTE PARKING</h3>
+        NIT: <?php  echo $empresaInfo['nit'] ?>
+        <?php  echo '<br>'.$infoParqueadero['direccion'] ?>
+        <?php  echo '<br>'.$empresaInfo['telefono'] ?>
+        <div>
+            Fecha: <?php  echo $fechaHoy; ?>
+        </div>
+        <div>
+            Factura Venta <?php echo $infoParking['idReciboCaja']  ?>
+        </div>
+        <div> <?php echo $infoTipoVehiculo['descripcion'].'-'.$infoParking['placa']  ?>  </div>
+        <div><?php echo 'Hora Ingreso: '.$infoParking['horaIngreso'];   ?></div>       
+        <div><?php echo 'Hora Salida: '.$infoParking['horaSalida'];   ?></div>       
+        <div>===========================</div>       
+        <div>
+            <table>
+                <tr>
+                    <td>Total</td>
+                    <td align="right">$<?php  echo number_format($infoRecibo['valor'],0,",",".")  ?></td>
+                </tr>
+                <tr>
+                    <td >Total Pagado</td>
+                    <td align="right">$<?php  echo number_format($infoRecibo['valorPagado'],0,",",".")  ?></td>
+                </tr>
+                <tr>
+                    <td>Cambio</td>
+                    <td align="right">$<?php  echo number_format($infoRecibo['cambio'],0,",",".")  ?></td>
+                </tr>
+                <tr>
+                    <td>Forma de Pago</td>
+                    <td align="right"><?php  echo $infoFormaPago['descripcion']  ?></td>
+                </tr>
+                <tr>
+                    <td>Valor</td>
+                    <td align="right">$<?php  echo number_format($infoRecibo['valor'],0,",",".")  ?></td>
+                </tr>
+            </table>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-lg-2">
+                INFORMACION IMPORTANTE<br>
+                El vehiculo solo se entregara a la persona <br>
+                que tenga este recibo.<br>
+                En caso de perdida se solicitara la <br>
+                confirmacion mediante algun medio fisico o <br>
+                electronico de la propiedad o tenencia <br>
+                del vehiculo, y tendra un costo adicional <br>
+                de $10.000 pesos,Se recomienda no dejar <br>
+                objetos de valor dentro de los vehiculos <br>
+                o informar de ellos. <br>
+                Regimen Simplificado no responsable de iva <br>
+                Horario de domingo a domingo 6:00 AM A 6:00 PM<br>
+            </div>
+            
+        
+        </div>
+
+    </div>
 </body>
 </html>

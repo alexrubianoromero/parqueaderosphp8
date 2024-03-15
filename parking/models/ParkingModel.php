@@ -113,8 +113,7 @@ class ParkingModel extends Conexion
     public function traerInfoParkingIdParking($id)
     {
         $sql = "select * from parking  
-        where id = '".$id."' 
-        and estado = 0 ";
+        where id = '".$id."'";
         $query = $this->connectMysql()->prepare($sql); 
         $query -> execute(); 
         $results = $query -> fetch(PDO::FETCH_ASSOC); 

@@ -371,7 +371,7 @@ class parkingView extends vista
         $cantidadHoras = $this->cantidadHoras($intervalo);
         $cobroMinutos = $cantidadMinutos * $infoTarifa['valorMinuto'];
         $cobroHoras = $cantidadHoras * $infoTarifa['valorHora'];
-        
+        $stringTiempoTotal =  $intervalo->h.' Horas '.$intervalo->i.' Minutos '.$intervalo->s.' segundos' ;
         
       
 
@@ -387,6 +387,7 @@ class parkingView extends vista
         <div class="row">
             <input type="hidden"  id="inputCobroMinutos" value = "<?php echo round($cobroMinutos) ?>">
             <input type="hidden"  id="inputPlaca" value = "<?php echo $infoParking['placa']?>">
+            <input type="hidden"  id="stringTiempoTotal" value = "<?php echo $stringTiempoTotal; ?>">
                 <label class="col-lg-4">Forma de pago</label>
                 <div class="col-lg-8">
                     <select class="form-control" id="idFormaPago">

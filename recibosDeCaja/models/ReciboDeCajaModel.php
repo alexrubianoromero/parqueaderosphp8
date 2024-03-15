@@ -46,8 +46,8 @@ class ReciboDeCajaModel extends Conexion
 
             ///////////
             $valorMinRedondeado = round($request['inputCobroMinutos']);
-            $sql = "insert into recibosDeCaja  (idParking,valor,usuario,idParqueadero,placa,idFormaDePago,valorPagado,cambio)    
-                                         values(:idParking,:valor,:usuario,:idParqueadero,:placa,:idFormaDePago,:valorPagado,:cambio)";
+            $sql = "insert into recibosDeCaja  (idParking,valor,usuario,idParqueadero,placa,idFormaDePago,valorPagado,cambio,stringTiempoTotal)    
+                                         values(:idParking,:valor,:usuario,:idParqueadero,:placa,:idFormaDePago,:valorPagado,:cambio,:stringTiempoTotal)";
             $query = $this->connectMysql()->prepare($sql); 
             $query->bindParam(':idParking',$request['idParking'],PDO::PARAM_STR, 25);
             $query->bindParam(':valor',$valorMinRedondeado,PDO::PARAM_STR, 25);
@@ -57,6 +57,7 @@ class ReciboDeCajaModel extends Conexion
             $query->bindParam(':idFormaDePago',$request['idFormaPago'],PDO::PARAM_STR, 25);
             $query->bindParam(':valorPagado',$request['valorRecibido'],PDO::PARAM_STR, 25);
             $query->bindParam(':cambio',$request['valorVueltas'],PDO::PARAM_STR, 25);
+            $query->bindParam(':stringTiempoTotal',$request['stringTiempoTotal'],PDO::PARAM_STR, 25);
             $query->execute();
             $this->desconectar();
     
