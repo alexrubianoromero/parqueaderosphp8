@@ -92,7 +92,7 @@ class parkingController
         $this->model->actualizarHoraSalidaUsuarioSalidaParking($request['idParking'],$reciboNo);
         
         echo 'Recibo Grabado '.$reciboNo;
-        echo '<a target="_blank" href="parking/views/verTicket.php?idParking='.$request['idParking'].'">Ver Recibo</a>'; 
+        echo '<br><a class="btn btn-secondary btn-lg" target="_blank" href="parking/views/verTicket.php?idParking='.$request['idParking'].'">Ver Recibo</a>'; 
 
         // $this->view->mostrarInfoParking($parking); 
     }

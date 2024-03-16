@@ -1,23 +1,23 @@
 <?php
 class Conexion {
     //
-    private $host = 'localhost';
-    private $usuario = 'root';
-    private $contrasena = '';
-    private $nombreBaseDatos = 'base_parqueaderos';
-    private $conexion; 
-
-
     // private $host = 'localhost';
-    // private $usuario = 'ctwtvsxj_admin';
-    // private $contrasena = 'ElMejorProgramador***';
-    // private $nombreBaseDatos = 'ctwtvsxj_base_parqueaderos';
+    // private $usuario = 'root';
+    // private $contrasena = '';
+    // private $nombreBaseDatos = 'base_parqueaderos';
     // private $conexion; 
+
+
+    private $host = 'localhost';
+    private $usuario = 'ctwtvsxj_admin';
+    private $contrasena = 'ElMejorProgramador***';
+    private $nombreBaseDatos = 'ctwtvsxj_base_parqueaderos';
+    private $conexion; 
 
     // private $host = 'localhost';
     // private $usuario = 'u556753197_prueba';
     // private $contrasena = 'A12345678b*';
-    // private $nombreBaseDatos = 'u556753197_prueba';
+    // private $nombreBaseDatos = 'parqueraderos';
     // private $conexion; 
     
     public function connectMysql(){

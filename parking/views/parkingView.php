@@ -511,6 +511,7 @@ class parkingView extends vista
                 <thead>
                     <tr>
                         <th>Placa</th>
+                        <th>Ticket</th>
                         <th>Tipo Vehiculo</th>
                         <th>Hora Ingreso</th>
                         <th>Fecha Ingreso</th> 
@@ -530,6 +531,8 @@ class parkingView extends vista
                                         data-bs-target="#modalSalidaParking"
                                         onclick ="liquidarSalidaVehiculo('.$park['id'].');" 
                                         >'.$park['placa'].'</button></td>'; 
+                            
+                          echo '<td><a class ="btn btn-secondary"target="_blank" href="parking/views/verTicketEntrada.php?idParking='.$park['id'].'">Ticket</a></td>'; 
                           echo '<td>'.$infoTipo['descripcion'].'</td>'; 
                           echo '<td>'.substr($park['horaIngreso'],11,8).'</td>'; 
                           echo '<td>'.substr($park['horaIngreso'],0,10).'</td>'; 
@@ -553,6 +556,7 @@ class parkingView extends vista
                 <thead>
                     <tr>
                         <th>Placa</th>
+                        <th>Recibo</th>
                         <th>Tipo Vehiculo</th>
                         <th>Hora Ingreso</th>
                         <th>Fecha Ingreso</th> 
@@ -575,6 +579,7 @@ class parkingView extends vista
                         //                 onclick ="liquidarSalidaVehiculo('.$park['id'].');" 
                         //                 >'.$park['placa'].'</button></td>'; 
                           echo '<td>'.$park['placa'].'</td>'; 
+                          echo '<td><a class ="btn btn-secondary"target="_blank" href="parking/views/verTicket.php?idParking='.$park['id'].'">Recibo</a></td>'; 
                           echo '<td>'.$infoTipo['descripcion'].'</td>'; 
                           echo '<td>'.substr($park['horaIngreso'],11,8).'</td>'; 
                           echo '<td>'.substr($park['horaIngreso'],0,10).'</td>'; 
