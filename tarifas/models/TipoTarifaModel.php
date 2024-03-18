@@ -10,7 +10,7 @@ class TipoTarifaModel extends Conexion
 
     public function traerTiposTarifa()
     {
-        $sql = "select * from tiposTarifa ";
+        $sql = "select * from tipostarifa ";
         $query = $this->connectMysql()->prepare($sql); 
         $query -> execute(); 
         $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
@@ -23,7 +23,7 @@ class TipoTarifaModel extends Conexion
 
     public function traerTipoTarifaId($id)
     {
-        $sql = "select * from tiposTarifa where id = '".$id."'  ";
+        $sql = "select * from tipostarifa where id = '".$id."'  ";
         $query = $this->connectMysql()->prepare($sql); 
         $query -> execute(); 
         $results = $query -> fetch(PDO::FETCH_ASSOC); 

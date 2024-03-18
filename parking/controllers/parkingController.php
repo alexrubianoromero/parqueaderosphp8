@@ -18,9 +18,11 @@ class parkingController
     public function __construct()
     {
         session_start();
+
         // echo '<pre>'; 
         // print_r($_SESSION);
         // echo '</pre>';
+        // die();
         if(!isset($_SESSION['id_usuario']) || $_SESSION['id_usuario']=='')
         {
             echo 'la sesion ha caducado';
@@ -32,6 +34,7 @@ class parkingController
         $this->tipoVehiculoModel = new TipoVehiculoModel();
         $this->reciboDeCajaModel = new ReciboDeCajaModel();
         
+
         if($_REQUEST['opcion']=='parkingMenu'){
             // echo 'parking menu';
             $this->view->menuParking();
@@ -116,13 +119,15 @@ class parkingController
 
     public function asignarInfoPorTipoVehiculo($idTipo)
     {
+        // die('antes de consulta a la base de datos ');
         $infoTipoVehiculo =  $this->tipoVehiculoModel->traerTipoVehiculoId($idTipo); 
-        //  echo '<pre>'; 
+        // echo '<pre>'; 
         // print_r($infoTipoVehiculo);
         // echo '</pre>';
         // die();
 
         echo json_encode($infoTipoVehiculo);
+        exit();
     }
     public function registrarIngresoVehiculo($request)
     {

@@ -22,7 +22,8 @@ class TipoVehiculoModel extends Conexion
 
     public function traerTipoVehiculoId($id)
     {
-        $sql = "select * from tiposVehiculo where id = '".$id."'  ";
+        $sql = "select * from tiposvehiculo where id = '".$id."'  ";
+        // die($sql ); 
         $query = $this->connectMysql()->prepare($sql); 
         $query -> execute(); 
         $results = $query -> fetch(PDO::FETCH_ASSOC); 

@@ -20,8 +20,8 @@ class tarifasController
         }
         $this->view = new tarifasView();
         $this->model = new TarifaModel();
-        if($_REQUEST['opcion']=='tarifasMenu'){
 
+        if($_REQUEST['opcion']=='tarifasMenu'){
             // echo 'TarifaMenu';
             // $this->model->traerParqueaderos();
             $this->view->tarifasMenu();

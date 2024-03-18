@@ -48,6 +48,10 @@ class tarifasView
                 <div id="divResultadosTarifas">
                     <?php
                         $tarifas = $this->tarifaModel->traerTarifas();
+                            // echo '<pre>'; 
+                            // print_r($tarifas);
+                            // echo '</pre>';
+                            // die();
                         $this->mostrarTarifas($tarifas);
                     ?>
                 </div>
@@ -96,7 +100,7 @@ class tarifasView
                         <th>Tipo Vehiculo</th>
                         <th>Tipo Tarifa</th>
                         <th>Valor Minuto</th>
-                       
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -106,10 +110,10 @@ class tarifasView
                            $infoTipoVehiculo = $this->tipoVehiculoModel->traerTipoVehiculoId($tarifa['idTipoVehiculo']);
                            $infoParqueadero = $this->parqueaderoModel->traerParqueaderoId($tarifa['idParqueadero']);
                            $tipoTarifa  =   $this->tipoTarifaModel->traerTipoTarifaId($tarifa['idTipoTarifa']);
-                            // echo '<pre>'; 
-                            // print_r($tipoTarifa); 
-                            // echo '</pre>';
-                            // die();
+                        //    echo '<pre>'; 
+                        //    print_r($tipoTarifa); 
+                        //    echo '</pre>';
+                        //    die();
                           echo '<tr>';  
                           echo '<td>'.$tarifa['descripcion'].'</td>'; 
                           echo '<td>'.$infoParqueadero['nombre'].'</td>'; 

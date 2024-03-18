@@ -144,6 +144,7 @@ function parking()
     http.send('opcion=parkingMenu');
 
 }
+
 function tarifas()
 {
     const http=new XMLHttpRequest();

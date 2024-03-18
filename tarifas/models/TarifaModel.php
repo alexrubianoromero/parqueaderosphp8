@@ -14,12 +14,9 @@ class TarifaModel extends Conexion
         $query = $this->connectMysql()->prepare($sql); 
         $query -> execute(); 
         $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
+     
         $this->desconectar();
         return $results;
-
-
-        // $consulta = mysql_query($sql,$this->connectMysql());
-        // $data = $this->get_table_assoc($consulta);
     }
 
     public function traerTarifaId($id)

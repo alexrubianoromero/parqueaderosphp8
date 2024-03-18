@@ -36,19 +36,40 @@ function formuIngresoVehiculoParqueadero(idTipoVehiculo)
 
 }
 
+// function asignarInfoPorTipoVehiculo(idTipoVehiculo)
+// {
+//     //  alert('ingresovehiculo'+idTipoVehiculo);
+//     // document.getElementById('idTipoVehiculoIngreso').value = idTipoVehiculo;
+//     // traerDescripcionTipoVehiculo(idTipoVehiculo);
+//     const http=new XMLHttpRequest();
+//     // const url = 'parking/parking.php';
+//     const url = 'index2.php';
+//     http.onreadystatechange = function(){
+
+//         if(this.readyState == 4 && this.status ==200){
+//             var  resp = JSON.parse(this.responseText); 
+//                         //   alert(resp.descripcion);
+//                           //    document.getElementById("modalBodyNuevoIngresoParking").innerHTML  = this.responseText;
+//                         // document.getElementById("idTipoVehiculoIngresoLabel").innerHTML  = resp.descripcion;
+//         }
+//     };
+//     http.open("POST",url);
+//     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+//     http.send(
+//     );
+// }
+
 function asignarInfoPorTipoVehiculo(idTipoVehiculo)
 {
     //  alert('ingresovehiculo'+idTipoVehiculo);
     document.getElementById('idTipoVehiculoIngreso').value = idTipoVehiculo;
-    // traerDescripcionTipoVehiculo(idTipoVehiculo);
+    traerDescripcionTipoVehiculo(idTipoVehiculo);
     const http=new XMLHttpRequest();
     const url = 'parking/parking.php';
     http.onreadystatechange = function(){
 
         if(this.readyState == 4 && this.status ==200){
             var  resp = JSON.parse(this.responseText); 
-                        //   alert(resp.descripcion);
-                          //    document.getElementById("modalBodyNuevoIngresoParking").innerHTML  = this.responseText;
                         document.getElementById("idTipoVehiculoIngresoLabel").innerHTML  = resp.descripcion;
         }
     };
@@ -59,22 +80,23 @@ function asignarInfoPorTipoVehiculo(idTipoVehiculo)
     );
 }
 
-// function traerDescripcionTipoVehiculo(idTipo)
-// {
-//     const http=new XMLHttpRequest();
-//     const url = 'parking/parking.php';
-//     http.onreadystatechange = function(){
-//         if(this.readyState == 4 && this.status ==200){
-//               var  resp = JSON.parse(this.responseText); 
-//               alert(resp.descripcion);
-//             //   document.getElementById("idTipoVehiculoIngresoLabel").value = resp.descripcion;
-//     };
-//     http.open("POST",url);
-//     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-//     http.send('opcion=traerDescripcionTipoVehiculo'
-//                 +'&idTipo='+idTipo
-//     );
-// }
+function traerDescripcionTipoVehiculo(idTipo)
+{
+    const http=new XMLHttpRequest();
+    const url = 'parking/parking.php';
+    http.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status ==200){
+              var  resp = JSON.parse(this.responseText); 
+              alert(resp.descripcion);
+              document.getElementById("idTipoVehiculoIngresoLabel").value = resp.descripcion;
+    };
+    http.open("POST",url);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send('opcion=traerDescripcionTipoVehiculo'
+                +'&idTipo='+idTipo
+    );
+   }
+}
 
 function liquidarSalidaVehiculo(idParking)
 {
