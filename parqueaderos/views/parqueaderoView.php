@@ -81,6 +81,9 @@ class parqueaderoView
                         <th>Id</th>
                         <th>Nombre</th>
                         <th>Direccion</th>
+                        <th>Telefono</th>
+                        <th>Email</th>
+                        <th>Iva</th>
                        
                     </tr>
                 </thead>
@@ -88,11 +91,20 @@ class parqueaderoView
                     <?php
                        foreach($parqueaderos as $parqueadero)
                        {
-                        
+                         if($parqueadero['manejaiva']==0)
+                         {
+                            $aviso = 'NO';
+                        }else{
+                            $aviso = 'SI';
+                         }
+
                           echo '<tr>';  
                           echo '<td>'.$parqueadero['id'].'</td>'; 
                           echo '<td>'.$parqueadero['nombre'].'</td>'; 
                           echo '<td>'.$parqueadero['direccion'].'</td>'; 
+                          echo '<td>'.$parqueadero['telefono'].'</td>'; 
+                          echo '<td>'.$parqueadero['email'].'</td>'; 
+                          echo '<td>'.$aviso.'</td>'; 
                           echo '</tr>';  
                         }  
                     ?>
@@ -116,6 +128,24 @@ class parqueaderoView
                 <div class="col-md-6">
                     <label for="">Direccion:</label>
                       <input class ="form-control" type="text" id="direccionParqueadero">          
+                </div>
+                <div class="col-md-6">
+                    <label for="">Telefono:</label>
+                      <input class ="form-control" type="text" id="telefonoParqueadero">          
+                </div>
+                <div class="col-md-6">
+                    <label for="">Email:</label>
+                      <input class ="form-control" type="text" id="emailParqueadero">          
+                </div>
+                <div class="col-md-6">
+                <label for="">Manejo Iva:</label>
+                    <select class="form-control" id="manejaiva">
+                        <option value="">Seleccione..</option>
+                        <option value="0">NO</option>
+                        <option value="1">SI</option>
+                    </select> 
+                    <!-- 
+                      <input class ="form-control" type="text" id="emailParqueadero">           -->
                 </div>
              
         </div>

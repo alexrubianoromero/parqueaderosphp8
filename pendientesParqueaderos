@@ -4,25 +4,36 @@ que no se pueda imgresar la misma placa a parking si ya esta creada y con estado
 *que salgan solo las tarifas de este parqueadero 
 *ppor defewcto debe traer la tarifa normal para  el tipo de vehiculo
 * colocar modulo de cambiar clave
+*revisar porque no muestra el alert cuando el usuario o la clave no coiciden (ya sale)
+*cada parqueadero tiene su propio contador de recibos 
+
+
 
 el sistema debe controlar la sesion y si no hay id_usuario debe salir del programa y 
 no permitir ninguna accion
 informes de entradas por dia  cuanto en efectivo cuanto en nequi 
 
--cada parqueadero tiene su propio contador de recibos 
 
 y que al cobrar tambien se mestren las diferentes tarifas pero seleccionada la que trae de la base
 generar el recibo de caja del pago 
-tambien crear el ticket de entrada y el ticket de salida 
+*tambien crear el ticket de entrada y el ticket de salida 
 
 *luego el informe de ocupacion
+*cuadrar que muestre el valor a devolver cuando se esta liquidando un vehiculo 
+*se podria hacer que cuando escoja el tipo de vehiculo de una vez coloque la tarifa  por defecto para ese tipo de vehiculo 
+*crear la tabla y el modelo de empresa 
+*hacer que se grabe tambien como se pago y cuanto se devolvio en facturar salida
+*la hora de salida no esta registrandose en parking actualizarla con base en la hora del recibo de caja
+*revisar la forma como liquida las tarifas especielmente cuando solo son segundos 
+*grabar tambien el tiempo que se va a cobrar 
+*colocar la opcion de cambio de clave 
+
 
 mirar como voy a manejar los colores con estilos en el desarollo
 
 cuando se escoja el tipo de vvehiculo de una vez colocar foco en la placa 
 volar el menu superior
 
-revisar porque no muestra el alert cuando el usuario o la clave no coiciden
 
 al registrar un vehiculo deberia mostrar de una vez ventana con el ticket
 
@@ -32,30 +43,23 @@ o id_usuario esta en blanco
 reducir el alto de las filas que muestran los vehiculos en parking y el boton tambien
 
 
-*cuadrar que muestre el valor a devolver cuando se esta liquidando un vehiculo 
 
 revisar que cuando se realice salida de un vehiculo actualice los valores en la pantalla de parking
 
-se podria hacer que cuando escoja el tipo de vehiculo de una vez coloque la tarifa  por defecto para ese tipo de vehiculo 
 despues de registrar un vechiculol debe limpiar las casillas correspondientes a placa tarifa y tipo 
 
-*crear la tabla y el modelo de empresa 
-*hacer que se grabe tambien como se pago y cuanto se devolvio en facturar salida
-*la hora de salida no esta registrandose en parking actualizarla con base en la hora del recibo de caja
-*revisar la forma como liquida las tarifas especielmente cuando solo son segundos 
 
 
 -como imprimir el ticket  se debe generar cuando se dice facturar cuadrar la pagina que se va a imprimir
-grabar tambien el tiempo que se va a cobrar 
+
 verificar que aveces no muestra el vehiculo que se acaba de ingresar en la parte de vehiculos 
 seria bueno un control para que no deje grabar si las vueltas son negativas
 verificar como se va a manejar lo de los convenios
 colocar un logo al inicio de creciente parkin (pedir un logo sin fondo)
 agrandar los numeros un poco para ingresar la placa 
-colocar la opcion de cambio de clave 
-revisar boton de usuario nuevo cambiar color
-en movimientos de parqueadero mostrar hora de salida 
-que se puedan volver a ver o imprimir el recibo generado para un vehiculo
+*revisar boton de usuario nuevo cambiar color
+*en movimientos de parqueadero mostrar hora de salida 
+*que se puedan volver a ver o imprimir el recibo generado para un vehiculo
 
 
 
@@ -66,12 +70,12 @@ imagen de grupo creciente sin fondo
 
 
 reunion 15-03-2024
-perfiles 
 
+perfiles seran 
 operario 
 administrador
-telefono 
-correo electronico
+
+*datos adicionales de parqueaderos telefono  correo electronico
 
 por cada parqueadero
 casilla con iva (persona natural o regimen comun)
