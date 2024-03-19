@@ -25,7 +25,7 @@ o id_usuario esta en blanco
 reducir el alto de las filas que muestran los vehiculos en parking y el boton tambien
 
 
--cuadrar que muestre el valor a devolver cuando se esta liquidando un vehiculo 
+*cuadrar que muestre el valor a devolver cuando se esta liquidando un vehiculo 
 
 revisar que cuando se realice salida de un vehiculo actualice los valores en la pantalla de parking
 
@@ -102,5 +102,14 @@ revision de los tickets de cada parqueadero
 la ruta que indica cuando ingreso a parking.php desde el menu principal 
 osea cuando ingreso desde inicio.js
 
+opciones de eliminar en los modulos
+
+la imagen de grupo creciente 
+revisar porque no funciona boton nueva tarifa 
+la placa siempre debe ser grabada en mayuscula
+
+verificar porque no mostro la placa cuando se ingreso 
+mirar simas bien ca<rgo otra vez toda la pantallaque es lo que hace infoaparking 
+o coloco un settime para que demore un poco la funcion
 
 

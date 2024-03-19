@@ -147,6 +147,10 @@ class tarifasView
                         <option value ="">Seleccione...</option>
                         <?php
                             $parqueaderos = $this->parqueaderoModel->traerParqueaderos();
+                            //   echo '<pre>'; 
+                            // print_r($parqueaderos);
+                            // echo '</pre>';
+                            // die();
                             foreach($parqueaderos as $parqueadero)
                             {
                                 echo '<option value ="'.$parqueadero['id'].'" >'.$parqueadero['nombre'].'</option>';
@@ -162,6 +166,10 @@ class tarifasView
                         <option value ="">Seleccione Tipo Vehiculo</option>
                         <?php
                             $tiposVehiculo = $this->tipoVehiculoModel->traerTiposVehiculos();
+                            //     echo '<pre>'; 
+                            // print_r($tiposVehiculo);
+                            // echo '</pre>';
+                            // die();
                             foreach($tiposVehiculo as $tipoVehiculo)
                             {
                                 echo '<option value ="'.$tipoVehiculo['id'].'" >'.$tipoVehiculo['descripcion'].'</option>';

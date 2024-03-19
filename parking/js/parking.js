@@ -64,6 +64,9 @@ function asignarInfoPorTipoVehiculo(idTipoVehiculo)
     //  alert('ingresovehiculo'+idTipoVehiculo);
     document.getElementById('idTipoVehiculoIngreso').value = idTipoVehiculo;
     traerDescripcionTipoVehiculo(idTipoVehiculo);
+    traerTarifaIdParqIdTipVehi(idTipoVehiculo);
+    
+
     const http=new XMLHttpRequest();
     const url = 'parking/parking.php';
     http.onreadystatechange = function(){
@@ -78,6 +81,7 @@ function asignarInfoPorTipoVehiculo(idTipoVehiculo)
     http.send('opcion=asignarInfoPorTipoVehiculo'
                 +'&idTipo='+idTipoVehiculo
     );
+    
 }
 
 function traerDescripcionTipoVehiculo(idTipo)
@@ -87,15 +91,44 @@ function traerDescripcionTipoVehiculo(idTipo)
     http.onreadystatechange = function(){
         if(this.readyState == 4 && this.status ==200){
               var  resp = JSON.parse(this.responseText); 
-              alert(resp.descripcion);
+            //   alert(resp.descripcion);
               document.getElementById("idTipoVehiculoIngresoLabel").value = resp.descripcion;
+        }
     };
     http.open("POST",url);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.send('opcion=traerDescripcionTipoVehiculo'
                 +'&idTipo='+idTipo
     );
-   }
+}
+
+
+function traerTarifaIdParqIdTipVehi(idTipo)
+{
+    // alert('va por aca ');
+    const http=new XMLHttpRequest();
+    const url = 'parking/parking.php';
+    http.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status ==200){
+            var  resp = JSON.parse(this.responseText); 
+            
+            // for (x of resp) 
+            // {
+            //     var listaModal = document.querySelector('#idTarifa');
+            //     var opcion = document.createElement('option');
+            //     opcion.setAttribute('value', x.id);
+            //     opcion.textContent = x.descripcion;
+            //     listaModal.appendChild(opcion);
+            // }
+        }
+        document.getElementById("div_idTarifa").innerHTML = this.responseText;
+    };
+    http.open("POST",url);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send('opcion=traerTarifaIdParqIdTipVehi'
+                +'&idTipo='+idTipo
+    );
+   
 }
 
 function liquidarSalidaVehiculo(idParking)
@@ -161,8 +194,10 @@ function registrarIngresoVehiculo()
     );
     }
 
-    mostrarInfoParking();
     limpiarInfoCasillasIngresoVehiculo();
+    setTimeout(() => {
+        mostrarInfoParking();
+    }, 250);
 }
 
 

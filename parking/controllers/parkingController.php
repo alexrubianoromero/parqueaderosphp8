@@ -4,6 +4,8 @@ require_once($raiz.'/parking/views/parkingView.php');
 require_once($raiz.'/parking/models/ParkingModel.php'); 
 require_once($raiz.'/parqueaderos/models/TipoVehiculoModel.php'); 
 require_once($raiz.'/recibosDeCaja/models/ReciboDeCajaModel.php'); 
+require_once($raiz.'/tarifas/models/TarifaModel.php'); 
+
 date_default_timezone_set('America/Bogota');
 
 class parkingController
@@ -13,6 +15,7 @@ class parkingController
     protected $model;
     protected $tipoVehiculoModel;
     protected $reciboDeCajaModel;
+    protected $tarifaModel;
     // protected $viewPlantilla;
 
     public function __construct()
@@ -33,6 +36,7 @@ class parkingController
         $this->model = new ParkingModel();
         $this->tipoVehiculoModel = new TipoVehiculoModel();
         $this->reciboDeCajaModel = new ReciboDeCajaModel();
+        $this->tarifaModel = new  TarifaModel(); 
         
 
         if($_REQUEST['opcion']=='parkingMenu'){
@@ -61,6 +65,18 @@ class parkingController
         if($_REQUEST['opcion']=='asignarInfoPorTipoVehiculo'){
             $this->asignarInfoPorTipoVehiculo($_REQUEST['idTipo']);
         } 
+        if($_REQUEST['opcion']=='traerTarifaIdParqIdTipVehi'){
+            // die('llego acaq ');
+            $tarifasXparXtipo =  $this->tarifaModel->traerTarifaIdParqIdTipVehi($_SESSION['idSucursal'],$_REQUEST['idTipo']);
+        //      echo '<pre>'; 
+        // print_r($tarifasXparXtipo);
+        // echo '</pre>';
+        // die();
+            // echo json_encode($tarifasXparXtipo);
+            $this->view->traerTarifaIdParqIdTipVehi($tarifasXparXtipo);
+        } 
+
+
         if($_REQUEST['opcion']=='mostrarInfoParking'){
             $this->mostrarInfoParking();
         } 

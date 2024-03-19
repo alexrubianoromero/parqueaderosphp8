@@ -83,14 +83,15 @@ class parkingView extends vista
                            <input type="text" class="form-control" id="placaIngreso">
                         </div>
                     </div>
-                    <div class="row mt-1">
-                        <select id="idTarifa" class="form-control">
+                    <div class="row mt-1" id="div_idTarifa">
+                    
+                        <!-- <select id="idTarifa" name="idTarifa" class="form-control"> -->
                             <?php   
-                                $tarifas =   $this->tarifaModel->traerTarifaIdParqueadero($_SESSION['idSucursal']); 
-                                $this->colocarSelectCampoConOpcionSeleccionada($tarifas,1);
+                                // $tarifas =   $this->tarifaModel->traerTarifaIdParqueadero($_SESSION['idSucursal']); 
+                                // $this->colocarSelectCampoConOpcionSeleccionada($tarifas,1);
                                 
                             ?>
-                        </select>
+                        <!-- </select> -->
                     </div>
                     <!-- <div class="row mt-1">
                         <button class="btn btn-primary btn-sm">Registrar</button>
@@ -597,8 +598,16 @@ class parkingView extends vista
         <?php
 
     }
-
-
+    public function traerTarifaIdParqIdTipVehi($tarifas)
+    {
+        echo '<select id="idTarifa" name="idTarifa" class="form-control">'; 
+        // echo '<option value="-1">Sel.</option>';
+        foreach($tarifas as $tarifa)
+        {
+                echo ' <option value="'.$tarifa['id'].'">'.$tarifa['descripcion'].'</option>';
+        }
+        echo '</select>';
+    }
 }
 
 ?>

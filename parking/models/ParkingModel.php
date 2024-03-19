@@ -71,7 +71,7 @@ class ParkingModel extends Conexion
             values(:idTipoVehiculo,:placa,:idTarifa,:idParqueadero,:usuarioIngreso)";
             $query = $this->connectMysql()->prepare($sql); 
             $query->bindParam(':idTipoVehiculo',$request['idTipoVehiculo'],PDO::PARAM_STR, 25);
-            $query->bindParam(':placa',$request['placa'],PDO::PARAM_STR, 25);
+            $query->bindParam(':placa',strtoupper($request['placa']),PDO::PARAM_STR, 25);
             $query->bindParam(':idTarifa',$request['idTarifa'],PDO::PARAM_STR, 25);
             $query->bindParam(':idParqueadero',$_SESSION['idSucursal'],PDO::PARAM_STR, 25);
             $query->bindParam(':usuarioIngreso',$_SESSION['id_usuario'],PDO::PARAM_STR, 25);

@@ -10,7 +10,7 @@ class EstadoParkingModel extends Conexion
 
     public function traerEstadosParking()
     {
-        $sql = "select * from estadosParking  ";
+        $sql = "select * from estadosparking  ";
         $query = $this->connectMysql()->prepare($sql); 
         $query -> execute(); 
         $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
@@ -22,7 +22,7 @@ class EstadoParkingModel extends Conexion
     }
     public function traerEstadosParkingId($id)
     {
-        $sql = "select * from estadosParking where id='".$id."' ";
+        $sql = "select * from estadosparking where id='".$id."' ";
         $query = $this->connectMysql()->prepare($sql); 
         $query -> execute(); 
         $results = $query -> fetch(PDO::FETCH_ASSOC); 

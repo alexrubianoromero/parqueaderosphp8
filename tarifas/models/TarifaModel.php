@@ -8,6 +8,17 @@ require_once($raiz.'/conexion/Conexion.php');
 class TarifaModel extends Conexion
 {
 
+    public function __construct()
+    {
+        session_start();
+        if(!isset($_SESSION['id_usuario']) || $_SESSION['id_usuario']=='')
+        {
+            echo 'la sesion ha caducado';
+            echo '<button class="btn btn-primary" onclick="irPantallaLogueo();">Continuar</button>';
+            die();
+        }
+    }
+
     public function traerTarifas()
     {
         $sql = "select * from tarifas order by id desc";
@@ -48,9 +59,15 @@ class TarifaModel extends Conexion
             where idParqueadero = '".$idParqueadero."'
             and idTipoVehiculo = '".$idTipoVeh."'
             ";
-        $consulta = mysql_query($sql,$this->connectMysql());
-        $data = $this->get_table_assoc($consulta);
-        return $data;
+            // die($sql);
+            $query = $this->connectMysql()->prepare($sql); 
+            $query -> execute(); 
+            $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
+            $this->desconectar();
+            return $results;
+        // $consulta = mysql_query($sql,$this->connectMysql());
+        // $data = $this->get_table_assoc($consulta);
+        // return $data;
     }
 
 
