@@ -5,6 +5,7 @@ require_once($raiz.'/parking/models/ParkingModel.php');
 require_once($raiz.'/parking/models/EstadoParkingModel.php'); 
 require_once($raiz.'/formasDePago/models/FormaDePagoModel.php'); 
 require_once($raiz.'/tarifas/models/TarifaModel.php'); 
+require_once($raiz.'/recibosDeCaja/models/ReciboDeCajaModel.php'); 
 require_once($raiz.'/vista/vista.php'); 
 
 class parkingView extends vista
@@ -14,6 +15,7 @@ class parkingView extends vista
     protected $tarifaModel;
     protected $estadoParkingModel;
     protected $formaDePagoModel;
+    protected $reciboModel;
 
     public function __construct()
     {
@@ -22,6 +24,7 @@ class parkingView extends vista
         $this->tarifaModel = new  TarifaModel(); 
         $this->estadoParkingModel = new  EstadoParkingModel(); 
         $this->formaDePagoModel = new  FormaDePagoModel(); 
+        $this->reciboModel = new  ReciboDeCajaModel(); 
     }
     public function menuParking()
     {
@@ -121,11 +124,12 @@ class parkingView extends vista
          <!-- este div es para colocar mensajes como registro grabado o cosas asi -->
         <div class="row" id="mensajesdePrograma" style="padding:1px;color:blue;font-size:20px"></div>
         <!-- aqui es el div que muestra la informacion de los vehiculos relacionadosa parqueadero  -->
-        <div class="row mt-3" style="padding:5px;">
-            <div class="row mt-1">
+        <div class="row mt-3" style="padding:5px;" >
+            <div class="row mt-1" style="border:1px solid;">
                 <div class="col-lg-4">
                     <button class="btn btn-secondary btn-sm" onclick="mostrarInfoParking();">Registros Abiertos</button>
-                    <button class="btn btn-secondary btn-sm" onclick="mostrarMovimientosEnParqueadero();">Movimientos en parqueadero</button>
+                    <button class="btn btn-secondary btn-sm" onclick="mostrarMovimientosDiarioEnParqueadero();">Movimientos parqueadero</button>
+                    <!-- <button class="btn btn-secondary btn-sm" onclick="resumenDiarioMovimientos();">Movimientos Del dia</button> -->
                 </div>
                 <div class="col-lg-4 row">
                     <label class=" col-lg-2">BUSCAR:</label>
@@ -527,13 +531,13 @@ class parkingView extends vista
                           $infoEstadoPArking =    $this->estadoParkingModel->traerEstadosParkingId($park['estado']); 
                           echo '<tr>';  
                           echo '<td><button 
-                                        class="btn btn-warning " 
+                                        class="btn btn-warning  btn-sm" 
                                         data-bs-toggle="modal" 
                                         data-bs-target="#modalSalidaParking"
                                         onclick ="liquidarSalidaVehiculo('.$park['id'].');" 
                                         >'.$park['placa'].'</button></td>'; 
                             
-                          echo '<td><a class ="btn btn-secondary"target="_blank" href="parking/views/verTicketEntrada.php?idParking='.$park['id'].'">Ticket</a></td>'; 
+                          echo '<td><a class ="btn btn-secondary btn-sm" target="_blank" href="parking/views/verTicketEntrada.php?idParking='.$park['id'].'">Ticket</a></td>'; 
                           echo '<td>'.$infoTipo['descripcion'].'</td>'; 
                           echo '<td>'.substr($park['horaIngreso'],11,8).'</td>'; 
                           echo '<td>'.substr($park['horaIngreso'],0,10).'</td>'; 
@@ -552,26 +556,45 @@ class parkingView extends vista
     public function mostrarInfoParkingMovimientos($parking)
     {
         ?>
-        <div class="row">
+        <div class="row mt-1">
+        <div class="row mt-1">
+            <div class="col-lg-2">
+                <button 
+                    class="btn btn-secondary btn-sm" 
+                    onclick="mostrarMovimientosEnParqueaderoRangoFechas();"
+                    >Consultar Rango fechas</button>
+            </div>
+            
+            <div class="col-lg-2"><input type="date" id="fechaIn" placeholder="Fecha Inicial"></div>
+            <div class="col-lg-2"><input type="date" id="fechaFin" placeholder="Fecha Final"></div>
+
+        </div>  
         <table class="table table-striped mt-3">
                 <thead>
                     <tr>
                         <th>Placa</th>
                         <th>Recibo</th>
                         <th>Tipo Vehiculo</th>
-                        <th>Hora Ingreso</th>
-                        <th>Fecha Ingreso</th> 
-                        <th>Hora Salida</th>
-                        <th>Fecha Salida</th> 
+                        <th>H.Ingreso</th>
+                        <th>F. Ingreso</th> 
+                        <th>H. Salida</th>
+                        <th>F. Salida</th> 
                         <th>Estado</th> 
+                        <th>Valor</th> 
                     </tr>
                 </thead>
                 <tbody>
                     <?php
+
+                    $totalEfectivo = 0; 
+                    $totalNequi = 0; 
+                    $total = 0;
+
                     foreach($parking as $park)
                     {
                           $infoTipo = $this->tipoVehiculoModel->traerTipoVehiculoId($park['idTipoVehiculo']); 
                           $infoEstadoPArking =    $this->estadoParkingModel->traerEstadosParkingId($park['estado']); 
+                          $infoRecibo = $this->reciboModel->traerReciboCajaId($park['idReciboCaja']);
                           echo '<tr>';  
                         //   echo '<td><button 
                         //                 class="btn btn-warning " 
@@ -580,16 +603,33 @@ class parkingView extends vista
                         //                 onclick ="liquidarSalidaVehiculo('.$park['id'].');" 
                         //                 >'.$park['placa'].'</button></td>'; 
                           echo '<td>'.$park['placa'].'</td>'; 
-                          echo '<td><a class ="btn btn-secondary"target="_blank" href="parking/views/verTicket.php?idParking='.$park['id'].'">Recibo</a></td>'; 
+                          echo '<td><a class ="btn btn-secondary btn-sm" target="_blank" href="parking/views/verTicket.php?idParking='.$park['id'].'">Recibo</a></td>'; 
                           echo '<td>'.$infoTipo['descripcion'].'</td>'; 
                           echo '<td>'.substr($park['horaIngreso'],11,8).'</td>'; 
                           echo '<td>'.substr($park['horaIngreso'],0,10).'</td>'; 
                           echo '<td>'.substr($park['horaSalida'],11,8).'</td>'; 
                           echo '<td>'.substr($park['horaSalida'],0,10).'</td>'; 
                           echo '<td>'.$infoEstadoPArking['descripcion'].'</td>'; 
-                       
+                          echo '<td>'.number_format($infoRecibo['valor'],0,",",".").'</td>'; 
                           echo '</tr>';  
+                          if($infoRecibo['idFormaDePago']==1){
+                            $totalEfectivo = $totalEfectivo + $infoRecibo['valor'];
+                          } 
+                          if($infoRecibo['idFormaDePago']==2){
+                            $totalNequi = $totalNequi + $infoRecibo['valor'];
+                          } 
+
                         }  
+                        $total = $totalEfectivo + $totalNequi;
+                        echo '<tr>';
+                        echo '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Total Efectivo</td><td>'.number_format($totalEfectivo,0,",",".").'</td>'; 
+                        echo '</tr>';
+                        echo '<tr>';
+                        echo '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Total Nequi</td><td>'.number_format($totalNequi,0,",",".").'</td>'; 
+                        echo '</tr>';
+                        echo '<tr>';
+                        echo '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Total</td><td>'.number_format($total,0,",",".").'</td>'; 
+                        echo '</tr>';
                         ?>
                 </tbody>
             </table>

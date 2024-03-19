@@ -80,6 +80,12 @@ class parkingController
         if($_REQUEST['opcion']=='mostrarInfoParking'){
             $this->mostrarInfoParking();
         } 
+        if($_REQUEST['opcion']=='mostrarMovimientosDiarioEnParqueadero'){
+            $this->mostrarMovimientosDiarioEnParqueadero();
+        } 
+        if($_REQUEST['opcion']=='mostrarMovimientosEnParqueaderoRangoFechas'){
+            $this->mostrarMovimientosEnParqueaderoRangoFechas($_REQUEST);
+        } 
         if($_REQUEST['opcion']=='mostrarMovimientosEnParqueadero'){
             $this->mostrarMovimientosEnParqueadero();
         } 
@@ -127,9 +133,31 @@ class parkingController
         $parking = $this->model->traerVehiculosParking();
         $this->view->mostrarInfoParking($parking); 
     }
+    public function mostrarMovimientosDiarioEnParqueadero()
+    {
+        // $fechaHoy = date("Y-m-d H:i:s"); 
+        $fechaHoy = date("Y-m-d"); 
+        $fechaIn = $fechaHoy.' 00:00:00';
+        $fechaFin = $fechaHoy.' 23:59:59';
+        $parking = $this->model->traerHistorialVehiculosParkingRangoFechas($fechaIn,$fechaFin);
+        //traer solo el historial del dia de los vehiculos que se han ido
+        $this->view->mostrarInfoParkingMovimientos($parking); 
+    }
+    public function mostrarMovimientosEnParqueaderoRangoFechas($request)
+    {
+        // $fechaHoy = date("Y-m-d H:i:s"); 
+        $fechaHoy = date("Y-m-d"); 
+        $fechaIn = $request['fechaIn'].' 00:00:00';
+        $fechaFin = $request['fechaFin'].' 23:59:59';
+        // die($fechaHoy);
+        $parking = $this->model->traerHistorialVehiculosParkingRangoFechas($fechaIn,$fechaFin);
+        //traer solo el historial del dia de los vehiculos que se han ido
+        $this->view->mostrarInfoParkingMovimientos($parking); 
+    }
     public function mostrarMovimientosEnParqueadero()
     {
         $parking = $this->model->traerHistorialVehiculosParking();
+
         $this->view->mostrarInfoParkingMovimientos($parking); 
     }
 

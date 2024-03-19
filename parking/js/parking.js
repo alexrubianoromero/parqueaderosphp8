@@ -260,6 +260,43 @@ function mostrarInfoParking()
                 // +'&placa='+placa
     );
 }
+function mostrarMovimientosDiarioEnParqueadero()
+{
+    const http=new XMLHttpRequest();
+    const url = 'parking/parking.php';
+    http.onreadystatechange = function(){
+
+        if(this.readyState == 4 && this.status ==200){
+            document.getElementById("divInfoVehiculosParqueadero").innerHTML  = this.responseText;
+        }
+    };
+    http.open("POST",url);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send('opcion=mostrarMovimientosDiarioEnParqueadero'
+                // +'&placa='+placa
+    );
+}
+
+function mostrarMovimientosEnParqueaderoRangoFechas()
+{
+    var fechaIn = document.getElementById('fechaIn').value;
+    var fechaFin = document.getElementById('fechaFin').value;
+
+    const http=new XMLHttpRequest();
+    const url = 'parking/parking.php';
+    http.onreadystatechange = function(){
+
+        if(this.readyState == 4 && this.status ==200){
+            document.getElementById("divInfoVehiculosParqueadero").innerHTML  = this.responseText;
+        }
+    };
+    http.open("POST",url);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send('opcion=mostrarMovimientosEnParqueaderoRangoFechas'
+                +'&fechaIn='+fechaIn
+                +'&fechaFin='+fechaFin
+    );
+}
 function mostrarMovimientosEnParqueadero()
 {
     const http=new XMLHttpRequest();
@@ -455,10 +492,7 @@ function  validaInfoPago()
 
 
 
-
-
-
-// function verReporteOcupacion()
+// function resumenDiarioMovimientos()
 // {
 //     //  alert('reporte ocupacion');
 //     const http=new XMLHttpRequest();
@@ -466,12 +500,12 @@ function  validaInfoPago()
 //     http.onreadystatechange = function(){
 
 //         if(this.readyState == 4 && this.status ==200){
-//                document.getElementById("divResultadosReportes").innerHTML  = this.responseText;
+//                document.getElementById("divInfoVehiculosParqueadero").innerHTML  = this.responseText;
 //         }
 //     };
 //     http.open("POST",url);
 //     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-//     http.send('opcion=verReporteOcupacion'
+//     http.send('opcion=resumenDiarioMovimientos'
 //     );
 
 // }

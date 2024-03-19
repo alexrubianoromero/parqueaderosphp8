@@ -50,6 +50,24 @@ class ParkingModel extends Conexion
         return $results;
     }
 
+    public function traerHistorialVehiculosParkingRangoFechas($fechaIn,$fechaFin)
+    {
+        $sql = "select * from parking 
+                where 1=1 
+                and estado > 0 
+                and idParqueadero = '".$_SESSION['idSucursal']."'   
+                and horaSalida >= '".$fechaIn."'
+                and horaSalida <=  '".$fechaFin."'
+                ";
+
+                // die($sql); 
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+        return $results;
+    }
+
     public function buscarPlacaVehiculosParking($placa)
     {
         $sql = "select * from parking where placa like '%".$placa."%' and estado = 0 and idparqueadero = '".$_SESSION['idSucursal']."'  ";
