@@ -39,7 +39,16 @@ class usuarioController
         }    
         // if($_REQUEST['opcion']=='grabarNuevoParqueadero'){
         //      $this->grabarNuevoParqueadero($_REQUEST);
-        // }    
+        // }   
+        if($_REQUEST['opcion']=='cambiarClave'){
+            // echo '<pre>'; print_r($_REQUEST) ;echo '</pre>';
+            $this->view->cambiarClave();
+        }
+        
+        if($_REQUEST['opcion']=='realizarCambiarClave'){
+            // echo '<pre>'; print_r($_REQUEST) ;echo '</pre>';
+            $this->realizarCambiarClave($_REQUEST);
+        } 
     }
 
     public function grabarNuevoUsuario($request)
@@ -47,5 +56,22 @@ class usuarioController
         $this->model->grabarNuevoUsuario($request);
         echo 'Informacion grabada';
     }
+
+    public function realizarCambiarClave($request)
+    {
+        $validarClaveActual =  $this->model->validarClaveActual($request);
+        if($validarClaveActual == 1)
+        {
+            $this->model->actualizarClaveUsuario($request); 
+            echo 'clave actualizada'; 
+        }
+        else{
+            echo 'Clave anterior no es correcta'; 
+        }
+        // die('valor de valida clave actual '.$validarClaveActual); 
+        // $this->view->usersMenu($users);
+    }
+
+    
 
 }

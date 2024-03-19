@@ -86,6 +86,47 @@ class UsuarioModel extends Conexion
   
 
     // }
+    public function validarClaveActual($request)
+    {
+            $sql = "select * from usuarios where id_usuario = '".$_SESSION['id_usuario']."'  and clave = '".$request['claveAnterior']."'   "; 
+            // die($sql ); 
+            $query = $this->connectMysql()->prepare($sql); 
+            $query -> execute(); 
+            $results = $query -> fetch(PDO::FETCH_ASSOC); 
+            $this->desconectar();
+            $filas = $query->rowCount();
+            if($filas>0){
+                    $infoUsuario = $results;
+                    $valida = 1; 
+                }else{
+                    $valida = 0; 
+                }
+            return $valida;
+            // $consulta = mysql_query($sql,$this->connectMysql());
+            // $filas = mysql_num_rows($consulta);
+            // if($filas>0){
+            //     $infoUsuario = $this->get_table_assoc($consulta);
+            //     $valida = 1; 
+            // }else{
+            //     $valida = 0; 
+            // }
+            // return $valida; 
+    }
+        
+        
+    public function actualizarClaveUsuario($request)
+    {
+            $sql = "update usuarios set clave = '".$request['nuevaClave']."'   where id_usuario = '".$_SESSION['id_usuario']."'   "; 
+            // $consulta = mysql_query($sql,$this->connectMysql());
+            $sql = "update usuarios set clave = :nuevaclave  where id_usuario = '".$_SESSION['id_usuario']."'   "; 
+            $query = $this->connectMysql()->prepare($sql); 
+            $query->bindParam(':nuevaclave',$request['nuevaClave'],PDO::PARAM_STR, 25);
+            $query->execute();
+            $this->desconectar();
+
+    }
+
+
 
     }
 ?>

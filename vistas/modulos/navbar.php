@@ -48,6 +48,11 @@
             <a style="cursor:pointer;" class="nav-link" onclick="reportes();">
                 Reportes</a>
             </li>
+            <li class="nav-item d-none d-sm-inline-block">
+            <a style="cursor:pointer;" class="nav-link" onclick="cambiarClave();">
+            Cambiar Clave</a>
+            </li>
+
                 <!-- <li class="nav-item d-none d-sm-inline-block">
             <a style="cursor:pointer;" class="nav-link active" onclick="CargarContenido('vistas/compras.php','content-wrapper');">
 

@@ -68,6 +68,14 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                        <a style="cursor:pointer;" class="nav-link" onclick="cambiarClave();">
+                                <!-- <i class="nav-icon fas fa-th"></i> -->
+                                <p>
+                                    Cambiar Clave
+                                </p>
+                            </a>
+                        </li>
                     <li class="nav-item">
                     <a style="cursor:pointer;" class="nav-link" onclick="salir();">
                             <!-- <i class="nav-icon fas fa-th"></i> -->

@@ -78,3 +78,29 @@ function  validaInfoUsuario()
     }
     return 1;
 }
+
+
+function realizarCambiarClaveUsuario()
+{
+    var claveAnterior = document.getElementById('claveAnterior').value;
+    var nuevaClave = document.getElementById('nuevaClave').value;
+    
+    // alert('cambio de clave '+claveAnterior+nuevaClave); 
+    const http=new XMLHttpRequest();
+        const url = 'usuarios/usuarios.php';
+        http.onreadystatechange = function(){
+    
+            if(this.readyState == 4 && this.status ==200){
+                   document.getElementById("div_respuestas_cambioClave").innerHTML  = this.responseText;
+            }
+        };
+        http.open("POST",url);
+        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        http.send('opcion=realizarCambiarClave'
+        +'&claveAnterior='+claveAnterior
+        +'&nuevaClave='+nuevaClave
+        );
+     setTimeout(() => {
+        document.getElementById("div_respuestas_cambioClave").innerHTML  = '';
+     }, 2000);   
+}

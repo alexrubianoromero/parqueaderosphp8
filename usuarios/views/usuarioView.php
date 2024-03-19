@@ -205,7 +205,31 @@ class usuarioView
         <?php
     }
 
+    public function cambiarClave()
+    {
+        // echo 'cambiar clave.. '; 
+        ?>
+        <div class="row " >
+            <div class="col-lg-3 offset-lg-3" id="div_cambiarClave">
+                <h3 class="text-center">CAMBIO DE CLAVE</h3>
+                <div id="div_respuestas_cambioClave" style="color:blue;font-size:25px;">
+                </div>
+                <label>Digite clave Anterior</label>
+                <div>
+                    <input class="form-control" type="text" id="claveAnterior"  >
+                </div>
+                <label>Digite nueva clave</label>
+                <div>
+                    <input class="form-control"  type="text" id="nuevaClave"  >
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-primary btn-block" onclick = "realizarCambiarClaveUsuario();" >Cambiar Clave</button>
+                </div>
+            </div>
+        </div>
 
+        <?php
+    }
 
 
 
