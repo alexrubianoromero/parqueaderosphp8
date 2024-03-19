@@ -10,7 +10,7 @@ class FormaDePagoModel extends Conexion
 
     public function traerFormasDePago()
     {
-        $sql = "select * from formasDePago";
+        $sql = "select * from formasdepago";
         $query = $this->connectMysql()->prepare($sql); 
         $query -> execute(); 
         $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
@@ -23,7 +23,7 @@ class FormaDePagoModel extends Conexion
     }
     public function traerFormasDePagoId($id)
     {
-        $sql = "select * from formasDePago where id = '".$id."'  ";
+        $sql = "select * from formasdepago where id = '".$id."'  ";
         $query = $this->connectMysql()->prepare($sql); 
         $query -> execute(); 
         $results = $query -> fetch(PDO::FETCH_ASSOC); 

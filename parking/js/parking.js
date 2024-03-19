@@ -412,6 +412,10 @@ function facturarSalidaVehiculo(idParking)
         //     refrescarParking();
         //     document.getElementById("modalSalidaParking").hide();
         // }, 500);
+        setTimeout(() => {
+            mostrarInfoParking();
+        }, 250);
+
     }
 }
 

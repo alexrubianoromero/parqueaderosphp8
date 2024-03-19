@@ -54,6 +54,26 @@ class ParqueaderoModel extends Conexion
 
     }
 
+    public function actualizarNoReciboIngreso($idPaqueadero,$norecibo)
+    {
+        // $consulta = mysql_query($sql,$this->connectMysql());
+        $sql = "update parqueaderos set noreciboingreso = :norecibo  where id = '".$idPaqueadero."'   "; 
+        $query = $this->connectMysql()->prepare($sql); 
+        $query->bindParam(':norecibo',$norecibo,PDO::PARAM_STR, 25);
+        $query->execute();
+        $this->desconectar();
+    }
+    public function actualizarReciboSalida($idPaqueadero,$norecibo)
+    {
+        // $consulta = mysql_query($sql,$this->connectMysql());
+        $sql = "update parqueaderos set norecibosalida = :norecibosalida  where id = '".$idPaqueadero."'   "; 
+        // die($sql);
+        $query = $this->connectMysql()->prepare($sql); 
+        $query->bindParam(':norecibosalida',$norecibo,PDO::PARAM_STR, 25);
+        $query->execute();
+        $this->desconectar();
+    }
+
 }
 
 

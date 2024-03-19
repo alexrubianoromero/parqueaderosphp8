@@ -15,8 +15,8 @@ require_once($raiz.'/empresa/models/EmpresaModel.php');
 require_once($raiz.'/parqueaderos/models/ParqueaderoModel.php');
 require_once($raiz.'/parqueaderos/models/TipoVehiculoModel.php'); 
 require_once($raiz.'/recibosDeCaja/models/ReciboDeCajaModel.php'); 
-require_once($raiz.'/formasDepago/models/FormaDePagoModel.php'); 
-
+require_once($raiz.'/formasDePago/models/FormaDePagoModel.php'); 
+// die('paso11');
 $parkingModel = new ParkingModel(); 
 $empresaModel = new EmpresaModel(); 
 $parqueaderoModel = new ParqueaderoModel(); 
@@ -25,16 +25,16 @@ $reciboModel = new ReciboDeCajaModel();
 $formaPagoModel = new FormaDePagoModel();
 
 $infoParking = $parkingModel->traerInfoParkingIdParking($_REQUEST['idParking']); 
+// echo 'assadsa<pre>'; 
+// print_r($infoParking); 
+// echo '</pre>';
+// die(); 
 $empresaInfo = $empresaModel->traerInfoEmpresa();
 $infoParqueadero = $parqueaderoModel->traerParqueaderoId($_SESSION['idSucursal']);
 $infoTipoVehiculo = $tipoVehiculoModel->traerTipoVehiculoId($infoParking['idTipoVehiculo']);
 $infoRecibo = $reciboModel->traerReciboCajaId($infoParking['idReciboCaja']);
 $infoFormaPago = $formaPagoModel->traerFormasDePagoId($infoRecibo['idFormaDePago']);
 $fechaHoy = date("Y-m-d H:i:s");
-// echo 'assadsa<pre>'; 
-// print_r($infoParking); 
-// echo '</pre>';
-// die(); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,7 +54,7 @@ $fechaHoy = date("Y-m-d H:i:s");
             Fecha: <?php  echo $fechaHoy; ?>
         </div>
         <div>
-            Factura Venta <?php echo $infoParking['idReciboCaja']  ?>
+            Factura Venta <?php echo $infoRecibo['norecibosalida']  ?>
         </div>
         <div> <?php echo $infoTipoVehiculo['descripcion'].'-'.$infoParking['placa']  ?>  </div>
         <div><?php echo 'Hora Ingreso: '.$infoParking['horaIngreso'];   ?></div>       

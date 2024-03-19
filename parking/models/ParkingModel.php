@@ -5,14 +5,17 @@ $raiz =dirname(dirname(dirname(__file__)));
 
 require_once($raiz.'/conexion/Conexion.php');
 require_once($raiz.'/recibosDeCaja/models/ReciboDeCajaModel.php');
+require_once($raiz.'/parqueaderos/models/ParqueaderoModel.php');
 
 class ParkingModel extends Conexion
 {
     protected $reciboModel; 
+    protected $parqueaderoModel; 
 
     public function __construct()
     {
         $this->reciboModel = new ReciboDeCajaModel(); 
+        $this->parqueaderoModel = new ParqueaderoModel(); 
     }
 
     public function traerVehiculosParking()
@@ -64,17 +67,22 @@ class ParkingModel extends Conexion
     */
     public function grabarVehiculoParking($request)
     {
+        $infoParqueadero = $this->parqueaderoModel->traerParqueaderoId($_SESSION['idSucursal']);
+        $noRecibo = $infoParqueadero['noreciboingreso']+1;
+        $this->parqueaderoModel->actualizarNoReciboIngreso($_SESSION['idSucursal'],$noRecibo); 
+
         $filas = $this->verificarPlacaEstadoCeroParking($request['placa']);
         if($filas==0)
         {
-            $sql = "insert into parking  (idTipoVehiculo,placa,idTarifa,idParqueadero,usuarioIngreso)  
-            values(:idTipoVehiculo,:placa,:idTarifa,:idParqueadero,:usuarioIngreso)";
+            $sql = "insert into parking  (idTipoVehiculo,placa,idTarifa,idParqueadero,usuarioIngreso,noreciboingreso)  
+            values(:idTipoVehiculo,:placa,:idTarifa,:idParqueadero,:usuarioIngreso,:noreciboingreso)";
             $query = $this->connectMysql()->prepare($sql); 
             $query->bindParam(':idTipoVehiculo',$request['idTipoVehiculo'],PDO::PARAM_STR, 25);
             $query->bindParam(':placa',strtoupper($request['placa']),PDO::PARAM_STR, 25);
             $query->bindParam(':idTarifa',$request['idTarifa'],PDO::PARAM_STR, 25);
             $query->bindParam(':idParqueadero',$_SESSION['idSucursal'],PDO::PARAM_STR, 25);
             $query->bindParam(':usuarioIngreso',$_SESSION['id_usuario'],PDO::PARAM_STR, 25);
+            $query->bindParam(':noreciboingreso',$noRecibo,PDO::PARAM_STR, 25);
             $query->execute();
             $this->desconectar();
             return 0;

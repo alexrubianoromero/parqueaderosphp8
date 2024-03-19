@@ -55,7 +55,7 @@ $fechaHoy = date("Y-m-d H:i:s");
             Fecha: <?php  echo $fechaHoy; ?>
         </div>
         <div>
-            Recibo <?php echo $infoParking['id']  ?>
+            Recibo <?php echo $infoParking['noreciboingreso']  ?>
         </div>
         <div>===========================</div>       
         <div>

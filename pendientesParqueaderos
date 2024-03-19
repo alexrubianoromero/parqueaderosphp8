@@ -1,14 +1,21 @@
 que no se pueda imgresar la misma placa a parking si ya esta creada y con estado 0
 
-definir tipo de tarifa al ingreso de vehbiculo 
-que salgan solo las tarifas de este parqueadero 
-ppor defewcto debe traer la tarifa normal para  el tipo de vehiculo
+*definir tipo de tarifa al ingreso de vehbiculo 
+*que salgan solo las tarifas de este parqueadero 
+*ppor defewcto debe traer la tarifa normal para  el tipo de vehiculo
+* colocar modulo de cambiar clave
+
+el sistema debe controlar la sesion y si no hay id_usuario debe salir del programa y 
+no permitir ninguna accion
+informes de entradas por dia  cuanto en efectivo cuanto en nequi 
+
+-cada parqueadero tiene su propio contador de recibos 
 
 y que al cobrar tambien se mestren las diferentes tarifas pero seleccionada la que trae de la base
 generar el recibo de caja del pago 
 tambien crear el ticket de entrada y el ticket de salida 
 
-luego el informe de ocupacion
+*luego el informe de ocupacion
 
 mirar como voy a manejar los colores con estilos en el desarollo
 
