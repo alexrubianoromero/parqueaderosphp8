@@ -14,6 +14,14 @@
             <nav class="mt-2" >
                 <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- color:#fcb900; -->
+                 <?php
+                        // echo '<pre>'; 
+                        // print_r($_SESSION);
+                        // echo '</pre>';
+                        // die();
+                        if($_SESSION['nivel']>5)
+                        {
+                 ?>
                     <li class="nav-item" >
                     <a style="cursor:pointer; " class="nav-link" onclick="parqueaderos();">
                             <!-- <i class="nav-icon fas fa-th"></i> -->
@@ -22,6 +30,8 @@
                             </p>
                         </a>
                     </li>
+
+
                     <li class="nav-item">
                     <a style="cursor:pointer;" class="nav-link" onclick="tarifas();">
                             <!-- <i class="nav-icon fas fa-th"></i> -->
@@ -46,8 +56,18 @@
                             </p>
                         </a>
                     </li>
-                   
-                  
+                    
+                    <li class="nav-item">
+                    <a style="cursor:pointer;" class="nav-link" onclick="reportes();">
+                       
+                            <p>
+                                Reportes
+                            </p>
+                        </a>
+                    </li>
+                  <?php
+                        }
+                  ?>
                   
                   
                
@@ -60,14 +80,6 @@
                     </a>
                 </li>
                 
-                <li class="nav-item">
-                <a style="cursor:pointer;" class="nav-link" onclick="reportes();">
-                   
-                        <p>
-                            Reportes
-                        </p>
-                    </a>
-                </li>
                 <li class="nav-item">
                         <a style="cursor:pointer;" class="nav-link" onclick="cambiarClave();">
                                 <!-- <i class="nav-icon fas fa-th"></i> -->

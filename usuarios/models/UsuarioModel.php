@@ -24,17 +24,17 @@ class UsuarioModel extends Conexion
 
     public function crearUsuario($request)
     {
-        $sql = "insert into usuarios (login,email,nombre,apellido,clave,idSucursal,id_perfil) 
-        values (
-            '".$request['email']."'
-            ,'".$request['email']."'
-            ,'".$request['nombreUsuario']."'
-            ,'".$request['apellidoUsuario']."'
-            ,'".$request['password']."'
-            ,'".$request['idSucursal']."'
-            ,'".$request['idPerfil']."'
+        // $sql = "insert into usuarios (login,email,nombre,apellido,clave,idSucursal,id_perfil) 
+        // values (
+        //     '".$request['email']."'
+        //     ,'".$request['email']."'
+        //     ,'".$request['nombreUsuario']."'
+        //     ,'".$request['apellidoUsuario']."'
+        //     ,'".$request['password']."'
+        //     ,'".$request['idSucursal']."'
+        //     ,'".$request['idPerfil']."'
             
-        ) " ; 
+        // ) " ; 
         $sql = "insert into usuarios (login,email,nombre,apellido,clave,idSucursal,id_perfil) 
         values(:login,:email,:nombre,:apellido,:clave,:idSucursal,:id_perfil)";
         $query = $this->connectMysql()->prepare($sql); 

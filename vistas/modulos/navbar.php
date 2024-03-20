@@ -20,6 +20,14 @@
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="#" class="nav-link">Categrias</a>
             </li> -->
+            <?php
+                        // echo '<pre>'; 
+                        // print_r($_SESSION);
+                        // echo '</pre>';
+                        // die();
+            if($_SESSION['nivel']>5)
+            {
+            ?>
             <li class="nav-item d-none d-sm-inline-block">
             <a style="cursor:pointer;" class="nav-link" onclick="parqueaderos();">
                     Parqueaderos</a>
@@ -40,14 +48,17 @@
             </li>
           
             <li class="nav-item d-none d-sm-inline-block">
+            <a style="cursor:pointer;" class="nav-link" onclick="reportes();">
+                Reportes</a>
+            </li>
+            <?php
+            }
+            ?>
+            <li class="nav-item d-none d-sm-inline-block">
                 <a style="cursor:pointer;" class="nav-link" onclick="parking();">
                     Parking</a>
             </li>
 
-            <li class="nav-item d-none d-sm-inline-block">
-            <a style="cursor:pointer;" class="nav-link" onclick="reportes();">
-                Reportes</a>
-            </li>
             <li class="nav-item d-none d-sm-inline-block">
             <a style="cursor:pointer;" class="nav-link" onclick="cambiarClave();">
             Cambiar Clave</a>

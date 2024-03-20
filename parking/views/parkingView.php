@@ -125,10 +125,11 @@ class parkingView extends vista
         <div class="row" id="mensajesdePrograma" style="padding:1px;color:blue;font-size:20px"></div>
         <!-- aqui es el div que muestra la informacion de los vehiculos relacionadosa parqueadero  -->
         <div class="row mt-3" style="padding:5px;" >
-            <div class="row mt-1" style="border:1px solid;">
+        <!-- style="border:1px solid;" -->
+            <div class="row mt-1" >
                 <div class="col-lg-4">
                     <button class="btn btn-secondary btn-sm" onclick="mostrarInfoParking();">Registros Abiertos</button>
-                    <button class="btn btn-secondary btn-sm" onclick="mostrarMovimientosDiarioEnParqueadero();">Movimientos parqueadero</button>
+                    <button class="btn btn-secondary btn-sm" onclick="mostrarMovimientosDiarioEnParqueadero();">Movimientos dia parqueadero</button>
                     <!-- <button class="btn btn-secondary btn-sm" onclick="resumenDiarioMovimientos();">Movimientos Del dia</button> -->
                 </div>
                 <div class="col-lg-4 row">

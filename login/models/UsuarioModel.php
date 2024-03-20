@@ -55,41 +55,72 @@ class UsuarioModel extends Conexion
     public function verificarClaveActual($request)
     {
         $sql="select * from usuarios where id_usuario = '".$request['idUsuario']."' ";
-        $consulta = mysql_query($sql,$this->connectMysql());
-        $datosUser = mysql_fetch_assoc($consulta);
-        return $datosUser;  
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetch(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+        return $results;
+        // $consulta = mysql_query($sql,$this->connectMysql());
+        // $datosUser = mysql_fetch_assoc($consulta);
+        // return $datosUser;  
     }
     public function actualizarClave($request)
     {
         $sql = "update usuarios set
         clave = '".$request['claveNueva']."'
         where id_usuario = '".$request['idUsuario']."'  ";
-        $consulta = mysql_query($sql,$this->connectMysql());
+        // $sql = "update usuarios set clave = '".$request['nuevaClave']."'   where id_usuario = '".$_SESSION['id_usuario']."'   "; 
+        // $consulta = mysql_query($sql,$this->connectMysql());
+        $sql = "update usuarios set clave = :nuevaclave  where id_usuario = '".$_SESSION['id_usuario']."'   "; 
+        $query = $this->connectMysql()->prepare($sql); 
+        $query->bindParam(':nuevaclave',$request['nuevaClave'],PDO::PARAM_STR, 25);
+        $query->execute();
+        $this->desconectar();
+        // $consulta = mysql_query($sql,$this->connectMysql());
     }
 
     public function getUsers()
     {
         $sql = "select * from usuarios ";
-        $consulta = mysql_query($sql,$this->connectMysql());
-        $users = $this->get_table_assoc($consulta);
-        return $users;
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+        return $results;
+        // $consulta = mysql_query($sql,$this->connectMysql());
+        // $users = $this->get_table_assoc($consulta);
+        // return $users;
     }
     
     public function crearUsuario($request)
     {
-        $sql = "insert into usuarios (login,email,nombre,apellido,clave,idSucursal,id_perfil) 
-        values (
-            '".$request['email']."'
-            ,'".$request['email']."'
-            ,'".$request['nombreUsuario']."'
-            ,'".$request['apellidoUsuario']."'
-            ,'".$request['password']."'
-            ,'".$request['idSucursal']."'
-            ,'".$request['idPerfil']."'
+        // $sql = "insert into usuarios (login,email,nombre,apellido,clave,idSucursal,id_perfil) 
+        // values (
+        //     '".$request['email']."'
+        //     ,'".$request['email']."'
+        //     ,'".$request['nombreUsuario']."'
+        //     ,'".$request['apellidoUsuario']."'
+        //     ,'".$request['password']."'
+        //     ,'".$request['idSucursal']."'
+        //     ,'".$request['idPerfil']."'
             
-        ) " ; 
+        // ) " ; 
         
-        $consulta = mysql_query($sql,$this->connectMysql());
+        // $consulta = mysql_query($sql,$this->connectMysql());
+
+
+        $sql = "insert into usuarios (login,email,nombre,apellido,clave,idSucursal,id_perfil) 
+        values(:login,:email,:nombre,:apellido,:clave,:idSucursal,:id_perfil)";
+        $query = $this->connectMysql()->prepare($sql); 
+        $query->bindParam(':login',$request['email'],PDO::PARAM_STR, 25);
+        $query->bindParam(':email',$request['email'],PDO::PARAM_STR, 25);
+        $query->bindParam(':nombre',$request['nombreUsuario'],PDO::PARAM_STR, 25);
+        $query->bindParam(':apellido',$request['apellidoUsuario'],PDO::PARAM_STR, 25);
+        $query->bindParam(':clave',$request['password'],PDO::PARAM_STR, 25);
+        $query->bindParam(':idSucursal',$request['idSucursal'],PDO::PARAM_STR, 25);
+        $query->bindParam(':id_perfil',$request['idPerfil'],PDO::PARAM_STR, 25);
+        $query->execute();
+        $this->desconectar();
         
     }
     public function  traerTecnicos()
@@ -98,18 +129,28 @@ class UsuarioModel extends Conexion
                 from usuarios u 
                 inner join perfiles p on (p.id_perfil = u.id_perfil) 
                 where p.nombre_perfil = 'Tecnico'";
-        $consulta = mysql_query($sql,$this->connectMysql());
-        $tecnicos = $this->get_table_assoc($consulta);
-        return $tecnicos;
+                $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+        return $results;
+        // $consulta = mysql_query($sql,$this->connectMysql());
+        // $tecnicos = $this->get_table_assoc($consulta);
+        // return $tecnicos;
         // die($sql);   
     }
     
     public function traerInfoId($idUsuario)
     {
         $sql = "select * from usuarios where id_usuario = '".$idUsuario."'  ";
-        $consulta = mysql_query($sql,$this->connectMysql());
-        $arrUsu = mysql_fetch_assoc($consulta);
-        return $arrUsu;
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetch(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+        return $results;
+        // $consulta = mysql_query($sql,$this->connectMysql());
+        // $arrUsu = mysql_fetch_assoc($consulta);
+        // return $arrUsu;
     }
     
 }

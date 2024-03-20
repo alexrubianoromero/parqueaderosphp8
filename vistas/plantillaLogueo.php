@@ -23,14 +23,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <input type="hidden" id="usuario" style="color:black">
     <input type="hidden" id="nivel"  style="color:black">
     <div id ="div_principal_inventarios">
-        <br><br><br><br>
+        <br>
+        <!-- <img src="logo.png" width="200px;">
+        <img src="logo.jpg" width="200px;"> -->
         <div>
             <div class="row" >
-                <H1 class="col-lg-6 offset-lg-3 mt-5 text-center" style="color:#fcb900;" >CRECIENTE PARKING</H1>
+                <!-- <H1 class="col-lg-6 offset-lg-3 mt-5 text-center" style="color:#fcb900;" >CRECIENTE PARKING</H1> -->
                 <div class="col-lg-6 offset-lg-3 mt-5"  >
                     <div class="card" style="background-color:#fcb900;padding:20px;">
                         <div class="card-body">
-                            <div class="form group row">
+                            <div align="center">
+                                <img src="../vistas/logo.png" width="450px;" style="border-radius:10px;">
+                            </div>
+
+                            <div class="form group row mt-5">
                                 <label for="" class="col-md-4 col-form-label" align="right" >Usuario:</label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control " id="txtUsuario" value="admin">
@@ -42,8 +48,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <input type="text" class="form-control " id="txtClave" value="1234">
                                 </div>
                             </div>                    
-                                <div class="row mt-3 col-lg-8 offset-lg-2 " >
-                                    <button  onclick ="verifiqueCredeciales();"   class="btn btn-secondary float-center">Ingresar</button>
+                                <div class="row mt-4 col-lg-8 offset-lg-2 " >
+                                    <button  onclick ="verifiqueCredeciales();"   class="btn btn-secondary btn-lg float-center">Ingresar</button>
                                 </div>   
                                 <div id="divErrorLogueo"></div>
                             </div>
