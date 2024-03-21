@@ -36,6 +36,7 @@ class ReciboDeCajaModel extends Conexion
         */
         public function grabarReciboDeCaja($request)
         {
+            $hoy = date("Y-m-d H:i:s");   
             //  echo '<pre>'; 
             //  print_r($request); 
             //  echo '</pre>';
@@ -61,8 +62,8 @@ class ReciboDeCajaModel extends Conexion
             $this->parqueaderoModel->actualizarReciboSalida($_SESSION['idSucursal'],$proximoRecibo);
             ///////////
             $valorMinRedondeado = round($request['inputCobroMinutos']);
-            $sql = "insert into recibosdecaja  (idParking,valor,usuario,idParqueadero,placa,idFormaDePago,valorPagado,cambio,stringTiempoTotal,norecibosalida)    
-            values(:idParking,:valor,:usuario,:idParqueadero,:placa,:idFormaDePago,:valorPagado,:cambio,:stringTiempoTotal,:norecibosalida)";
+            $sql = "insert into recibosdecaja  (idParking,valor,usuario,idParqueadero,placa,idFormaDePago,valorPagado,cambio,stringTiempoTotal,norecibosalida,fecha)    
+            values(:idParking,:valor,:usuario,:idParqueadero,:placa,:idFormaDePago,:valorPagado,:cambio,:stringTiempoTotal,:norecibosalida,:fecha)";
             $query = $this->connectMysql()->prepare($sql); 
             $query->bindParam(':idParking',$request['idParking'],PDO::PARAM_STR, 25);
             $query->bindParam(':valor',$valorMinRedondeado,PDO::PARAM_STR, 25);
@@ -74,6 +75,7 @@ class ReciboDeCajaModel extends Conexion
             $query->bindParam(':cambio',$request['valorVueltas'],PDO::PARAM_STR, 25);
             $query->bindParam(':stringTiempoTotal',$request['stringTiempoTotal'],PDO::PARAM_STR, 25);
             $query->bindParam(':norecibosalida',$proximoRecibo,PDO::PARAM_STR, 25);
+            $query->bindParam(':fecha',$hoy,PDO::PARAM_STR, 25);
             $query->execute();
             $this->desconectar();
             

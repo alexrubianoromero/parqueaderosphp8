@@ -223,7 +223,7 @@ class usuarioView
                     <input class="form-control"  type="text" id="nuevaClave"  >
                 </div>
                 <div class="mt-3">
-                    <button class="btn btn-primary btn-block" onclick = "realizarCambiarClaveUsuario();" >Cambiar Clave</button>
+                    <button class="btn btn-warning btn-block" onclick = "realizarCambiarClaveUsuario();" >Cambiar Clave</button>
                 </div>
             </div>
         </div>

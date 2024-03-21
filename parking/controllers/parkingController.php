@@ -175,6 +175,7 @@ class parkingController
     }
     public function registrarIngresoVehiculo($request)
     {
+       
         $error = $this->model->grabarVehiculoParking($request); 
         if($error==0){
             echo 'Registro Realizado';

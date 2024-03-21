@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('America/Bogota');
 $raiz =dirname(dirname(dirname(__file__)));
 //   die('rutamodelsucursal '.$raiz);
 
@@ -85,6 +85,8 @@ class ParkingModel extends Conexion
     */
     public function grabarVehiculoParking($request)
     {
+        $hoy = date("Y-m-d H:i:s");   
+        //  die('desde edl model '.$hoy); 
         $infoParqueadero = $this->parqueaderoModel->traerParqueaderoId($_SESSION['idSucursal']);
         $noRecibo = $infoParqueadero['noreciboingreso']+1;
         $this->parqueaderoModel->actualizarNoReciboIngreso($_SESSION['idSucursal'],$noRecibo); 
@@ -92,8 +94,9 @@ class ParkingModel extends Conexion
         $filas = $this->verificarPlacaEstadoCeroParking($request['placa']);
         if($filas==0)
         {
-            $sql = "insert into parking  (idTipoVehiculo,placa,idTarifa,idParqueadero,usuarioIngreso,noreciboingreso)  
-            values(:idTipoVehiculo,:placa,:idTarifa,:idParqueadero,:usuarioIngreso,:noreciboingreso)";
+            $sql = "insert into parking  (idTipoVehiculo,placa,idTarifa,idParqueadero,usuarioIngreso,noreciboingreso,horaIngreso)  
+            values(:idTipoVehiculo,:placa,:idTarifa,:idParqueadero,:usuarioIngreso,:noreciboingreso,:horaIngreso)";
+            // die($sql);
             $query = $this->connectMysql()->prepare($sql); 
             $query->bindParam(':idTipoVehiculo',$request['idTipoVehiculo'],PDO::PARAM_STR, 25);
             $query->bindParam(':placa',strtoupper($request['placa']),PDO::PARAM_STR, 25);
@@ -101,6 +104,7 @@ class ParkingModel extends Conexion
             $query->bindParam(':idParqueadero',$_SESSION['idSucursal'],PDO::PARAM_STR, 25);
             $query->bindParam(':usuarioIngreso',$_SESSION['id_usuario'],PDO::PARAM_STR, 25);
             $query->bindParam(':noreciboingreso',$noRecibo,PDO::PARAM_STR, 25);
+            $query->bindParam(':horaIngreso',$hoy,PDO::PARAM_STR, 25);
             $query->execute();
             $this->desconectar();
             return 0;

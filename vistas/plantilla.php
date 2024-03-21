@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>INVENTARIO D47G </title>
+    <title>CRECIENTE PARKING</title>
 
     <link rel="shortcut icon" href="dist/img/AdminLTELogo.png" type="image/x-icon">
 
