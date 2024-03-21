@@ -58,7 +58,8 @@ $fechaHoy = date("Y-m-d H:i:s");
         </div>
         <div> <?php echo $infoTipoVehiculo['descripcion'].'-'.$infoParking['placa']  ?>  </div>
         <div><?php echo 'Hora Ingreso: '.$infoParking['horaIngreso'];   ?></div>       
-        <div><?php echo 'Hora Salida: '.$infoParking['horaSalida'];   ?></div>       
+        <div><?php echo 'Hora Salida: '.$infoParking['horaSalida'];   ?></div>   
+        <div><?php echo $infoRecibo['stringTiempoTotal'];   ?></div>    
         <div>===========================</div>       
         <div>
             <table>

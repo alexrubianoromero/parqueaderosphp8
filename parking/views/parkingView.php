@@ -328,12 +328,20 @@ class parkingView extends vista
 
     public function restafechas($fechaIngreso)
     {
-        date_default_timezone_set('America/Bogota');		
+        date_default_timezone_set('America/Bogota');	
+        $hoy = date("Y-m-d H:i:s");  	
         $fechaInicio = new DateTime($fechaIngreso);
-        $fechaFin = new DateTime(date("Y-m-d H:i:s"));
+        // $fechaFin = new DateTime(date("Y-m-d H:i:s"));
+        $fechaFin = new DateTime($hoy);
         // $fechaFin = new DateTime("2022-01-01 17:45:25");
         $intervalo = $fechaInicio->diff($fechaFin);
-        return $intervalo; 
+        $respu['intervalo'] = $intervalo;
+        $respu['fechaFin'] = $hoy;
+        //   echo '<pre>'; 
+        // print_r($respu);
+        // echo '</pre>';
+        // die();
+        return $respu; 
         // echo "La diferencia entre  " . $fechaInicio->format('Y-m-d h:i:s') . " y " . $fechaFin->format('Y-m-d h:i:s') . " es de: <br> " .   $intervalo->y . " años, " . $intervalo->m." meses, ".$intervalo->d." dias, " . $intervalo->h . " horas, " . $intervalo->i . " minutos y " . $intervalo->s . " segundos";  
     }
 
@@ -370,30 +378,48 @@ class parkingView extends vista
     public function liquidarSalidaVehiculo($idParking)
     {
         $infoParking = $this->model->traerInfoParkingIdParking($idParking);
+        
         $tipoVehiculo = $this->tipoVehiculoModel->traerTipoVehiculoId($infoParking['idTipoVehiculo']);
         $infoTarifa  =  $this->tarifaModel->traerTarifaId($infoParking['idTarifa']);  
+        // echo '<pre>'; 
+        // print_r($infoTarifa);
+        // echo '</pre>';
+        // die();
+
         $intervalo = $this->restafechas($infoParking['horaIngreso'] ); 
-        $cantidadMinutos = $this->cantidadMinutos($intervalo);
         $cantidadHoras = $this->cantidadHoras($intervalo);
-        $cobroMinutos = $cantidadMinutos * $infoTarifa['valorMinuto'];
-        $cobroHoras = $cantidadHoras * $infoTarifa['valorHora'];
-        $stringTiempoTotal =  $intervalo->h.' Horas '.$intervalo->i.' Minutos '.$intervalo->s.' segundos' ;
         
+        // $cantidadMinutos = $this->cantidadMinutos($intervalo);
+        // $cobroMinutos = $cantidadMinutos * $infoTarifa['valorMinuto'];
+
+        $valorHoras = ($intervalo['intervalo']->h *60)*$infoTarifa['valorMinuto'];
+        $valorMinutos = $intervalo['intervalo']->i *60 ;
+        $valorSegundos = ($intervalo['intervalo']->s*$infoTarifa['valorMinuto'])/60;
+        $cobroMinutos = $valorHoras + $valorMinutos + $valorSegundos;
+
+
+
+        // $cobroHoras = $cantidadHoras * $infoTarifa['valorHora'];
+        $stringTiempoTotal =  $intervalo['intervalo']->h.' Horas '.$intervalo['intervalo']->i.' Minutos '.$intervalo['intervalo']->s.' segundos' ;
+        $fechaFin = new DateTime(date("Y-m-d H:i:s"));
+        $hoy = date("Y-m-d H:i:s");  
       
 
         ?>
         <div class="row">
-                <label for="">Placa: <?php echo $infoParking['placa']  ?></label>
-                <label for="">Tipo: <?php echo $tipoVehiculo['descripcion']  ?></label>
-                <label for="">Tarifa: <?php echo $infoTarifa['descripcion']  ?></label>
-                <label for="">Hora Ingreso: <?php echo $infoParking['horaIngreso']  ?></label>
-                <label for="">Tiempo Total: <?php echo $intervalo->h.' Horas '.$intervalo->i.' Minutos '.$intervalo->s.' segundos'  ?></label>
-                <label for="">Valor: <?php echo number_format($cobroMinutos,0,",",".") ?></label>
+            <label for="">Placa: <?php echo $infoParking['placa']  ?></label>
+            <label for="">Tipo: <?php echo $tipoVehiculo['descripcion']  ?></label>
+            <label for="">Tarifa: <?php echo $infoTarifa['descripcion']  ?></label>
+            <label for="">Hora Ingreso: <?php echo $infoParking['horaIngreso']  ?></label>
+            <label for="">Hora  Salida. : <?php echo $intervalo['fechaFin'];  ?></label>
+            <label for="">Tiempo Total: <?php echo $intervalo['intervalo']->h.' Horas '.$intervalo['intervalo']->i.' Minutos '.$intervalo['intervalo']->s.' segundos'  ?></label>
+            <label for="">Valor: <?php echo number_format($cobroMinutos,0,",",".") ?></label>
         </div>
         <div class="row">
             <input type="hidden"  id="inputCobroMinutos" value = "<?php echo round($cobroMinutos) ?>">
             <input type="hidden"  id="inputPlaca" value = "<?php echo $infoParking['placa']?>">
             <input type="hidden"  id="stringTiempoTotal" value = "<?php echo $stringTiempoTotal; ?>">
+            <input type="hidden" id="fechaFinTxt"  value="<?php echo $intervalo['fechaFin']; ?>">
                 <label class="col-lg-4">Forma de pago</label>
                 <div class="col-lg-8">
                     <select class="form-control" id="idFormaPago">

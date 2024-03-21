@@ -136,5 +136,6 @@ revisar la forma como se esta haciendo la liquidacion de parqueadero
 revisar que la hora y fecha la traiga en el momento que se hace click en la placa a facturar y esta fecha
 y hora seran las que se llevaran a la base de datos 
 revisar imagen 
+que se pueda modificar la placa de un vehiculo ingresado pero solo por perfil administrador 
 
 

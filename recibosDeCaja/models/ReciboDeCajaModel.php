@@ -36,7 +36,7 @@ class ReciboDeCajaModel extends Conexion
         */
         public function grabarReciboDeCaja($request)
         {
-            $hoy = date("Y-m-d H:i:s");   
+            // $hoy = date("Y-m-d H:i:s");   
             //  echo '<pre>'; 
             //  print_r($request); 
             //  echo '</pre>';
@@ -75,7 +75,7 @@ class ReciboDeCajaModel extends Conexion
             $query->bindParam(':cambio',$request['valorVueltas'],PDO::PARAM_STR, 25);
             $query->bindParam(':stringTiempoTotal',$request['stringTiempoTotal'],PDO::PARAM_STR, 25);
             $query->bindParam(':norecibosalida',$proximoRecibo,PDO::PARAM_STR, 25);
-            $query->bindParam(':fecha',$hoy,PDO::PARAM_STR, 25);
+            $query->bindParam(':fecha',$request['fechaFinTxt'],PDO::PARAM_STR, 25);
             $query->execute();
             $this->desconectar();
             
