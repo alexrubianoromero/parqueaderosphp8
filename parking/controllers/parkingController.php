@@ -43,6 +43,10 @@ class parkingController
             // echo 'parking menu';
             $this->view->menuParking();
         } 
+        if($_REQUEST['opcion']=='formuModificacionPlaca'){
+            // echo 'parking menu';
+            $this->view->formuModificacionPlaca($_REQUEST['idParking']);
+        } 
         if($_REQUEST['opcion']=='mostrarTiposVehiculos'){
             $this->view->mostrarTiposVehiculos();
         } 

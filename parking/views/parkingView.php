@@ -182,6 +182,7 @@ class parkingView extends vista
      </body>
      <?php $this->modalNuevoIngresoParking() ;?>
      <?php $this->modalSalidaParking() ;?>
+     <?php $this->modalModifPlaca() ;?>
      </html>
      
      <?php
@@ -241,7 +242,31 @@ class parkingView extends vista
 
         <?php
     }
-  
+ 
+    public function modalModifPlaca()
+    {
+        ?>
+            <!-- Modal -->
+            <div class="modal fade" id="modalModifPlaca" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Placa.</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalBodymodalModifPlaca">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button  type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="parking();" >Cerrar</button>
+                    <!-- <button  type="button" class="btn btn-primary"  id="btnEnviar"  onclick=";" >Grabar</button> -->
+                </div>
+                </div>
+            </div>
+            </div>
+
+        <?php
+    }
 
     public function mostrarTiposVehiculos()
     {
@@ -547,6 +572,12 @@ class parkingView extends vista
                         <th>Tipo Vehiculo</th>
                         <th>Hora Ingreso</th>
                         <th>Fecha Ingreso</th> 
+                        <?php
+                              if($_SESSION['nivel']>5)
+                              {
+                        ?>
+                        <th>Modif</th> 
+                        <?php } ?>
                         <th>Estado</th> 
                     </tr>
                 </thead>
@@ -568,8 +599,16 @@ class parkingView extends vista
                           echo '<td>'.$infoTipo['descripcion'].'</td>'; 
                           echo '<td>'.substr($park['horaIngreso'],11,8).'</td>'; 
                           echo '<td>'.substr($park['horaIngreso'],0,10).'</td>'; 
+                          if($_SESSION['nivel']>5)
+                          {
+                            echo '<td><button class="btn btn-sm btn-success"
+                            onclick="formuModificacionPlaca('.$park['id'].');" 
+                            >Modif</button></td>'; 
+                        }   
+                        // data-bs-toggle="modal" 
+                        // data-bs-target="#modalModifPlaca"
+                             
                           echo '<td>'.$infoEstadoPArking['descripcion'].'</td>'; 
-                       
                           echo '</tr>';  
                         }  
                         ?>
@@ -675,6 +714,17 @@ class parkingView extends vista
         }
         echo '</select>';
     }
+
+    public function formuModificacionPlaca($idParking)
+    {
+        $infoParking = $this->model->traerInfoParkingIdParking($idParking);
+           echo '<pre>'; 
+        print_r($_SESSION);
+        echo '</pre>';
+        die();
+        // echo 'buenas '; 
+    }
+
 }
 
 ?>

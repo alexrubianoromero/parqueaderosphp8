@@ -33,17 +33,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="card" style="background-color:#fcb900;padding:20px;">
                         <div class="card-body">
                             <div align="center">
-                                <img src="../vistas/logo.png" width="450px;" style="border-radius:10px;">
+                                <img src="../vistas/logo.png" width="90%;" style="border-radius:10px;">
                             </div>
 
                             <div class="form group row mt-5">
-                                <label for="" class="col-md-4 col-form-label" align="right" >Usuario:</label>
+                                <label for="" class="col-md-4 col-form-label" align="center" >Usuario:</label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control " id="txtUsuario" value="">
                                 </div>
                             </div>                    
                             <div class="form group row mt-3">
-                                <label for="" class="col-md-4 col-form-label" align="right">Clave:</label>
+                                <label for="" class="col-md-4 col-form-label" align="center">Clave:</label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control " id="txtClave" value="">
                                 </div>
