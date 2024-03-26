@@ -1,6 +1,7 @@
 <?php
 $raiz = dirname(dirname(dirname(__file__)));
 require_once($raiz.'/parqueaderos/models/TipoVehiculoModel.php'); 
+require_once($raiz.'/parqueaderos/models/ParqueaderoModel.php'); 
 require_once($raiz.'/parking/models/ParkingModel.php'); 
 require_once($raiz.'/parking/models/EstadoParkingModel.php'); 
 require_once($raiz.'/formasDePago/models/FormaDePagoModel.php'); 
@@ -16,6 +17,7 @@ class parkingView extends vista
     protected $estadoParkingModel;
     protected $formaDePagoModel;
     protected $reciboModel;
+    protected $parqueaderoModel;
 
     public function __construct()
     {
@@ -25,6 +27,7 @@ class parkingView extends vista
         $this->estadoParkingModel = new  EstadoParkingModel(); 
         $this->formaDePagoModel = new  FormaDePagoModel(); 
         $this->reciboModel = new  ReciboDeCajaModel(); 
+        $this->parqueaderoModel = new  ParqueaderoModel(); 
     }
     public function menuParking()
     {
@@ -399,6 +402,29 @@ class parkingView extends vista
         return  $totalHoras;
     }
 
+    public function aproximarACientoMasCercano($numero)
+    {
+        if($numero<=100){
+            return 100;
+        }
+        else
+        {  // osea el numero es mayor a 100 
+            $cifras = strlen($numero);
+            $ultimas3 = substr($numero, -3); 
+            if($ultimas3 <= 999){
+                $division =  $ultimas3 % 100;
+                if($division == 0) // es un mumero 100, 200,300... redondo
+                { return $numero; }
+                else
+                { //es un numero entre 100 y 999 pero no es entero
+                $decenayunidad = substr($numero, -2); 
+                $resta = 100 - $decenayunidad; 
+                $resultado = $numero + $resta;
+                return $resultado; 
+                } 
+            }
+        }
+    }
 
     public function liquidarSalidaVehiculo($idParking)
     {
@@ -418,10 +444,16 @@ class parkingView extends vista
         // $cobroMinutos = $cantidadMinutos * $infoTarifa['valorMinuto'];
 
         $valorHoras = ($intervalo['intervalo']->h *60)*$infoTarifa['valorMinuto'];
-        $valorMinutos = $intervalo['intervalo']->i *60 ;
+        $valorMinutos = $intervalo['intervalo']->i * $infoTarifa['valorMinuto'] ;
         $valorSegundos = ($intervalo['intervalo']->s*$infoTarifa['valorMinuto'])/60;
+        
+        // echo '<br>horas: '.$valorHoras;
+        // echo '<br>minutos: '.$valorMinutos;
+        // echo '<br>segundos: '.$valorSegundos;
         $cobroMinutos = $valorHoras + $valorMinutos + $valorSegundos;
-
+        $redondeoMinutos = round($cobroMinutos);
+        $valorMinutosAproximado = $this->aproximarACientoMasCercano($redondeoMinutos); 
+        // die($redondeoMinutos); 
 
 
         // $cobroHoras = $cantidadHoras * $infoTarifa['valorHora'];
@@ -438,10 +470,10 @@ class parkingView extends vista
             <label for="">Hora Ingreso: <?php echo $infoParking['horaIngreso']  ?></label>
             <label for="">Hora  Salida. : <?php echo $intervalo['fechaFin'];  ?></label>
             <label for="">Tiempo Total: <?php echo $intervalo['intervalo']->h.' Horas '.$intervalo['intervalo']->i.' Minutos '.$intervalo['intervalo']->s.' segundos'  ?></label>
-            <label for="">Valor: <?php echo number_format($cobroMinutos,0,",",".") ?></label>
+            <label for="">Valor: <?php echo number_format($valorMinutosAproximado,0,",",".") ?></label>
         </div>
         <div class="row">
-            <input type="hidden"  id="inputCobroMinutos" value = "<?php echo round($cobroMinutos) ?>">
+            <input type="hidden"  id="inputCobroMinutos" value = "<?php echo $valorMinutosAproximado; ?>">
             <input type="hidden"  id="inputPlaca" value = "<?php echo $infoParking['placa']?>">
             <input type="hidden"  id="stringTiempoTotal" value = "<?php echo $stringTiempoTotal; ?>">
             <input type="hidden" id="fechaFinTxt"  value="<?php echo $intervalo['fechaFin']; ?>">
@@ -587,6 +619,11 @@ class parkingView extends vista
                     {
                           $infoTipo = $this->tipoVehiculoModel->traerTipoVehiculoId($park['idTipoVehiculo']); 
                           $infoEstadoPArking =    $this->estadoParkingModel->traerEstadosParkingId($park['estado']); 
+                          $infoParqueadero =    $this->parqueaderoModel->traerParqueaderoId($park['idParqueadero']);
+                                //  echo '<pre>'; 
+                                // print_r($infoParqueadero);
+                                // echo '</pre>';
+                                // die();
                           echo '<tr>';  
                           echo '<td><button 
                                         class="btn btn-warning  btn-sm" 
@@ -595,7 +632,8 @@ class parkingView extends vista
                                         onclick ="liquidarSalidaVehiculo('.$park['id'].');" 
                                         >'.$park['placa'].'</button></td>'; 
                             
-                          echo '<td><a class ="btn btn-secondary btn-sm" target="_blank" href="parking/views/verTicketEntrada.php?idParking='.$park['id'].'">Ticket</a></td>'; 
+                        //   echo '<td><a class ="btn btn-secondary btn-sm" target="_blank" href="parking/views/verTicketEntrada.php?idParking='.$park['id'].'">Ticket</a></td>'; 
+                          echo '<td><a class ="btn btn-secondary btn-sm" target="_blank" href="parking/views/'.$infoParqueadero['archivoTicketEntrada'].'?idParking='.$park['id'].'">Ticket</a></td>'; 
                           echo '<td>'.$infoTipo['descripcion'].'</td>'; 
                           echo '<td>'.substr($park['horaIngreso'],11,8).'</td>'; 
                           echo '<td>'.substr($park['horaIngreso'],0,10).'</td>'; 
@@ -661,6 +699,7 @@ class parkingView extends vista
                           $infoTipo = $this->tipoVehiculoModel->traerTipoVehiculoId($park['idTipoVehiculo']); 
                           $infoEstadoPArking =    $this->estadoParkingModel->traerEstadosParkingId($park['estado']); 
                           $infoRecibo = $this->reciboModel->traerReciboCajaId($park['idReciboCaja']);
+                          $infoParqueadero =    $this->parqueaderoModel->traerParqueaderoId($park['idParqueadero']);
                           echo '<tr>';  
                         //   echo '<td><button 
                         //                 class="btn btn-warning " 
@@ -669,14 +708,14 @@ class parkingView extends vista
                         //                 onclick ="liquidarSalidaVehiculo('.$park['id'].');" 
                         //                 >'.$park['placa'].'</button></td>'; 
                           echo '<td>'.$park['placa'].'</td>'; 
-                          echo '<td><a class ="btn btn-secondary btn-sm" target="_blank" href="parking/views/verTicket.php?idParking='.$park['id'].'">Recibo</a></td>'; 
+                          echo '<td><a class ="btn btn-secondary btn-sm" target="_blank" href="parking/views/'.$infoParqueadero['archivoTicketSalida'].'?idParking='.$park['id'].'">Recibo</a></td>'; 
                           echo '<td>'.$infoTipo['descripcion'].'</td>'; 
                           echo '<td>'.substr($park['horaIngreso'],11,8).'</td>'; 
                           echo '<td>'.substr($park['horaIngreso'],0,10).'</td>'; 
                           echo '<td>'.substr($park['horaSalida'],11,8).'</td>'; 
                           echo '<td>'.substr($park['horaSalida'],0,10).'</td>'; 
                           echo '<td>'.$infoEstadoPArking['descripcion'].'</td>'; 
-                          echo '<td>'.number_format($infoRecibo['valor'],0,",",".").'</td>'; 
+                          echo '<td align="right">'.number_format($infoRecibo['valor'],0,",",".").'</td>'; 
                           echo '</tr>';  
                           if($infoRecibo['idFormaDePago']==1){
                             $totalEfectivo = $totalEfectivo + $infoRecibo['valor'];
@@ -688,13 +727,13 @@ class parkingView extends vista
                         }  
                         $total = $totalEfectivo + $totalNequi;
                         echo '<tr>';
-                        echo '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Total Efectivo</td><td>'.number_format($totalEfectivo,0,",",".").'</td>'; 
+                        echo '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Total Efectivo</td><td align="right">'.number_format($totalEfectivo,0,",",".").'</td>'; 
                         echo '</tr>';
                         echo '<tr>';
-                        echo '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Total Nequi</td><td>'.number_format($totalNequi,0,",",".").'</td>'; 
+                        echo '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Total Nequi</td><td align="right">'.number_format($totalNequi,0,",",".").'</td>'; 
                         echo '</tr>';
                         echo '<tr>';
-                        echo '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Total</td><td>'.number_format($total,0,",",".").'</td>'; 
+                        echo '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Total</td><td align="right">'.number_format($total,0,",",".").'</td>'; 
                         echo '</tr>';
                         ?>
                 </tbody>

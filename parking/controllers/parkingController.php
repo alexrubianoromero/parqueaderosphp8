@@ -3,6 +3,7 @@ $raiz = dirname(dirname(dirname(__file__)));
 require_once($raiz.'/parking/views/parkingView.php'); 
 require_once($raiz.'/parking/models/ParkingModel.php'); 
 require_once($raiz.'/parqueaderos/models/TipoVehiculoModel.php'); 
+require_once($raiz.'/parqueaderos/models/ParqueaderoModel.php'); 
 require_once($raiz.'/recibosDeCaja/models/ReciboDeCajaModel.php'); 
 require_once($raiz.'/tarifas/models/TarifaModel.php'); 
 
@@ -16,6 +17,7 @@ class parkingController
     protected $tipoVehiculoModel;
     protected $reciboDeCajaModel;
     protected $tarifaModel;
+    protected $parqueaderoModel;
     // protected $viewPlantilla;
 
     public function __construct()
@@ -37,6 +39,7 @@ class parkingController
         $this->tipoVehiculoModel = new TipoVehiculoModel();
         $this->reciboDeCajaModel = new ReciboDeCajaModel();
         $this->tarifaModel = new  TarifaModel(); 
+        $this->parqueaderoModel = new  ParqueaderoModel(); 
         
 
         if($_REQUEST['opcion']=='parkingMenu'){
@@ -113,6 +116,13 @@ class parkingController
     
     public function facturarSalidaVehiculo($request)
     {
+        $infoparking =  $this->model->traerInfoParkingIdParking($request['idParking']); 
+        $infoParqueadero =  $this->parqueaderoModel->traerParqueaderoId($infoparking['idParqueadero']); 
+        //         echo '<pre>'; 
+        // print_r($infoParqueadero);
+        // echo '</pre>';
+        // die();
+
         $reciboNo = $this->reciboDeCajaModel->grabarReciboDeCaja($request);
         //cambiar el estado de parking y asignar numero de recibo
         $this->model->cambiarEstadoParking($request['idParking'],1);
@@ -121,7 +131,7 @@ class parkingController
         $this->model->actualizarHoraSalidaUsuarioSalidaParking($request['idParking'],$reciboNo);
         
         echo 'Recibo Grabado '.$reciboNo;
-        echo '<br><a class="btn btn-secondary btn-lg" target="_blank" href="parking/views/verTicket.php?idParking='.$request['idParking'].'">Ver Recibo</a>'; 
+        echo '<br><a class="btn btn-secondary btn-lg" target="_blank" href="parking/views/'.$infoParqueadero['archivoTicketSalida'].'?idParking='.$request['idParking'].'">Ver Recibo</a>'; 
 
         // $this->view->mostrarInfoParking($parking); 
     }

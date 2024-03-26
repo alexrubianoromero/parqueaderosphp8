@@ -139,4 +139,15 @@ revisar imagen
 que se pueda modificar la placa de un vehiculo ingresado pero solo por perfil administrador 
 revisar lo de crear parqueaderos con iva 
 
+redondeo mas cercano  a las centesimas 
+cuadrar el ticket e entrada para granAmerica 
+cuadrar la casilla para que puedan colocar el valor redondeado 
+
+y cuadrar los tickets de parqueadero que enviaron 
+
+o habilitar la casilla para que redondeen
+
+alinear valor en la columna de movimientos 
+colocar la funcionalidad que si la placa termina en letra entonces la clasifique como moto
+
 
