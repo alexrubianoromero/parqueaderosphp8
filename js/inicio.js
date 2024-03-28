@@ -1,5 +1,5 @@
 function irPantallaLogueo(){
-    location.href ='http://www.alexrubiano.com/parqueaderos';;
+    location.href ='https://crecienteparking.lagunaglamping.com';;
 }
 function verifiqueCredeciales()
 {
@@ -60,9 +60,9 @@ function menuPrincipal(){
     + "&nivel="+ sessionStorage.nivel
     );
 }
-function irPantallaLogueo(){
-    location.href ='http://www.alexrubiano.com/parqueaderos';
-}
+// function irPantallaLogueo(){
+//     location.href ='http://www.alexrubiano.com/parqueaderos';
+// }
 
 function salir()
 {
