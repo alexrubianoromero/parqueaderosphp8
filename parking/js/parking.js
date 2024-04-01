@@ -372,6 +372,26 @@ function buscarPlacaVehiculosParking()
         );
 }
 
+function actualizarPlacaParking(idParking)
+{
+        //  alert('ingresovehiculo'+idTipoVehiculo);
+        var placa = document.getElementById('placaParaCambiar').value;
+        const http=new XMLHttpRequest();
+        const url = 'parking/parking.php';
+        http.onreadystatechange = function(){
+
+            if(this.readyState == 4 && this.status ==200){
+                document.getElementById("modalBodymodalModifPlaca").innerHTML  = this.responseText;
+            }
+        };
+        http.open("POST",url);
+        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        http.send('opcion=actualizarPlacaParking'
+                    +'&placa='+placa
+                    +'&idParking='+idParking
+        );
+}
+
 
 
 

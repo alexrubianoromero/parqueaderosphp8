@@ -6,6 +6,7 @@ require_once($raiz.'/parqueaderos/models/TipoVehiculoModel.php');
 require_once($raiz.'/parqueaderos/models/ParqueaderoModel.php'); 
 require_once($raiz.'/recibosDeCaja/models/ReciboDeCajaModel.php'); 
 require_once($raiz.'/tarifas/models/TarifaModel.php'); 
+require_once($raiz.'/trazabilidadCambios/models/TrazabilidadCambioModel.php'); 
 
 date_default_timezone_set('America/Bogota');
 
@@ -18,6 +19,7 @@ class parkingController
     protected $reciboDeCajaModel;
     protected $tarifaModel;
     protected $parqueaderoModel;
+    protected $trazabilidadCambioModel;
     // protected $viewPlantilla;
 
     public function __construct()
@@ -40,6 +42,7 @@ class parkingController
         $this->reciboDeCajaModel = new ReciboDeCajaModel();
         $this->tarifaModel = new  TarifaModel(); 
         $this->parqueaderoModel = new  ParqueaderoModel(); 
+        $this->trazabilidadCambioModel = new  TrazabilidadCambioModel(); 
         
 
         if($_REQUEST['opcion']=='parkingMenu'){
@@ -111,9 +114,24 @@ class parkingController
         if($_REQUEST['opcion']=='facturarSalidaVehiculo'){
             $this->facturarSalidaVehiculo($_REQUEST);
         } 
+        if($_REQUEST['opcion']=='actualizarPlacaParking'){
+            $this->actualizarPlacaParking($_REQUEST);
+        } 
     }
     
-    
+    public function actualizarPlacaParking($request)
+    {
+        //traer la placa antes de cambio
+        $infoparking =  $this->model->traerInfoParkingIdParking($request['idParking']); 
+        //actualizar la placa en la tabla de parking
+        $this->model->cambiarPlacaParking($request); 
+        $infoCambio['observaciones'] = 'Se realiza actualizacion placa anterior: '.$infoparking['placa'].'  placa que quedo:'.$request['placa']; 
+        $infoCambio['idParking'] = $request['idParking'];
+        //dejar trazabilidad del cambio
+        $this->trazabilidadCambioModel->grabarTrazabilidad($infoCambio);  
+        echo 'Placa Modificada ';
+    }
+
     public function facturarSalidaVehiculo($request)
     {
         $infoparking =  $this->model->traerInfoParkingIdParking($request['idParking']); 

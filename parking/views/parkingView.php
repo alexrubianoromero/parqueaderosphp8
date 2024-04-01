@@ -21,6 +21,7 @@ class parkingView extends vista
 
     public function __construct()
     {
+        session_start();
         $this->tipoVehiculoModel = new  TipoVehiculoModel(); 
         $this->model = new  ParkingModel(); 
         $this->tarifaModel = new  TarifaModel(); 
@@ -640,11 +641,11 @@ class parkingView extends vista
                           if($_SESSION['nivel']>5)
                           {
                             echo '<td><button class="btn btn-sm btn-success"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#modalModifPlaca"
                             onclick="formuModificacionPlaca('.$park['id'].');" 
                             >Modif</button></td>'; 
                         }   
-                        // data-bs-toggle="modal" 
-                        // data-bs-target="#modalModifPlaca"
                              
                           echo '<td>'.$infoEstadoPArking['descripcion'].'</td>'; 
                           echo '</tr>';  
@@ -756,11 +757,22 @@ class parkingView extends vista
 
     public function formuModificacionPlaca($idParking)
     {
+        echo 'llego aca'; 
         $infoParking = $this->model->traerInfoParkingIdParking($idParking);
-           echo '<pre>'; 
-        print_r($_SESSION);
-        echo '</pre>';
-        die();
+        ?>
+            <div>
+                <label>Placa:</label>
+                <input type="text"  id="placaParaCambiar" value="<?php  echo $infoParking['placa']  ?>" >
+
+                <button class="btn btn-warning" onclick="actualizarPlacaParking(<?php echo $idParking; ?>);">Actualizar</button>
+            </div>
+
+
+        <?php
+        // echo '<pre>'; 
+        // print_r($infoParking);
+        // echo '</pre>';
+        // die();
         // echo 'buenas '; 
     }
 

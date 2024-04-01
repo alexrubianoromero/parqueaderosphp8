@@ -167,6 +167,18 @@ class ParkingModel extends Conexion
         // $consulta = mysql_query($sql,$this->connectMysql());
     }
 
+    public function cambiarPlacaParking($request)
+    {
+        $sql = "update parking 
+        set placa = '".$request['placa']."' 
+        where  id = '".$request['idParking']."'
+        ";
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $this->desconectar();
+        // $consulta = mysql_query($sql,$this->connectMysql());
+    }
+
 
     public function actualizarReciboCajaParking($idParking,$idRecibo)
     {
