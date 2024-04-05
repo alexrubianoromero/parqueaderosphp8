@@ -21,11 +21,11 @@ class parkingController
     protected $parqueaderoModel;
     protected $trazabilidadCambioModel;
     // protected $viewPlantilla;
-
+    
     public function __construct()
     {
         session_start();
-
+        
         // echo '<pre>'; 
         // print_r($_SESSION);
         // echo '</pre>';
@@ -37,6 +37,7 @@ class parkingController
             die();
         }
         $this->view = new parkingView();
+        // die('passooo 111');
         $this->model = new ParkingModel();
         $this->tipoVehiculoModel = new TipoVehiculoModel();
         $this->reciboDeCajaModel = new ReciboDeCajaModel();
@@ -44,7 +45,7 @@ class parkingController
         $this->parqueaderoModel = new  ParqueaderoModel(); 
         $this->trazabilidadCambioModel = new  TrazabilidadCambioModel(); 
         
-
+        
         if($_REQUEST['opcion']=='parkingMenu'){
             // echo 'parking menu';
             $this->view->menuParking();
@@ -52,6 +53,10 @@ class parkingController
         if($_REQUEST['opcion']=='formuModificacionPlaca'){
             // echo 'parking menu';
             $this->view->formuModificacionPlaca($_REQUEST['idParking']);
+        } 
+        if($_REQUEST['opcion']=='formuModificacionValor'){
+            // echo 'parking menu';
+            $this->view->formuModificacionValor($_REQUEST['idParking']);
         } 
         if($_REQUEST['opcion']=='mostrarTiposVehiculos'){
             $this->view->mostrarTiposVehiculos();
@@ -117,6 +122,9 @@ class parkingController
         if($_REQUEST['opcion']=='actualizarPlacaParking'){
             $this->actualizarPlacaParking($_REQUEST);
         } 
+        if($_REQUEST['opcion']=='actualizarValorParking'){
+            $this->actualizarValorParking($_REQUEST);
+        } 
     }
     
     public function actualizarPlacaParking($request)
@@ -130,6 +138,35 @@ class parkingController
         //dejar trazabilidad del cambio
         $this->trazabilidadCambioModel->grabarTrazabilidad($infoCambio);  
         echo 'Placa Modificada ';
+    }
+    public function actualizarValorParking($request)
+    {
+        $infoparking =  $this->model->traerInfoParkingIdParking($request['idParking']); 
+        $infoReciboActual = $this->reciboDeCajaModel->traerReciboCajaId($infoparking['idReciboCaja']);
+        $infoParqueadero =  $this->parqueaderoModel->traerParqueaderoId($infoReciboActual['idParqueadero']);
+
+        /////////////
+
+
+        //////////////
+
+        $this->reciboDeCajaModel->cambiarValorParking($infoparking['idReciboCaja'],$request); 
+
+
+        // $valoresAnteriores = 'Se realiza actualizacion de valores ';
+        // $valoresAnteriores .= 'valor sin iva anterior: '.$infoReciboActual['valorsiniva'];
+        // $valoresAnteriores .= ' valor iva anterior: '.$infoReciboActual['valoriva'];
+        // $valoresAnteriores .= ' valor final : '.$infoReciboActual['valoriva'];
+
+        // $valoresNuevos = ' Los valores actualizados fueron ';
+        // $valoresNuevos .= 'valor sin iva : '.$infoparking['valorsiniva'];
+
+
+
+        // $infoCambio['observaciones'] = $valoresAnteriores.$valoresNuevos; 
+        // $infoCambio['idParking'] = $request['idParking'];
+        // $this->trazabilidadCambioModel->grabarTrazabilidad($infoCambio);  
+        echo 'Valor Actualizado ';
     }
 
     public function facturarSalidaVehiculo($request)

@@ -150,4 +150,27 @@ o habilitar la casilla para que redondeen
 alinear valor en la columna de movimientos 
 colocar la funcionalidad que si la placa termina en letra entonces la clasifique como moto
 
+*verificar la funcionalidad de corregir la placa 
+*trazabilidad cuando se cambie una placa 
+
+*crear las tarifas del rosario
+*crear la tabla para manejo de iva 
+---------------------------------------------------
+
+actualizar tabla parqueaderos de produccion 
+crear los tickets del rosario
+creacion de nuevos campos en la tabla recibos de caja para manejo del iva 
+agregar valorsiniva  porcentajeiva y valoriva 
+
+revisar el valor que se debe mostrar en los tickes tengan iva o no se debe mostrar la suma final 
+osea si no manejan iva pues olo el valor final pero si manejan iva se mostraran los valores adicionales 
+Solo se aproxima el valor total despues de sumar iva a la centena mas cercana
+
+crear la opcion para modificar los valores de un vehiculo retirado 
+solo para Andres Yazmin o johan
+
+revisar el cobro de los dias entre diferentes fechas 
+
+
+
 

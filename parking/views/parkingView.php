@@ -7,10 +7,11 @@ require_once($raiz.'/parking/models/EstadoParkingModel.php');
 require_once($raiz.'/formasDePago/models/FormaDePagoModel.php'); 
 require_once($raiz.'/tarifas/models/TarifaModel.php'); 
 require_once($raiz.'/recibosDeCaja/models/ReciboDeCajaModel.php'); 
+require_once($raiz.'/porcentajeiva/models/PorcentajeIvaModel.php'); 
 require_once($raiz.'/vista/vista.php'); 
-
 class parkingView extends vista
 {
+    // die('vista 123');
     protected $tipoVehiculoModel;
     protected $model;
     protected $tarifaModel;
@@ -18,7 +19,8 @@ class parkingView extends vista
     protected $formaDePagoModel;
     protected $reciboModel;
     protected $parqueaderoModel;
-
+    protected $porcentajeIvaModel;
+    
     public function __construct()
     {
         session_start();
@@ -29,69 +31,70 @@ class parkingView extends vista
         $this->formaDePagoModel = new  FormaDePagoModel(); 
         $this->reciboModel = new  ReciboDeCajaModel(); 
         $this->parqueaderoModel = new  ParqueaderoModel(); 
+        $this->porcentajeIvaModel = new  PorcentajeIvaModel(); 
     }
     public function menuParking()
     {
-     ?>
+        ?>
      <!DOCTYPE html>
      <html lang="en">
-     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-     </head>
-     <body class="container">
-         <!-- el div horizontal principal -->
-        <div class="row">
-
-            <!-- el div que contiene las imagenes  -->
-            <div class="row col-lg-4 mt-3">
-
-                <div class="col-lg-4" style="border:1px solid black; padding:5px;" align="center">
-                    <img 
-                        style="border:1px solid black;"
-                        src="imagenes/bici.jpg" 
-                        height="85px;" 
-                        onclick="asignarInfoPorTipoVehiculo(1);"
-                    >
-                </div>
-                <div class="col-lg-4" style="border:1px solid black; padding:5px;" align="center">
-                    <img 
-                        style="border:1px solid black;"
-                        src="imagenes/otroazul.jpg" 
-                        height="75px;" 
-                        onclick="asignarInfoPorTipoVehiculo(2);"
-                    >
-                </div>
-                <div class="col-lg-4" style="border:1px solid black; padding:5px;" align="center">
-                    <img 
-                        style="border:1px solid black;"
-                        src="imagenes/mt10.png" 
-                        height="85px;" 
-                        onclick="asignarInfoPorTipoVehiculo(3);"
-                    >
-                </div>
-
-            </div>
-            <!-- la siguiente parte despues de las imagenes osea la de la mitad  -->
-            <div class="row col-lg-6 mt-3">
-                <!-- el div que coloque para dejar espacio -->
-                <div class="col-lg-1"></div>
-                <div class="row col-lg-5">
-                   <div class="row">
-                    <input type="hidden" id="idTipoVehiculoIngreso">
-                       <label for="" class="col-lg-4">Tipo:</label>
-                       <label for="" style="color:blue;"class="col-lg-4" id="idTipoVehiculoIngresoLabel"></label>
-                     
+         <head>
+             <meta charset="UTF-8">
+             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+             <title>Document</title>
+            </head>
+            <body class="container">
+                <!-- el div horizontal principal -->
+                <div class="row">
+                    
+                    <!-- el div que contiene las imagenes  -->
+                    <div class="row col-lg-4 mt-3">
+                        
+                        <div class="col-lg-4" style="border:1px solid black; padding:5px;" align="center">
+                            <img 
+                            style="border:1px solid black;"
+                            src="imagenes/bici.jpg" 
+                            height="85px;" 
+                            onclick="asignarInfoPorTipoVehiculo(1);"
+                            >
+                        </div>
+                        <div class="col-lg-4" style="border:1px solid black; padding:5px;" align="center">
+                            <img 
+                            style="border:1px solid black;"
+                            src="imagenes/otroazul.jpg" 
+                            height="75px;" 
+                            onclick="asignarInfoPorTipoVehiculo(2);"
+                            >
+                        </div>
+                        <div class="col-lg-4" style="border:1px solid black; padding:5px;" align="center">
+                            <img 
+                            style="border:1px solid black;"
+                            src="imagenes/mt10.png" 
+                            height="85px;" 
+                            onclick="asignarInfoPorTipoVehiculo(3);"
+                            >
+                        </div>
+                        
                     </div>
-                   <div class="row">
-                       <label for="" class="col-lg-4">Placa:</label>
-                       <div class="col-lg-8">
-                           <input type="text" class="form-control" id="placaIngreso">
+                    <!-- la siguiente parte despues de las imagenes osea la de la mitad  -->
+                    <div class="row col-lg-6 mt-3">
+                        <!-- el div que coloque para dejar espacio -->
+                        <div class="col-lg-1"></div>
+                        <div class="row col-lg-5">
+                            <div class="row">
+                                <input type="hidden" id="idTipoVehiculoIngreso">
+                                <label for="" class="col-lg-4">Tipo:</label>
+                       <label for="" style="color:blue;"class="col-lg-4" id="idTipoVehiculoIngresoLabel"></label>
+                       
+                    </div>
+                    <div class="row">
+                        <label for="" class="col-lg-4">Placa:</label>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" id="placaIngreso">
                         </div>
                     </div>
                     <div class="row mt-1" id="div_idTarifa">
-                    
+                        
                         <!-- <select id="idTarifa" name="idTarifa" class="form-control"> -->
                             <?php   
                                 // $tarifas =   $this->tarifaModel->traerTarifaIdParqueadero($_SESSION['idSucursal']); 
@@ -187,6 +190,7 @@ class parkingView extends vista
      <?php $this->modalNuevoIngresoParking() ;?>
      <?php $this->modalSalidaParking() ;?>
      <?php $this->modalModifPlaca() ;?>
+     <?php $this->modalModifValor() ;?>
      </html>
      
      <?php
@@ -259,6 +263,30 @@ class parkingView extends vista
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="modalBodymodalModifPlaca">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button  type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="parking();" >Cerrar</button>
+                    <!-- <button  type="button" class="btn btn-primary"  id="btnEnviar"  onclick=";" >Grabar</button> -->
+                </div>
+                </div>
+            </div>
+            </div>
+
+        <?php
+    }
+    public function modalModifValor()
+    {
+        ?>
+            <!-- Modal -->
+            <div class="modal fade" id="modalModifValor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Valor.</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalBodymodalModifValor">
                     
                 </div>
                 <div class="modal-footer">
@@ -430,20 +458,20 @@ class parkingView extends vista
     public function liquidarSalidaVehiculo($idParking)
     {
         $infoParking = $this->model->traerInfoParkingIdParking($idParking);
-        
         $tipoVehiculo = $this->tipoVehiculoModel->traerTipoVehiculoId($infoParking['idTipoVehiculo']);
         $infoTarifa  =  $this->tarifaModel->traerTarifaId($infoParking['idTarifa']);  
+        $infoParqueadero =    $this->parqueaderoModel->traerParqueaderoId($infoParking['idParqueadero']);
         // echo '<pre>'; 
-        // print_r($infoTarifa);
+        // print_r($_SESSION);
         // echo '</pre>';
         // die();
-
+        
         $intervalo = $this->restafechas($infoParking['horaIngreso'] ); 
         $cantidadHoras = $this->cantidadHoras($intervalo);
         
         // $cantidadMinutos = $this->cantidadMinutos($intervalo);
         // $cobroMinutos = $cantidadMinutos * $infoTarifa['valorMinuto'];
-
+        
         $valorHoras = ($intervalo['intervalo']->h *60)*$infoTarifa['valorMinuto'];
         $valorMinutos = $intervalo['intervalo']->i * $infoTarifa['valorMinuto'] ;
         $valorSegundos = ($intervalo['intervalo']->s*$infoTarifa['valorMinuto'])/60;
@@ -455,13 +483,32 @@ class parkingView extends vista
         $redondeoMinutos = round($cobroMinutos);
         $valorMinutosAproximado = $this->aproximarACientoMasCercano($redondeoMinutos); 
         // die($redondeoMinutos); 
-
+        
+        //verificar si el parqueadero maneja iva 
+        $valorImp= 0;
+        $porcenIva=0;
+        if($infoParqueadero['manejaiva']==1)
+        {
+            $arrPorcenIva =   $this->porcentajeIvaModel->traerPorcentajeIva(); 
+            $porcenIva = $arrPorcenIva['porcentajeiva'];
+            $valorImp = ($redondeoMinutos * $porcenIva)/100;
+            
+                // echo '<pre>'; 
+                // print_r($valorImp);
+                // echo '</pre>';
+                // die();
+            // $valorImp = 
+        }
+        
 
         // $cobroHoras = $cantidadHoras * $infoTarifa['valorHora'];
+        $valorImp = round($valorImp);
         $stringTiempoTotal =  $intervalo['intervalo']->h.' Horas '.$intervalo['intervalo']->i.' Minutos '.$intervalo['intervalo']->s.' segundos' ;
         $fechaFin = new DateTime(date("Y-m-d H:i:s"));
         $hoy = date("Y-m-d H:i:s");  
       
+        //Verificar si el parqueadero maeneja iva 
+
 
         ?>
         <div class="row">
@@ -471,10 +518,28 @@ class parkingView extends vista
             <label for="">Hora Ingreso: <?php echo $infoParking['horaIngreso']  ?></label>
             <label for="">Hora  Salida. : <?php echo $intervalo['fechaFin'];  ?></label>
             <label for="">Tiempo Total: <?php echo $intervalo['intervalo']->h.' Horas '.$intervalo['intervalo']->i.' Minutos '.$intervalo['intervalo']->s.' segundos'  ?></label>
-            <label for="">Valor: <?php echo number_format($valorMinutosAproximado,0,",",".") ?></label>
+         
+            <?php
+             if($infoParqueadero['manejaiva']==1)
+             {
+             ?>         
+                <label for="">Valor: <?php echo number_format($redondeoMinutos,0,",",".") ?></label>
+                <label for="">Imp: <?php echo number_format($valorImp,0,",",".") ?></label>
+            <?php
+             }
+            $GranTotal = $redondeoMinutos + $valorImp;
+            $GranTotal = round($GranTotal);
+            $GranTotalAproximado = $this->aproximarACientoMasCercano($GranTotal); 
+            ?>
+            <label for="">Total: <?php echo number_format($GranTotalAproximado,0,",",".") ?></label>
+
         </div>
         <div class="row">
-            <input type="hidden"  id="inputCobroMinutos" value = "<?php echo $valorMinutosAproximado; ?>">
+            <input type="hidden"  id="inputCobroMinutos" value = "<?php echo $redondeoMinutos; ?>">
+            <input type="hidden"  id="porcenIva" value = "<?php echo $porcenIva; ?>">
+            <input type="hidden"  id="inputValorImp" value = "<?php echo $valorImp; ?>">
+            <input type="hidden"  id="inputGranTotalAproximado" value = "<?php echo $GranTotalAproximado; ?>">
+            
             <input type="hidden"  id="inputPlaca" value = "<?php echo $infoParking['placa']?>">
             <input type="hidden"  id="stringTiempoTotal" value = "<?php echo $stringTiempoTotal; ?>">
             <input type="hidden" id="fechaFinTxt"  value="<?php echo $intervalo['fechaFin']; ?>">
@@ -686,6 +751,13 @@ class parkingView extends vista
                         <th>F. Salida</th> 
                         <th>Estado</th> 
                         <th>Valor</th> 
+                        <?php
+                        if($_SESSION['id_usuario ']==21 ||  $_SESSION['id_usuario ']==59 || $_SESSION['id_usuario ']==58)
+                        {
+                            echo '<th>Modif Valor</th> ';
+                        } 
+                        ?>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -717,6 +789,14 @@ class parkingView extends vista
                           echo '<td>'.substr($park['horaSalida'],0,10).'</td>'; 
                           echo '<td>'.$infoEstadoPArking['descripcion'].'</td>'; 
                           echo '<td align="right">'.number_format($infoRecibo['valor'],0,",",".").'</td>'; 
+                          if($_SESSION['id_usuario ']==21 ||  $_SESSION['id_usuario ']==59 || $_SESSION['id_usuario ']==58)
+                          {
+                          echo '<td><button class="btn btn-sm btn-danger"
+                          data-bs-toggle="modal" 
+                          data-bs-target="#modalModifValor"
+                          onclick="formuModificacionValor('.$park['id'].');" 
+                          >ModifValor</button></td>'; 
+                          }  
                           echo '</tr>';  
                           if($infoRecibo['idFormaDePago']==1){
                             $totalEfectivo = $totalEfectivo + $infoRecibo['valor'];
@@ -757,7 +837,6 @@ class parkingView extends vista
 
     public function formuModificacionPlaca($idParking)
     {
-        echo 'llego aca'; 
         $infoParking = $this->model->traerInfoParkingIdParking($idParking);
         ?>
             <div>
@@ -774,6 +853,28 @@ class parkingView extends vista
         // echo '</pre>';
         // die();
         // echo 'buenas '; 
+    }
+
+    public function formuModificacionValor($idParking)
+    {
+        $infoParking = $this->model->traerInfoParkingIdParking($idParking);
+        $infoRecibo = $this->reciboModel->traerReciboCajaId($infoParking['idReciboCaja']);
+        ?>
+            <div>
+                <label>Placa: <?php  echo $infoParking['placa']  ?> </label>
+
+            </div>
+            <div>
+                <label>Valor: <?php  echo $infoParking['valor']  ?> </label>
+                <input type="text"  id="valorParaCambiar" value="<?php  echo $infoRecibo['valor']  ?>" >
+
+            </div>
+            <div class ="mt-3">
+                <button class="btn btn-warning" onclick="actualizarValorParking(<?php echo $idParking; ?>);">Actualizar Valor</button>
+            </div>
+
+
+        <?php
     }
 
 }

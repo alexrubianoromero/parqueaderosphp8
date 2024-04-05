@@ -1,18 +1,21 @@
 <?php
-
 $raiz =dirname(dirname(dirname(__file__)));
 //   die('rutamodelsucursal '.$raiz);
 
 require_once($raiz.'/conexion/Conexion.php');
 require_once($raiz.'/parqueaderos/models/ParqueaderoModel.php');
+// require_once($raiz.'/parking/models/ParkingModel.php'); 
 
 class ReciboDeCajaModel extends Conexion
 {
     protected $parqueaderoModel;
-
+    // protected $parkingModel;
+    
     public function __construct()
     {
         $this->parqueaderoModel = new ParqueaderoModel(); 
+        // $this->parkingModel = new ParkingModel(); 
+        // die('recibo4567');
     }
     // public function traerVehiculosParking()
     // {
@@ -36,7 +39,8 @@ class ReciboDeCajaModel extends Conexion
         */
         public function grabarReciboDeCaja($request)
         {
-            // $hoy = date("Y-m-d H:i:s");   
+
+
             //  echo '<pre>'; 
             //  print_r($request); 
             //  echo '</pre>';
@@ -61,12 +65,19 @@ class ReciboDeCajaModel extends Conexion
             // die('recibo salida '.$proximoRecibo);
             $this->parqueaderoModel->actualizarReciboSalida($_SESSION['idSucursal'],$proximoRecibo);
             ///////////
-            $valorMinRedondeado = round($request['inputCobroMinutos']);
-            $sql = "insert into recibosdecaja  (idParking,valor,usuario,idParqueadero,placa,idFormaDePago,valorPagado,cambio,stringTiempoTotal,norecibosalida,fecha)    
-            values(:idParking,:valor,:usuario,:idParqueadero,:placa,:idFormaDePago,:valorPagado,:cambio,:stringTiempoTotal,:norecibosalida,:fecha)";
+            // $valorMinRedondeado = round($request['inputCobroMinutos']);
+            $sql = "insert into recibosdecaja  (idParking,porcentajeiva,valorsiniva,valoriva,valor,usuario,idParqueadero,placa,idFormaDePago,valorPagado,cambio,stringTiempoTotal,norecibosalida,fecha)    
+            
+            values(:idParking,:porcentajeiva,:valorsiniva,:valoriva,:valor,:usuario,:idParqueadero,:placa,:idFormaDePago,:valorPagado,:cambio,:stringTiempoTotal,:norecibosalida,:fecha)";
             $query = $this->connectMysql()->prepare($sql); 
             $query->bindParam(':idParking',$request['idParking'],PDO::PARAM_STR, 25);
-            $query->bindParam(':valor',$valorMinRedondeado,PDO::PARAM_STR, 25);
+
+            $query->bindParam(':valorsiniva',$request['inputCobroMinutos'],PDO::PARAM_STR, 25);
+            $query->bindParam(':porcentajeiva',$request['porcenIva'],PDO::PARAM_STR, 25);
+            $query->bindParam(':valoriva',$request['inputValorImp'],PDO::PARAM_STR, 25);
+
+            $query->bindParam(':valor',$request['inputGranTotalAproximado'],PDO::PARAM_STR, 25);
+            
             $query->bindParam(':usuario',$_SESSION['id_usuario'],PDO::PARAM_STR, 25);
             $query->bindParam(':idParqueadero',$_SESSION['idSucursal'],PDO::PARAM_STR, 25);
             $query->bindParam(':placa',$request['placa'],PDO::PARAM_STR, 25);
@@ -107,6 +118,50 @@ class ReciboDeCajaModel extends Conexion
             return $results; 
         }
 
+
+        public function cambiarValorParking($idReciboCaja,$request)
+        {
+            // $infoParking =  $this->parkingModel->traerInfoParkingIdParking($request['idParking']);
+            $infoRecibo = $this->traerReciboCajaId($idReciboCaja);
+            $infoParqueadero =  $this->parqueaderoModel->traerParqueaderoId($infoRecibo['idParqueadero']);
+            //    echo '<pre>'; 
+            //  print_r($infoParqueadero); 
+            //  echo '</pre>';
+            //  die();
+            $sql= '';
+            if($infoParqueadero['manejaiva']==1)
+            {
+                $factorIva = '1'.$infoRecibo['porcentajeiva'];
+                $factorIva = $factorIva/100;
+                $valorSinIva = round($request['valor']/ $factorIva);
+                $valorIva = $request['valor']-$valorSinIva; 
+
+                $sql = "update recibosdecaja 
+                set valorsiniva = '".$valorSinIva."',
+                valoriva = '".$valorIva."',
+                valor = '".$request['valor']."',
+                valorPagado = '".$request['valor']."',
+                cambio = 0
+                where  id = '".$idReciboCaja."'
+                ";
+            }else{
+                
+                $sql = "update recibosdecaja 
+                set valorsiniva = '".$request['valor']."',
+                valoriva = 0,
+                valor = '".$request['valor']."',
+                valorPagado = '".$request['valor']."',
+                cambio = 0
+                where  id = '".$idReciboCaja."'
+                ";
+            }
+            
+
+            $query = $this->connectMysql()->prepare($sql); 
+            $query -> execute(); 
+            $this->desconectar();
+        }
+    
 
  
 

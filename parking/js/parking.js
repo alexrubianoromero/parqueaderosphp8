@@ -165,8 +165,27 @@ function formuModificacionPlaca(idParking)
     http.send('opcion=formuModificacionPlaca'
                 +'&idParking='+idParking
     );
-
 }
+function formuModificacionValor(idParking)
+{
+    const http=new XMLHttpRequest();
+    const url = 'parking/parking.php';
+    http.onreadystatechange = function(){
+
+        if(this.readyState == 4 && this.status ==200){
+               document.getElementById("modalBodymodalModifValor").innerHTML  = this.responseText;
+        }
+    };
+    http.open("POST",url);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send('opcion=formuModificacionValor'
+                +'&idParking='+idParking
+    );
+}
+
+
+
+
 function formuSalidaVehiculosParking()
 {
     //  alert('ingresovehiculo'+idTipoVehiculo);
@@ -392,6 +411,26 @@ function actualizarPlacaParking(idParking)
         );
 }
 
+function actualizarValorParking(idParking)
+{
+     
+        var valor = document.getElementById('valorParaCambiar').value;
+        const http=new XMLHttpRequest();
+        const url = 'parking/parking.php';
+        http.onreadystatechange = function(){
+
+            if(this.readyState == 4 && this.status ==200){
+                document.getElementById("modalBodymodalModifValor").innerHTML  = this.responseText;
+            }
+        };
+        http.open("POST",url);
+        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        http.send('opcion=actualizarValorParking'
+                    +'&valor='+valor
+                    +'&idParking='+idParking
+        );
+}
+
 
 
 
@@ -421,8 +460,9 @@ function calcularVueltas()
 {
     
     var valorRecibido = document.getElementById('valorRecibido').value;
-    var inputCobroMinutos = document.getElementById('inputCobroMinutos').value;
-    var valorVueltas = Math.round(inputCobroMinutos) -  valorRecibido ;
+    // var inputCobroMinutos = document.getElementById('inputCobroMinutos').value;
+    var inputGranTotalAproximado = document.getElementById('inputGranTotalAproximado').value;
+    var valorVueltas = Math.round(inputGranTotalAproximado) -  valorRecibido ;
     document.getElementById('valorVueltas').value = -Math.round(valorVueltas);
     //  alert('inputCobroMinutos'+inputCobroMinutos);
         // const http=new XMLHttpRequest();
@@ -458,6 +498,9 @@ function facturarSalidaVehiculo(idParking)
         //  alert('ingresovehiculo'+idTipoVehiculo);
         var idFormaPago = document.getElementById('idFormaPago').value;
         var inputCobroMinutos = document.getElementById('inputCobroMinutos').value;
+        var porcenIva = document.getElementById('porcenIva').value;
+        var inputValorImp = document.getElementById('inputValorImp').value;
+        var inputGranTotalAproximado = document.getElementById('inputGranTotalAproximado').value;
         var valorRecibido = document.getElementById('valorRecibido').value;
         var valorVueltas = document.getElementById('valorVueltas').value;
         var placa = document.getElementById('inputPlaca').value;
@@ -476,6 +519,9 @@ function facturarSalidaVehiculo(idParking)
         http.send('opcion=facturarSalidaVehiculo'
                     +'&idFormaPago='+idFormaPago
                     +'&inputCobroMinutos='+inputCobroMinutos
+                    +'&porcenIva='+porcenIva
+                    +'&inputValorImp='+inputValorImp
+                    +'&inputGranTotalAproximado='+inputGranTotalAproximado
                     +'&valorRecibido='+valorRecibido
                     +'&valorVueltas='+valorVueltas
                     +'&idParking='+idParking
