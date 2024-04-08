@@ -47,10 +47,10 @@ $fechaHoy = date("Y-m-d H:i:s");
     <div class="">
 
         <h3>CRECIENTE PARKING</h3>
-        NIT: <?php  echo $infoParqueadero['nit'] ?>
+        Nit: <?php  echo $infoParqueadero['nit'] ?>
         <?php  echo '<br>'.$infoParqueadero['direccion'] ?>
         <?php  echo '<br>'.$infoParqueadero['email'] ?>
-        <?php  echo '<br>'.$infoParqueadero['telefono'] ?>
+        <?php  echo '<br>Telefono: '.$infoParqueadero['telefono'] ?>
         <BR><BR>
         <div>
             Fecha: <?php  echo $fechaHoy; ?>
@@ -104,7 +104,7 @@ $fechaHoy = date("Y-m-d H:i:s");
         </div>
         <br><br>
         <div class="row">
-            <div class="col-lg-2">
+            <div class="col-lg-2" style="font-size:14px;">
                 <!-- INFORMACION IMPORTANTE<br>
                 El vehiculo solo se entregara a la persona <br>
                 que tenga este recibo.<br>
