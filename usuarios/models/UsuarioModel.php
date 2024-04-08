@@ -126,6 +126,25 @@ class UsuarioModel extends Conexion
 
     }
 
+    public function traerInfoUsuarioId($idUsuario)
+    {
+        $sql = "select * from usuarios where id_usuario = '".$idUsuario."'  ";
+        // die($sql); 
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetch(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+        return $results;
+    }
+
+    public function actualizarParqueaderoUsuario($request)
+    {
+            $sql = "update usuarios set idSucursal = '".$request['idParqueadero']."'   where id_usuario = '".$request['idUsuario']."'   "; 
+            $query = $this->connectMysql()->prepare($sql); 
+            $query->execute();
+            $this->desconectar();
+
+    }
 
 
     }

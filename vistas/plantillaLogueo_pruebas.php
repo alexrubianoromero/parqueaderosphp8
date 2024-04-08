@@ -46,7 +46,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="form group row mt-3">
                                 <label for="" class="col-md-4 col-form-label" align="center">Clave:</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control " id="txtClave" value="1234">
+                                    <input type="password" class="form-control " id="txtClave" value="1234">
                                 </div>
                             </div>                    
                                 <div class="row mt-4 col-lg-8 offset-lg-2 " >

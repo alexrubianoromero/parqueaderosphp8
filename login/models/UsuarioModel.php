@@ -143,6 +143,7 @@ class UsuarioModel extends Conexion
     public function traerInfoId($idUsuario)
     {
         $sql = "select * from usuarios where id_usuario = '".$idUsuario."'  ";
+        // die($sql); 
         $query = $this->connectMysql()->prepare($sql); 
         $query -> execute(); 
         $results = $query -> fetch(PDO::FETCH_ASSOC); 

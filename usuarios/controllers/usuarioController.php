@@ -44,10 +44,18 @@ class usuarioController
             // echo '<pre>'; print_r($_REQUEST) ;echo '</pre>';
             $this->view->cambiarClave();
         }
+        if($_REQUEST['opcion']=='formuCambiarParqueaderoUsuario'){
+            // echo '<pre>'; print_r($_REQUEST) ;echo '</pre>';
+            $this->view->formuCambiarParqueaderoUsuario($_REQUEST['idUsuario']);
+        }
         
         if($_REQUEST['opcion']=='realizarCambiarClave'){
             // echo '<pre>'; print_r($_REQUEST) ;echo '</pre>';
             $this->realizarCambiarClave($_REQUEST);
+        } 
+        if($_REQUEST['opcion']=='actualizarParqueaderoUsuario'){
+            // echo '<pre>'; print_r($_REQUEST) ;echo '</pre>';
+            $this->actualizarParqueaderoUsuario($_REQUEST);
         } 
     }
 
@@ -72,6 +80,11 @@ class usuarioController
         // $this->view->usersMenu($users);
     }
 
+    public function actualizarParqueaderoUsuario($request)
+    {
+        $this->model->actualizarParqueaderoUsuario($request);
+        echo 'Se actualizo el parqueadero del usuario '; 
+    }
     
 
 }
