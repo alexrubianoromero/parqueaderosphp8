@@ -175,6 +175,16 @@ revisar el cobro de los dias entre diferentes fechas
 que en algun lado salga el usuario perfil y el parqueadero al cual esta ligado 
 colocar el campo de clave com password
 
+seria buano permitir que un administrador pueda vambiar la tarifa de un vehiculo en parking 
+
+
+se debe crear la tarifa plena en los otros parqueadero
+
+campo 	nofacturaconiva varchar(50) en la tabla de parqueaderos
+
+//o dejar normales los convenios que cojan los mismos numeros y ya si algo despues se pueden cambiar 
+
+
 
 
 

@@ -454,16 +454,15 @@ class parkingView extends vista
             }
         }
     }
-    
+
     public function liquidarSalidaVehiculo($idParking)
     {
         $infoParking = $this->model->traerInfoParkingIdParking($idParking);
         $tipoVehiculo = $this->tipoVehiculoModel->traerTipoVehiculoId($infoParking['idTipoVehiculo']);
         $infoTarifa  =  $this->tarifaModel->traerTarifaId($infoParking['idTarifa']);  
         $infoParqueadero =    $this->parqueaderoModel->traerParqueaderoId($infoParking['idParqueadero']);
-        $arrPorcenIva =   $this->porcentajeIvaModel->traerPorcentajeIva(); 
         // echo '<pre>'; 
-        // print_r($infoTarifa);
+        // print_r($_SESSION);
         // echo '</pre>';
         // die();
         
@@ -473,59 +472,43 @@ class parkingView extends vista
         // $cantidadMinutos = $this->cantidadMinutos($intervalo);
         // $cobroMinutos = $cantidadMinutos * $infoTarifa['valorMinuto'];
         
-        $valorDias = ($intervalo['intervalo']->days *1440)*$infoTarifa['valorMinuto'];
         $valorHoras = ($intervalo['intervalo']->h *60)*$infoTarifa['valorMinuto'];
         $valorMinutos = $intervalo['intervalo']->i * $infoTarifa['valorMinuto'] ;
         $valorSegundos = ($intervalo['intervalo']->s*$infoTarifa['valorMinuto'])/60;
         
-        // echo '<br>dias '.$intervalo['intervalo']->days*1440;
-        // echo '<br>dias: '.$valorDias;
         // echo '<br>horas: '.$valorHoras;
         // echo '<br>minutos: '.$valorMinutos;
         // echo '<br>segundos: '.$valorSegundos;
-        // die(); 
-
-        $cobroMinutos = $valorDias+$valorHoras + $valorMinutos + $valorSegundos;
+        $cobroMinutos = $valorHoras + $valorMinutos + $valorSegundos;
         $redondeoMinutos = round($cobroMinutos);
         $valorMinutosAproximado = $this->aproximarACientoMasCercano($redondeoMinutos); 
-        $valorNetoSinIva = $cobroMinutos;
         // die($redondeoMinutos); 
         
         //verificar si el parqueadero maneja iva 
         $valorImp= 0;
         $porcenIva=0;
-
         if($infoParqueadero['manejaiva']==1)
         {
-            // $arrPorcenIva =   $this->porcentajeIvaModel->traerPorcentajeIva(); 
-            // $porcenIva = $arrPorcenIva['porcentajeiva'];
-            // $valorImp = ($redondeoMinutos * $porcenIva)/100;
-
-            $factorIva = '1.'.$arrPorcenIva['porcentajeiva'];
-            // die($factorIva);
-            $valorNetoSinIva = $cobroMinutos / $factorIva;
-            $valorNetoSinIva = round($valorNetoSinIva); 
-            $valorImp = $redondeoMinutos -$valorNetoSinIva;
-            // die($valorNetoSinIva.' '.$valorImp);
+            $arrPorcenIva =   $this->porcentajeIvaModel->traerPorcentajeIva(); 
             $porcenIva = $arrPorcenIva['porcentajeiva'];
-            // $valorImp = ($redondeoMinutos * $porcenIva)/100;
+            $valorImp = ($redondeoMinutos * $porcenIva)/100;
+            
+                // echo '<pre>'; 
+                // print_r($valorImp);
+                // echo '</pre>';
+                // die();
+            // $valorImp = 
         }
+        
 
         // $cobroHoras = $cantidadHoras * $infoTarifa['valorHora'];
         $valorImp = round($valorImp);
-        $stringTiempoTotal =  $intervalo['intervalo']->days.' Dias '.$intervalo['intervalo']->h.' Horas '.$intervalo['intervalo']->i.' Minutos '.$intervalo['intervalo']->s.' segundos' ;
+        $stringTiempoTotal =  $intervalo['intervalo']->h.' Horas '.$intervalo['intervalo']->i.' Minutos '.$intervalo['intervalo']->s.' segundos' ;
         $fechaFin = new DateTime(date("Y-m-d H:i:s"));
         $hoy = date("Y-m-d H:i:s");  
-     
+      
+        //Verificar si el parqueadero maeneja iva 
 
-        // verificar si es tarifa plena 
-        $tipoTarifaPlena = 2;
-        if($infoTarifa['idTipoTarifa']== $tipoTarifaPlena){
-            $porcenIva = 0;
-            $valorImp = 0;
-            $redondeoMinutos = $infoTarifa['valorMinuto'];
-            $valorNetoSinIva = $cobroMinutos;
-        }
 
         ?>
         <div class="row">
@@ -534,21 +517,17 @@ class parkingView extends vista
             <label for="">Tarifa: <?php echo $infoTarifa['descripcion']  ?></label>
             <label for="">Hora Ingreso: <?php echo $infoParking['horaIngreso']  ?></label>
             <label for="">Hora  Salida. : <?php echo $intervalo['fechaFin'];  ?></label>
-            <label for="">Tiempo Total: <?php echo $intervalo['intervalo']->days.' Dias '.$intervalo['intervalo']->h.' Horas '.$intervalo['intervalo']->i.' Minutos '.$intervalo['intervalo']->s.' segundos'  ?></label>
+            <label for="">Tiempo Total: <?php echo $intervalo['intervalo']->h.' Horas '.$intervalo['intervalo']->i.' Minutos '.$intervalo['intervalo']->s.' segundos'  ?></label>
          
             <?php
              if($infoParqueadero['manejaiva']==1)
              {
              ?>         
-                <label for="">Valor: <?php echo number_format($valorNetoSinIva,0,",",".") ?></label>
-                <label for="">Iva : <?php echo number_format($valorImp,0,",",".") ?></label>
+                <label for="">Valor: <?php echo number_format($redondeoMinutos,0,",",".") ?></label>
+                <label for="">Imp: <?php echo number_format($valorImp,0,",",".") ?></label>
             <?php
              }
-
-            //  echo '<br>valor neto sin iva '.$valorNetoSinIva;
-            //  echo '<br>valor imp '.$valorImp;
-            //  die(); 
-            $GranTotal = $valorNetoSinIva + $valorImp;
+            $GranTotal = $redondeoMinutos + $valorImp;
             $GranTotal = round($GranTotal);
             $GranTotalAproximado = $this->aproximarACientoMasCercano($GranTotal); 
             ?>
@@ -556,12 +535,11 @@ class parkingView extends vista
 
         </div>
         <div class="row">
-            <input type="hidden"  id="inputValorMinuto" value = "<?php echo $infoTarifa['valorMinuto']; ?>">
-            <input type="hidden"  id="inputCobroMinutos" value = "<?php echo $valorNetoSinIva; ?>">
+            <input type="hidden"  id="inputCobroMinutos" value = "<?php echo $redondeoMinutos; ?>">
             <input type="hidden"  id="porcenIva" value = "<?php echo $porcenIva; ?>">
             <input type="hidden"  id="inputValorImp" value = "<?php echo $valorImp; ?>">
             <input type="hidden"  id="inputGranTotalAproximado" value = "<?php echo $GranTotalAproximado; ?>">
-            <input type="hidden"  id="inputTipoTarifa" value = "<?php echo $infoTarifa['idTipoTarifa']; ?>">
+            
             <input type="hidden"  id="inputPlaca" value = "<?php echo $infoParking['placa']?>">
             <input type="hidden"  id="stringTiempoTotal" value = "<?php echo $stringTiempoTotal; ?>">
             <input type="hidden" id="fechaFinTxt"  value="<?php echo $intervalo['fechaFin']; ?>">

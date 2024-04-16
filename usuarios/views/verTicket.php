@@ -30,7 +30,7 @@ $infoParking = $parkingModel->traerInfoParkingIdParking($_REQUEST['idParking']);
 // echo '</pre>';
 // die(); 
 $empresaInfo = $empresaModel->traerInfoEmpresa();
-$infoParqueadero = $parqueaderoModel->traerParqueaderoId($infoParking['idParqueadero']);
+$infoParqueadero = $parqueaderoModel->traerParqueaderoId($_SESSION['idSucursal']);
 $infoTipoVehiculo = $tipoVehiculoModel->traerTipoVehiculoId($infoParking['idTipoVehiculo']);
 $infoRecibo = $reciboModel->traerReciboCajaId($infoParking['idReciboCaja']);
 $infoFormaPago = $formaPagoModel->traerFormasDePagoId($infoRecibo['idFormaDePago']);
@@ -47,16 +47,14 @@ $fechaHoy = date("Y-m-d H:i:s");
     <div class="">
 
         <h3>CRECIENTE PARKING</h3>
-        Nit: <?php  echo $infoParqueadero['nit'] ?>
+        NIT: <?php  echo $empresaInfo['nit'] ?>
         <?php  echo '<br>'.$infoParqueadero['direccion'] ?>
-        <?php  echo '<br>'.$infoParqueadero['email'] ?>
-        <?php  echo '<br>Telefono: '.$infoParqueadero['telefono'] ?>
-        <BR><BR>
+        <?php  echo '<br>'.$empresaInfo['telefono'] ?>
         <div>
             Fecha: <?php  echo $fechaHoy; ?>
         </div>
         <div>
-            Factura Pos: <?php echo $infoRecibo['norecibosalida']  ?>
+            Factura Venta <?php echo $infoRecibo['norecibosalida']  ?>
         </div>
         <div> <?php echo $infoTipoVehiculo['descripcion'].'-'.$infoParking['placa']  ?>  </div>
         <div><?php echo 'Hora Ingreso: '.$infoParking['horaIngreso'];   ?></div>       
@@ -65,21 +63,6 @@ $fechaHoy = date("Y-m-d H:i:s");
         <div>===========================</div>       
         <div>
             <table>
-                <?php
-                if($infoParqueadero['manejaiva']==1)
-                {
-                ?>
-                <tr>
-                    <td>Neto</td>
-                    <td align="right">$<?php  echo number_format($infoRecibo['valorsiniva'],0,",",".")  ?></td>
-                </tr>
-                <tr>
-                    <td>Iva</td>
-                    <td align="right">$<?php  echo number_format($infoRecibo['valoriva'],0,",",".")  ?></td>
-                </tr>
-                <?php    
-                }
-                ?>
                 <tr>
                     <td>Total</td>
                     <td align="right">$<?php  echo number_format($infoRecibo['valor'],0,",",".")  ?></td>
@@ -104,8 +87,8 @@ $fechaHoy = date("Y-m-d H:i:s");
         </div>
         <br><br>
         <div class="row">
-            <div class="col-lg-2" style="font-size:14px;">
-                <!-- INFORMACION IMPORTANTE<br>
+            <div class="col-lg-2">
+                INFORMACION IMPORTANTE<br>
                 El vehiculo solo se entregara a la persona <br>
                 que tenga este recibo.<br>
                 En caso de perdida se solicitara la <br>
@@ -116,20 +99,7 @@ $fechaHoy = date("Y-m-d H:i:s");
                 objetos de valor dentro de los vehiculos <br>
                 o informar de ellos. <br>
                 Regimen Simplificado no responsable de iva <br>
-                Horario de domingo a domingo 6:00 AM A 6:00 PM<br> -->
-                INVERSIONES CRECIENTE SAS NIT.900.988.979-1 <BR>
-                RESOLUCION FACTURACION POS 13028091830225DESDE LA 2001 A LA 50000<BR>
-                INFORMACION ASOCIADA AL PARQUEADERO RECIBO<BR>
-                *EL VEHICULO SE ENTREGARA AL PORTADO DE ESTE RECIBO<BR>
-                EN CASO DE PERDIDA DEL RECIBO SE DEBE VERIFICAR LA TITULARIDAD DEL MISMO  CON LA TARJETA DE PROPIEDAD Y SE DEBE CANCELAR UN COSTO DE 10.000 ADICIONAL<BR>
-                NO SE RESPONDE POR OBJETOS DEJADOS EN EL VEHICULO SIN ANTES DE INFORMAR AL INGRESO<BR>
-                *REGIMEN COMUN RESPONSABLE DE IVA<BR>
-                COMPAÑIA MUNDIAL DE SEGUROS  S.A.<BR>
-                POLIZA No CSC-250006148 VIGENCIA 02/02/2024 AL 02/02/2025 <br>
-                PARA ALGUNA RECLAMACION CON LA COMPAÑIA DE SEGUROS COMUNIQUESE EN BOGOTA 
-                (601) 3274712- (601)3274713.
-                HORARIO DE DOMINGO A DOMINGO DE 6 AM A 6PM.    
-
+                Horario de domingo a domingo 6:00 AM A 6:00 PM<br>
             </div>
             
         

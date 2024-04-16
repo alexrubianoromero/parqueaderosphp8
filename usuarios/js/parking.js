@@ -506,8 +506,6 @@ function facturarSalidaVehiculo(idParking)
         var placa = document.getElementById('inputPlaca').value;
         var stringTiempoTotal = document.getElementById('stringTiempoTotal').value;
         var fechaFinTxt = document.getElementById('fechaFinTxt').value;
-        var valorMinuto = document.getElementById('inputValorMinuto').value;
-        var tipoTarifa = document.getElementById('inputTipoTarifa').value;
         const http=new XMLHttpRequest();
         const url = 'parking/parking.php';
         http.onreadystatechange = function(){
@@ -530,8 +528,6 @@ function facturarSalidaVehiculo(idParking)
                     +'&placa='+placa
                     +'&stringTiempoTotal='+stringTiempoTotal
                     +'&fechaFinTxt='+fechaFinTxt
-                    +'&valorMinuto='+valorMinuto
-                    +'&tipoTarifa='+tipoTarifa
         );
         //refrescar la pantalla de parking
         // setTimeout(() => {

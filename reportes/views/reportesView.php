@@ -6,6 +6,7 @@ require_once($raiz.'/parking/models/ParkingModel.php');
 require_once($raiz.'/parking/models/EstadoParkingModel.php'); 
 require_once($raiz.'/formasDePago/models/FormaDePagoModel.php'); 
 require_once($raiz.'/tarifas/models/TarifaModel.php'); 
+require_once($raiz.'/recibosDeCaja/models/ReciboDeCajaModel.php'); 
 require_once($raiz.'/vista/vista.php'); 
 
 class reportesView extends vista
@@ -16,6 +17,7 @@ class reportesView extends vista
     protected $tarifaModel;
     protected $estadoParkingModel;
     protected $formaDePagoModel;
+    protected $reciboModel;
 
     public function __construct()
     {
@@ -25,6 +27,7 @@ class reportesView extends vista
         $this->tarifaModel = new  TarifaModel(); 
         $this->estadoParkingModel = new  EstadoParkingModel(); 
         $this->formaDePagoModel = new  FormaDePagoModel(); 
+        $this->reciboModel = new  ReciboDeCajaModel(); 
     }
 
     public function reportesMenu()
@@ -68,7 +71,7 @@ class reportesView extends vista
         foreach($tiposVehiculos as $tiposVehiculo)
         {
             $conteo =  $this->contadorPorTipoVehiculo($tiposVehiculo['id'],$parking);
-            echo ' '.$conteo['descripTipo'].'s: '.$conteo['total'];
+            echo ' '.$conteo['descripTipo'].'s: '.$conteo['total'].'<br>';
         } 
     }
 
@@ -91,10 +94,16 @@ class reportesView extends vista
                 //     echo '</div>';
                 // echo '</div>'; 
            
-                
+                $producidoDiario = $this->reciboModel->sumarProducidoDiario($parqueadero['id']);    
+                // $producidoDiario =  number_format($producidoDiario['suma'],",","."); 
             ?>
             <div class="card text-bg-warning mb-3" style="max-width: 18rem;margin:10px;">
-            <div class="card-header"><?php   echo $parqueadero['nombre']; ?></div>
+            <div class="card-header">
+                     <h3><?php   echo $parqueadero['nombre']; ?></h3>
+                <div> 
+                    <?php   echo'<br>Recaudo Diario: '.number_format($producidoDiario['suma'],0,",",".") ?>
+                </div>
+            </div>
             <div class="card-body">
                 <h5 class="card-title">
                     <?php

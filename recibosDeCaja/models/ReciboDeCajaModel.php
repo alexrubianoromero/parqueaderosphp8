@@ -37,45 +37,27 @@ class ReciboDeCajaModel extends Conexion
         // 0 se realizo el registro
         // 1 No se realizo el registro porque ya estaba registrada la placa
         */
+
         public function grabarReciboDeCaja($request)
         {
-
-
             //  echo '<pre>'; 
             //  print_r($request); 
             //  echo '</pre>';
             //  die();
-            
-            
-            // $sql = "insert into recibosDeCaja  (idParking,fecha,valor,usuario,idParqueadero,placa,idFormaDePago,valorPagado,cambio)    
-            // values ('".$request['idParking']."',now()
-            // ,'".$request['valorRecibido']."','".$_SESSION['id_usuario']."','".$_SESSION['idSucursal']."'
-            // ,'placa','".$request['idFormaPago']."'
-            // ) ";
-            // die($sql);
-            // $consulta = mysql_query($sql,$this->connectMysql());
             $infoParqueadero = $this->parqueaderoModel->traerParqueaderoId($_SESSION['idSucursal']);
-            //     echo '<pre>'; 
-            //   print_r($infoParqueadero); 
-            //   echo '</pre>';
-            //   die();
-              $proximoRecibo  =  $infoParqueadero['norecibosalida']+1;
-              
-
-            // die('recibo salida '.$proximoRecibo);
+            $proximoRecibo  =  $infoParqueadero['norecibosalida']+1;
             $this->parqueaderoModel->actualizarReciboSalida($_SESSION['idSucursal'],$proximoRecibo);
-            ///////////
-            // $valorMinRedondeado = round($request['inputCobroMinutos']);
-            $sql = "insert into recibosdecaja  (idParking,porcentajeiva,valorsiniva,valoriva,valor,usuario,idParqueadero,placa,idFormaDePago,valorPagado,cambio,stringTiempoTotal,norecibosalida,fecha)    
-            
-            values(:idParking,:porcentajeiva,:valorsiniva,:valoriva,:valor,:usuario,:idParqueadero,:placa,:idFormaDePago,:valorPagado,:cambio,:stringTiempoTotal,:norecibosalida,:fecha)";
+
+            $sql = "insert into recibosdecaja  (idParking,porcentajeiva,valorsiniva,valoriva,valor,usuario,idParqueadero,placa,idFormaDePago,valorPagado,cambio,stringTiempoTotal,norecibosalida,fecha,valorMinuto,idTipoTarifa)    
+            values(:idParking,:porcentajeiva,:valorsiniva,:valoriva,:valor,:usuario,:idParqueadero,:placa,:idFormaDePago,:valorPagado,:cambio,:stringTiempoTotal,:norecibosalida,:fecha,:valorMinuto,:idTipoTarifa)";
             $query = $this->connectMysql()->prepare($sql); 
+
+
             $query->bindParam(':idParking',$request['idParking'],PDO::PARAM_STR, 25);
 
             $query->bindParam(':valorsiniva',$request['inputCobroMinutos'],PDO::PARAM_STR, 25);
             $query->bindParam(':porcentajeiva',$request['porcenIva'],PDO::PARAM_STR, 25);
             $query->bindParam(':valoriva',$request['inputValorImp'],PDO::PARAM_STR, 25);
-
             $query->bindParam(':valor',$request['inputGranTotalAproximado'],PDO::PARAM_STR, 25);
             
             $query->bindParam(':usuario',$_SESSION['id_usuario'],PDO::PARAM_STR, 25);
@@ -87,11 +69,10 @@ class ReciboDeCajaModel extends Conexion
             $query->bindParam(':stringTiempoTotal',$request['stringTiempoTotal'],PDO::PARAM_STR, 25);
             $query->bindParam(':norecibosalida',$proximoRecibo,PDO::PARAM_STR, 25);
             $query->bindParam(':fecha',$request['fechaFinTxt'],PDO::PARAM_STR, 25);
+            $query->bindParam(':valorMinuto',$request['valorMinuto'],PDO::PARAM_STR, 25);
+            $query->bindParam(':idTipoTarifa',$request['tipoTarifa'],PDO::PARAM_STR, 25);
             $query->execute();
             $this->desconectar();
-            
-            //////////////
-            
             $maximo = $this->traerMaximoId();
             return $maximo; 
         }       
@@ -162,6 +143,23 @@ class ReciboDeCajaModel extends Conexion
             $this->desconectar();
         }
     
+
+        public function sumarProducidoDiario($idParqueadero)
+        {
+            // $hoy = date("Y-m-d H:i:s"); 
+            $hoy = date("Y-m-d"); 
+            $desde =$hoy.' 00:00:00';
+            $hasta =$hoy.' 23:59:59';
+            // $sql = "select * from recibosdecaja where fecha between '".$desde."' and '".$hasta."' and idParqueadero = '".$idParqueadero."'   ";
+            $sql = "select sum(valor) as suma from recibosdecaja where fecha between '".$desde."' and '".$hasta."' and idParqueadero = '".$idParqueadero."'   ";
+            // die(':::::::::::'.$sql); 
+            $query = $this->connectMysql()->prepare($sql); 
+            $query -> execute(); 
+            $results = $query -> fetch(PDO::FETCH_ASSOC); 
+            $this->desconectar();
+            return $results;
+
+        }
 
  
 

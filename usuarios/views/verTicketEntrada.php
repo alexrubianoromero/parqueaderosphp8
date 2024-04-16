@@ -1,7 +1,5 @@
 <?php
 session_start();
-
-
 // echo '<pre>'; 
 // print_r($_SESSION); 
 // echo '</pre>';
@@ -49,11 +47,10 @@ $fechaHoy = date("Y-m-d H:i:s");
     <div class="">
 
         <h3>CRECIENTE PARKING</h3>
-        NIT: <?php  echo $infoParqueadero['nit'] ?>
+        NIT: <?php  echo $empresaInfo['nit'] ?>
         <br>
         <?php  echo '<br>'.$infoParqueadero['direccion'] ?>
-        <?php  echo '<br>'.$infoParqueadero['email'] ?>
-        <?php  echo '<br>'.$infoParqueadero['telefono'] ?>
+        <?php  echo '<br>'.$empresaInfo['telefono'] ?>
         <div>
             Fecha: <?php  echo $fechaHoy; ?>
         </div>
@@ -76,22 +73,7 @@ $fechaHoy = date("Y-m-d H:i:s");
                     <td align="right"><?php echo  $infoParking['horaIngreso']; ?></td>
                 </tr>
             </table>
-        </div> 
-        <BR>
-        <div style="font-size:14px; font-weight: bold; ">
-            <!-- RESOLUCION FACTURACION POS 13028091830225DESDE LA 2001 A LA 50000<BR> -->
-            <!-- INVERSIONES CRECIENTE SAS NIT.900.988.979-1 <BR> -->
-                INFORMACION ASOCIADA AL PARQUEADERO <BR>
-                *EL VEHICULO SE ENTREGARA AL PORTADO DE ESTE RECIBO<BR>
-                EN CASO DE PERDIDA DEL RECIBO SE DEBE VERIFICAR LA TITULARIDAD DEL MISMO  CON LA TARJETA DE PROPIEDAD Y SE DEBE CANCELAR UN COSTO DE 10.000 ADICIONAL<BR>
-                NO SE RESPONDE POR OBJETOS DEJADOS EN EL VEHICULO SIN ANTES DE INFORMAR AL INGRESO<BR>
-                <!-- *REGIMEN COMUN RESPONSABLE DE IVA<BR>
-                COMPAÑIA MUNDIAL DE SEGUROS  S.A.<BR>
-                POLIZA No CSC-250006148 VIGENCIA 02/02/2024 AL 02/02/2025 <br>
-                PARA ALGUNA RECLAMACION CON LA COMPAÑIA DE SEGUROS COMUNIQUESE EN BOGOTA 
-                (601) 3274712- (601)3274713. -->
-                HORARIO DE DOMINGO A DOMINGO DE 6 AM A 6PM.   
-        </div>      
+        </div>       
 
     </div>
 </body>

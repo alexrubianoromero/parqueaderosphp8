@@ -14,6 +14,28 @@
             <nav class="mt-2" >
                 <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- color:#fcb900; -->
+                <li class="nav-item" >
+                <a style="cursor:pointer; " class="nav-link" ">
+                        <!-- <i class="nav-icon fas fa-th"></i> -->
+                        <p style="color:#fcb900;">
+                            <?php
+                            //            echo '<pre>'; 
+                            //     print_r($_SESSION); 
+                            // echo '</pre>';
+                            //     die(); 
+                            $raiz =dirname(dirname(dirname(__file__)));
+                            //  die($raiz);
+                            // require_once($raiz.'/usuarios/models/UsuarioModel.php');
+                            require_once($raiz.'/parqueaderos/models/ParqueaderoModel.php');
+                            // $usuario = new UsuarioModel();
+                            $parqueadero = new ParqueaderoModel();
+                            // $usuario->traerInfoUsuarioId($_SESSION['id_usuario']);
+                            $infoParqueadero  = $parqueadero->traerParqueaderoId($_SESSION['idSucursal']); 
+                            echo 'Parqueadero: '.$infoParqueadero['nombre'].'<br>Usuario: '.$_SESSION['usuario']; 
+                            ?>
+                        </p>
+                    </a>
+                </li>
                  <?php
                         // echo '<pre>'; 
                         // print_r($_SESSION);
