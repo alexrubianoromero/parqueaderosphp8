@@ -153,20 +153,33 @@ class parkingController
         $this->reciboDeCajaModel->cambiarValorParking($infoparking['idReciboCaja'],$request); 
 
 
-        // $valoresAnteriores = 'Se realiza actualizacion de valores ';
-        // $valoresAnteriores .= 'valor sin iva anterior: '.$infoReciboActual['valorsiniva'];
-        // $valoresAnteriores .= ' valor iva anterior: '.$infoReciboActual['valoriva'];
-        // $valoresAnteriores .= ' valor final : '.$infoReciboActual['valoriva'];
+        $valoresAnteriores = 'Se realiza actualizacion de valores ';
+        $valoresAnteriores .= 'valor sin iva anterior: '.$infoReciboActual['valorsiniva'];
+        $valoresAnteriores .= ' valor iva anterior: '.$infoReciboActual['valoriva'];
+        $valoresAnteriores .= ' valor total final : '.$infoReciboActual['valor'];
 
-        // $valoresNuevos = ' Los valores actualizados fueron ';
-        // $valoresNuevos .= 'valor sin iva : '.$infoparking['valorsiniva'];
+        if($infoParqueadero['manejaiva']==1)
+        {
+            $factorIva = '1'.$infoReciboActual['porcentajeiva'];
+            $factorIva = $factorIva/100;
+            $valorSinIva = round($request['valor']/ $factorIva);
+            $valorIva = $request['valor']-$valorSinIva; 
+        }else{
+            $valorSinIva  = $request['valor'];
+            $valorIva = 0; 
+        }    
 
+        $valoresNuevos = ' Los valores actualizados fueron ';
+        $valoresNuevos .= ' valor sin iva : '.$valorSinIva;
+        $valoresNuevos .= ' valor iva  nuevo: '.$valorIva;
+        $valoresNuevos .= ' valor total nuevo: '.$request['valor'];
 
+        $infoCambio['observaciones'] = $valoresAnteriores.$valoresNuevos; 
+        $infoCambio['idParking'] = $request['idParking'];
+        $this->trazabilidadCambioModel->grabarTrazabilidad($infoCambio);  
 
-        // $infoCambio['observaciones'] = $valoresAnteriores.$valoresNuevos; 
-        // $infoCambio['idParking'] = $request['idParking'];
-        // $this->trazabilidadCambioModel->grabarTrazabilidad($infoCambio);  
         echo 'Valor Actualizado ';
+        //falta la trazabilidad 
     }
 
     public function facturarSalidaVehiculo($request)

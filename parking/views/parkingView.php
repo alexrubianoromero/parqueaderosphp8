@@ -137,6 +137,7 @@ class parkingView extends vista
                 <div class="col-lg-4">
                     <button class="btn btn-secondary btn-sm" onclick="mostrarInfoParking();">Registros Abiertos</button>
                     <button class="btn btn-secondary btn-sm" onclick="mostrarMovimientosDiarioEnParqueadero();">Movimientos dia parqueadero</button>
+                    <a class ="btn btn-info btn-sm" target="_blank" href="parking/views/muestreListadoPatios.php">Patios</a>
                     <!-- <button class="btn btn-secondary btn-sm" onclick="resumenDiarioMovimientos();">Movimientos Del dia</button> -->
                 </div>
                 <div class="col-lg-4 row">
@@ -747,6 +748,10 @@ class parkingView extends vista
     }
     public function mostrarInfoParkingMovimientos($parking)
     {
+        // echo '<pre>';
+        // print_r($_SESSION);
+        // echo '</pre>';
+        // die();
         ?>
         <div class="row mt-1">
         <div class="row mt-1">
@@ -774,7 +779,11 @@ class parkingView extends vista
                         <th>Estado</th> 
                         <th>Valor</th> 
                         <?php
-                        if($_SESSION['id_usuario ']==21 ||  $_SESSION['id_usuario ']==59 || $_SESSION['id_usuario ']==58)
+                        //    echo '<pre>';
+                        //     print_r($_SESSION);
+                        //     echo '</pre>';
+                        //     die();
+                        if($_SESSION['usuario']=='andres.romero' ||  $_SESSION['usuario']=='jhoan.romero' || $_SESSION['usuario']=='yazmin.romero' || $_SESSION['usuario']=='admin' || $_SESSION['usuario']=='prueba')
                         {
                             echo '<th>Modif Valor</th> ';
                         } 
@@ -811,7 +820,8 @@ class parkingView extends vista
                           echo '<td>'.substr($park['horaSalida'],0,10).'</td>'; 
                           echo '<td>'.$infoEstadoPArking['descripcion'].'</td>'; 
                           echo '<td align="right">'.number_format($infoRecibo['valor'],0,",",".").'</td>'; 
-                          if($_SESSION['id_usuario ']==21 ||  $_SESSION['id_usuario ']==59 || $_SESSION['id_usuario ']==58)
+                        //   if($_SESSION['id_usuario ']==21 ||  $_SESSION['id_usuario ']==59 || $_SESSION['id_usuario ']==58)
+                          if($_SESSION['usuario']=='andres.romero' ||  $_SESSION['usuario']=='jhoan.romero' || $_SESSION['usuario']=='yazmin.romero' || $_SESSION['usuario']=='admin' || $_SESSION['usuario']=='prueba')
                           {
                           echo '<td><button class="btn btn-sm btn-danger"
                           data-bs-toggle="modal" 
@@ -887,7 +897,7 @@ class parkingView extends vista
 
             </div>
             <div>
-                <label>Valor: <?php  echo $infoParking['valor']  ?> </label>
+                <label>Valor Pagado: <?php  echo $infoParking['valor']  ?> </label>
                 <input type="text"  id="valorParaCambiar" value="<?php  echo $infoRecibo['valor']  ?>" >
 
             </div>
