@@ -58,6 +58,7 @@ class tarifasView
             </div>
             <?php  
                 $this->modalNuevoTarifa(); 
+                $this->modalModifTarifa(); 
             ?>
         </body>
         </html>
@@ -88,6 +89,30 @@ class tarifasView
 
         <?php
     }
+    public function modalModifTarifa()
+    {
+        ?>
+            <!-- Modal -->
+            <div class="modal fade" id="modalModifTarifa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tarifas</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalBodyModifTarifa">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button  type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="tarifas();" >Cerrar</button>
+                    <button  type="button" class="btn btn-primary"  id="btnEnviar"  onclick="grabarModifTarifa();" >Actualizar</button>
+                </div>
+                </div>
+            </div>
+            </div>
+
+        <?php
+    }
 
     public function mostrarTarifas($tarifas)
     {
@@ -100,6 +125,7 @@ class tarifasView
                         <th>Tipo Vehiculo</th>
                         <th>Tipo Tarifa</th>
                         <th>Valor Minuto</th>
+                        <th>Modif</th>
                         
                     </tr>
                 </thead>
@@ -120,6 +146,12 @@ class tarifasView
                           echo '<td>'.$infoTipoVehiculo['descripcion'].'</td>'; 
                           echo '<td>'.$tipoTarifa['descripcion'].'</td>'; 
                           echo '<td>'.$tarifa['valorMinuto'].'</td>'; 
+                          echo '<td><button 
+                                        class ="btn btn-warning"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#modalModifTarifa"
+                                        onclick="formuModifTarifa('.$tarifa['id'].');"
+                                        >Modif</button></td>'; 
                           echo '</tr>';  
                         }  
                     ?>
@@ -203,5 +235,40 @@ class tarifasView
         <?php
     }
    
+    public function formuModifTarifa($idTarifa)
+    {
+         $infoTarifa =  $this->tarifaModel->traerTarifaId($idTarifa); 
+         $infoParqueadero =   $this->parqueaderoModel->traerParqueaderoId($infoTarifa['idParqueadero']);  
+         $infoTipoVehiculo = $this->tipoVehiculoModel->traerTipoVehiculoId($infoTarifa['idTipoVehiculo']); 
+
+            //  echo '<pre>'; 
+            //  print_r($infoTarifa);
+            //  echo '</pre>';
+            //  die();
+
+        ?>
+         <div class="row">
+             <input  type="hidden" id="idtarifaModif" value ="<?php  echo $idTarifa ?>">          
+
+        <div>
+            <label>Descripcion Tarifa</label>
+            <div>
+            <input onFocus="blur();" class ="form-control" type="text" id="descripcionTarifa" value ="<?php  echo $infoTarifa['descripcion'];  ?>">          
+            </div>
+            
+        </div>    
+        <div class="col-md-6 mt-1">
+                    <label for="">Parqueadero:</label>
+                    <input onFocus="blur();"  class ="form-control" type="text" value ="<?php  echo $infoParqueadero['nombre'];  ?>">   
+                </div>
+                <div class="col-md-6 mt-1">
+                <label for="">Valor Minuto (pesos)</label>
+                      <input style="background-color:burlywood;"  class ="form-control" type="text" id="valorMinutoModif" value ="<?php  echo $infoTarifa['valorMinuto'];  ?>">        
+                </div>
+             
+        </div>
+   
+        <?php
+    }
 
 }

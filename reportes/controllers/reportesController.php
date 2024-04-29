@@ -4,6 +4,7 @@ require_once($raiz.'/reportes/views/reportesView.php');
 require_once($raiz.'/parking/models/ParkingModel.php'); 
 require_once($raiz.'/parqueaderos/models/TipoVehiculoModel.php'); 
 require_once($raiz.'/recibosDeCaja/models/ReciboDeCajaModel.php'); 
+require_once($raiz.'/trazabilidadCambios/models/TrazabilidadCambioModel.php'); 
 date_default_timezone_set('America/Bogota');
 
 class reportesController
@@ -13,6 +14,7 @@ class reportesController
     protected $model;
     protected $tipoVehiculoModel;
     protected $reciboDeCajaModel;
+    protected $trazabilidadCambioModel;
     // protected $viewPlantilla;
 
     public function __construct()
@@ -31,6 +33,7 @@ class reportesController
         $this->model = new ParkingModel();
         $this->tipoVehiculoModel = new TipoVehiculoModel();
         $this->reciboDeCajaModel = new ReciboDeCajaModel();
+        $this->trazabilidadCambioModel = new TrazabilidadCambioModel();
         
         if($_REQUEST['opcion']=='reportesMenu'){
             $this->view->reportesMenu();
@@ -38,7 +41,15 @@ class reportesController
         if($_REQUEST['opcion']=='verReporteOcupacion'){
             $this->view->verReporteOcupacion();
         } 
+        
+        if($_REQUEST['opcion']=='verReporteTrazabilidad'){
+
+            $registrosTrazabilidad = $this->trazabilidadCambioModel->traerInfoTrazabilidad();
+            $this->view->verReporteTrazabilidad($registrosTrazabilidad);
+        } 
+
+
     }
-    
+
     
 }

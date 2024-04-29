@@ -7,6 +7,7 @@ require_once($raiz.'/parking/models/EstadoParkingModel.php');
 require_once($raiz.'/formasDePago/models/FormaDePagoModel.php'); 
 require_once($raiz.'/tarifas/models/TarifaModel.php'); 
 require_once($raiz.'/recibosDeCaja/models/ReciboDeCajaModel.php'); 
+require_once($raiz.'/usuarios/models/UsuarioModel.php'); 
 require_once($raiz.'/vista/vista.php'); 
 
 class reportesView extends vista
@@ -18,6 +19,7 @@ class reportesView extends vista
     protected $estadoParkingModel;
     protected $formaDePagoModel;
     protected $reciboModel;
+    protected $usuarioModel;
 
     public function __construct()
     {
@@ -28,6 +30,7 @@ class reportesView extends vista
         $this->estadoParkingModel = new  EstadoParkingModel(); 
         $this->formaDePagoModel = new  FormaDePagoModel(); 
         $this->reciboModel = new  ReciboDeCajaModel(); 
+        $this->usuarioModel = new  UsuarioModel(); 
     }
 
     public function reportesMenu()
@@ -42,7 +45,10 @@ class reportesView extends vista
         </head>
         <body class="container">
             <div style="padding:5px;">
-                <div><button class="btn btn-warning" onclick="verReporteOcupacion();">Reporte Ocupacion</button></div>
+                <div>
+                    <button style="margin-right:20px;"class="btn btn-warning" onclick="verReporteOcupacion();">Reporte Ocupacion</button>
+                    <!-- <button class="btn btn-warning" onclick="verReporteTrazabilidad();">Reporte Trazabilidad</button> -->
+                </div>
             </div>
             <div class="row" id="divResultadosReportes"></div>
         </body>
@@ -165,6 +171,46 @@ class reportesView extends vista
             echo '</div>'; 
         }
         echo '</div>';
+    }
+
+    public function verReporteTrazabilidad($registrosTrazabilidad)
+    {
+        $fechaHoy = date("Y-m-d"); 
+        $fechaIn = $fechaHoy.' 00:00:00';
+        $fechaFin = $fechaHoy.' 23:59:59';
+        ?>
+        <div>
+            <div>Reporte Trazabilidad cambios dia: <?php  echo $fechaHoy;    ?>  </div>
+            <div id="infoTrazabilidad">
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Usuario</th>
+                        <th>Observaciones cambio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+
+                  
+
+                    foreach($registrosTrazabilidad as $registro)
+                    {
+                        $infoUsuario = $this->usuarioModel->traerInfoUsuarioId($registro['idUsuario']);
+                        echo '<tr>';
+                          echo '<td>'.$registro['fecha'].'</td>'; 
+                          echo '<td>'.$infoUsuario['nombre'].'</td>'; 
+                          echo '<td>'.$registro['observaciones'].'</td>'; 
+                          echo '</tr>';  
+                    }
+                    ?>
+                </tbody>
+            </table>
+            </div>
+
+        </div>
+        <?php
     }
 
 }

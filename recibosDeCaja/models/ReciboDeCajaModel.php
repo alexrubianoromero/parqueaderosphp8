@@ -44,39 +44,55 @@ class ReciboDeCajaModel extends Conexion
             //  print_r($request); 
             //  echo '</pre>';
             //  die();
-            $infoParqueadero = $this->parqueaderoModel->traerParqueaderoId($_SESSION['idSucursal']);
-            $proximoRecibo  =  $infoParqueadero['norecibosalida']+1;
-            $this->parqueaderoModel->actualizarReciboSalida($_SESSION['idSucursal'],$proximoRecibo);
-
-            $sql = "insert into recibosdecaja  (idParking,porcentajeiva,valorsiniva,valoriva,valor,usuario,idParqueadero,placa,idFormaDePago,valorPagado,cambio,stringTiempoTotal,norecibosalida,fecha,valorMinuto,idTipoTarifa)    
-            values(:idParking,:porcentajeiva,:valorsiniva,:valoriva,:valor,:usuario,:idParqueadero,:placa,:idFormaDePago,:valorPagado,:cambio,:stringTiempoTotal,:norecibosalida,:fecha,:valorMinuto,:idTipoTarifa)";
-            $query = $this->connectMysql()->prepare($sql); 
-
-
-            $query->bindParam(':idParking',$request['idParking'],PDO::PARAM_STR, 25);
-
-            $query->bindParam(':valorsiniva',$request['inputCobroMinutos'],PDO::PARAM_STR, 25);
-            $query->bindParam(':porcentajeiva',$request['porcenIva'],PDO::PARAM_STR, 25);
-            $query->bindParam(':valoriva',$request['inputValorImp'],PDO::PARAM_STR, 25);
-            $query->bindParam(':valor',$request['inputGranTotalAproximado'],PDO::PARAM_STR, 25);
             
-            $query->bindParam(':usuario',$_SESSION['id_usuario'],PDO::PARAM_STR, 25);
-            $query->bindParam(':idParqueadero',$_SESSION['idSucursal'],PDO::PARAM_STR, 25);
-            $query->bindParam(':placa',$request['placa'],PDO::PARAM_STR, 25);
-            $query->bindParam(':idFormaDePago',$request['idFormaPago'],PDO::PARAM_STR, 25);
-            $query->bindParam(':valorPagado',$request['valorRecibido'],PDO::PARAM_STR, 25);
-            $query->bindParam(':cambio',$request['valorVueltas'],PDO::PARAM_STR, 25);
-            $query->bindParam(':stringTiempoTotal',$request['stringTiempoTotal'],PDO::PARAM_STR, 25);
-            $query->bindParam(':norecibosalida',$proximoRecibo,PDO::PARAM_STR, 25);
-            $query->bindParam(':fecha',$request['fechaFinTxt'],PDO::PARAM_STR, 25);
-            $query->bindParam(':valorMinuto',$request['valorMinuto'],PDO::PARAM_STR, 25);
-            $query->bindParam(':idTipoTarifa',$request['tipoTarifa'],PDO::PARAM_STR, 25);
-            $query->execute();
-            $this->desconectar();
-            $maximo = $this->traerMaximoId();
+            //verificar si el idParking no existe
+            //en caso de que exista no se debe grabar y se debe traer el id de este recibo para este idParking
+            $validaIdPArking = $this->verificarIdParking($request['idParking']); 
+            if($validaIdPArking['filas'] == 0)
+            {
+                $infoParqueadero = $this->parqueaderoModel->traerParqueaderoId($_SESSION['idSucursal']);
+                $proximoRecibo  =  $infoParqueadero['norecibosalida']+1;
+                $this->parqueaderoModel->actualizarReciboSalida($_SESSION['idSucursal'],$proximoRecibo);
+
+
+                $sql = "insert into recibosdecaja  (idParking,porcentajeiva,valorsiniva,valoriva,valor,usuario,idParqueadero,placa,idFormaDePago,valorPagado,cambio,stringTiempoTotal,norecibosalida,fecha,valorMinuto,idTipoTarifa)    
+                values(:idParking,:porcentajeiva,:valorsiniva,:valoriva,:valor,:usuario,:idParqueadero,:placa,:idFormaDePago,:valorPagado,:cambio,:stringTiempoTotal,:norecibosalida,:fecha,:valorMinuto,:idTipoTarifa)";
+                $query = $this->connectMysql()->prepare($sql); 
+
+
+                $query->bindParam(':idParking',$request['idParking'],PDO::PARAM_STR, 25);
+
+                $query->bindParam(':valorsiniva',$request['inputCobroMinutos'],PDO::PARAM_STR, 25);
+                $query->bindParam(':porcentajeiva',$request['porcenIva'],PDO::PARAM_STR, 25);
+                $query->bindParam(':valoriva',$request['inputValorImp'],PDO::PARAM_STR, 25);
+                $query->bindParam(':valor',$request['inputGranTotalAproximado'],PDO::PARAM_STR, 25);
+                
+                $query->bindParam(':usuario',$_SESSION['id_usuario'],PDO::PARAM_STR, 25);
+                $query->bindParam(':idParqueadero',$_SESSION['idSucursal'],PDO::PARAM_STR, 25);
+                $query->bindParam(':placa',$request['placa'],PDO::PARAM_STR, 25);
+                $query->bindParam(':idFormaDePago',$request['idFormaPago'],PDO::PARAM_STR, 25);
+                $query->bindParam(':valorPagado',$request['valorRecibido'],PDO::PARAM_STR, 25);
+                $query->bindParam(':cambio',$request['valorVueltas'],PDO::PARAM_STR, 25);
+                $query->bindParam(':stringTiempoTotal',$request['stringTiempoTotal'],PDO::PARAM_STR, 25);
+                $query->bindParam(':norecibosalida',$proximoRecibo,PDO::PARAM_STR, 25);
+                $query->bindParam(':fecha',$request['fechaFinTxt'],PDO::PARAM_STR, 25);
+                $query->bindParam(':valorMinuto',$request['valorMinuto'],PDO::PARAM_STR, 25);
+                $query->bindParam(':idTipoTarifa',$request['tipoTarifa'],PDO::PARAM_STR, 25);
+                $query->execute();
+                $this->desconectar();
+                $maximo = $this->traerMaximoId();
+            }  //fin de if($validaIdPArking == 0) osea si no existe el idParking  
+            else{
+                    // echo '<pre>'; 
+                    // print_r($validaIdPArking['info']); 
+                    // echo '</pre>';
+                    $maximo = $validaIdPArking['info']['id'];
+                    // die('<br>'.$maximo);
+            }
             return $maximo; 
         }       
         
+
         public function traerMaximoId()
         {
             $sql = "select max(id) as max from recibosdecaja  "; 
@@ -88,7 +104,20 @@ class ReciboDeCajaModel extends Conexion
             return $results['max']; 
         }
 
-        
+        public function verificarIdParking($idParking)
+        {
+            $sql = "select * from recibosdecaja   where idParking = '".$idParking."'  "; 
+            $query = $this->connectMysql()->prepare($sql); 
+            $query -> execute(); 
+            $results = $query -> fetch(PDO::FETCH_ASSOC); 
+            $this->desconectar();
+            $filas = $query->rowCount();
+            $respu['filas'] = $filas;
+            $respu['info'] = $results;
+            return $respu;
+            
+        }
+
         public function traerReciboCajaId($id)
         {
             $sql = "select * from recibosdecaja where id = '".$id."'  "; 

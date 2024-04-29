@@ -35,6 +35,18 @@ class TrazabilidadCambioModel extends Conexion
             $query->bindParam(':idParking',$request['idParking'],PDO::PARAM_STR, 25);
             $query->execute();
             $this->desconectar();
-}
+    }
+
+
+    public function traerInfoTrazabilidad()
+    {
+        $sql = "select * from  trazabilidadCambios order by fecha desc"; 
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
+        $this->desconectar();
+        return $results;
+    }
+    
     
 }

@@ -21,7 +21,7 @@ class TarifaModel extends Conexion
 
     public function traerTarifas()
     {
-        $sql = "select * from tarifas order by id desc";
+        $sql = "select * from tarifas order by idParqueadero asc";
         $query = $this->connectMysql()->prepare($sql); 
         $query -> execute(); 
         $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
@@ -93,5 +93,19 @@ class TarifaModel extends Conexion
         // $consulta = mysql_query($sql,$this->connectMysql());
         // $clientes = $this->get_table_assoc($consulta);
         // return $clientes;
+    }
+
+    
+    public function actualizarValorMinutoTarifa($request)
+    {
+        $sql = "update tarifas 
+        set valorMinuto = '".$request['valorMinuto']."' 
+        where  id = '".$request['idTarifa']."'
+        ";
+        // die($sql); 
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $this->desconectar();
+        // $consulta = mysql_query($sql,$this->connectMysql());
     }
 }

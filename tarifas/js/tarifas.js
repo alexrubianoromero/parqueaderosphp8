@@ -76,3 +76,60 @@ function  validaInfoTarifa()
 
     return 1;
 }
+
+
+function formuModifTarifa(idTarifa)
+{
+        const http=new XMLHttpRequest();
+        const url = 'tarifas/tarifas.php';
+        http.onreadystatechange = function(){
+                if(this.readyState == 4 && this.status ==200){
+                           document.getElementById("modalBodyModifTarifa").innerHTML  = this.responseText;
+                    }
+                };
+                http.open("POST",url);
+                http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                http.send('opcion=formuModifTarifa'
+                    +'&idTarifa='+idTarifa
+                );
+}
+
+
+function grabarModifTarifa()
+{
+    var valida =  validaInfoModifTarifa();
+    if(valida == '1')
+    {
+      $validaProceso = confirm('Esta seguro de actualizar esta tarifa ?');
+      if($validaProceso == 1)
+      {
+          var idTarifa = document.getElementById('idtarifaModif').value;
+          var valorMinuto = document.getElementById('valorMinutoModif').value;
+          const http=new XMLHttpRequest();
+          const url = 'tarifas/tarifas.php';
+          http.onreadystatechange = function(){
+              if(this.readyState == 4 && this.status ==200){
+                  document.getElementById("modalBodyModifTarifa").innerHTML  = this.responseText;
+                }
+            };
+            http.open("POST",url);
+            http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            http.send('opcion=grabarModifTarifa'
+            +'&idTarifa='+idTarifa
+            +'&valorMinuto='+valorMinuto
+            );
+        } 
+    }
+}
+    
+
+function  validaInfoModifTarifa()
+{
+    if( document.getElementById('valorMinutoModif').value == ''){
+        alert('Por favor digitar Valor Minuto');
+        document.getElementById('valorMinutoModif').focus();
+        return 0;
+    }
+
+    return 1;
+}
