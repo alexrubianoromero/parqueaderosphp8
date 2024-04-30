@@ -524,8 +524,8 @@ class parkingView extends vista
         if($infoTarifa['idTipoTarifa']== $tipoTarifaPlena){
             $porcenIva = 0;
             $valorImp = 0;
-            $redondeoMinutos = $infoTarifa['valorMinuto'];
-            $valorNetoSinIva = $cobroMinutos;
+            // $redondeoMinutos = $infoTarifa['valorMinuto'];
+            $valorNetoSinIva = $infoTarifa['valorMinuto'];
         }
 
         ?>
