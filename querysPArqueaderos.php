@@ -41,7 +41,7 @@ and horaSalida <= '2024-04-24 23:59:59'
 
 //consulta sobre recibos de caja
 select count(idParking),idparking from recibosdecaja 
-where fecha between '2024-04-24 00:00:00' and '2024-04-24 23:59:59' 
+where fecha between '2024-04-25 00:00:00' and '2024-04-25 23:59:59' 
 and idParqueadero = 2
 group by idParking
 having count(idParking)>1

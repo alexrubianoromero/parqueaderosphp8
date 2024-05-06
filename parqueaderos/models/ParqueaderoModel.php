@@ -35,26 +35,32 @@ class ParqueaderoModel extends Conexion
     }
 
 
+    // public function grabarNuevoParqueadero($request)
+    // {
+    //     $sql = "insert into parqueaderos(nombre,direccion,telefono,email,manejaiva) values(:nombre,:direccion,:telefono,:email,:manejaiva)";
+    //     $query = $this->connectMysql()->prepare($sql); 
+    //     $query->bindParam(':nombre',$request['nombreParqueadero'],PDO::PARAM_STR, 25);
+    //     $query->bindParam(':direccion',$request['direccionParqueadero'],PDO::PARAM_STR, 25);
+    //     $query->bindParam(':telefono',$request['telefonoParqueadero'],PDO::PARAM_STR, 25);
+    //     $query->bindParam(':email',$request['emailParqueadero'],PDO::PARAM_STR, 25);
+    //     $query->bindParam(':manejaiva',$request['manejaiva'],PDO::PARAM_STR, 25);
+    //     $query->execute();
+    //     $this->desconectar();
+    // }
+
+
     public function grabarNuevoParqueadero($request)
     {
         // echo '<pre>'; 
         // print_r($request); 
         // echo '</pre>';
         // die();
-
-        $sql = "insert into parqueaderos(nombre,direccion,telefono,email) values(:nombre,:direccion,:telefono,:email,:manejaiva)";
+        $sql = "insert into parqueaderos(nombre,direccion,telefono,email,manejaiva,archivoTicketEntrada,archivoTicketSalida) 
+        values('".$request['nombreParqueadero']."','".$request['direccionParqueadero']."','".$request['telefonoParqueadero']."',
+        '".$request['emailParqueadero']."','".$request['manejaiva']."','verTicketEntradagenerico.php','verTicketSalidagenerico.php')";
         $query = $this->connectMysql()->prepare($sql); 
-        $query->bindParam(':nombre',$request['nombreParqueadero'],PDO::PARAM_STR, 25);
-        $query->bindParam(':direccion',$request['direccionParqueadero'],PDO::PARAM_STR, 25);
-        $query->bindParam(':telefono',$request['telefonoParqueadero'],PDO::PARAM_STR, 25);
-        $query->bindParam(':email',$request['emailParqueadero'],PDO::PARAM_STR, 25);
-        $query->bindParam(':manejaiva',$request['manejaiva'],PDO::PARAM_STR, 25);
         $query->execute();
         $this->desconectar();
-
-
-
-
     }
 
     public function actualizarNoReciboIngreso($idPaqueadero,$norecibo)
@@ -76,6 +82,8 @@ class ParqueaderoModel extends Conexion
         $query->execute();
         $this->desconectar();
     }
+
+
 
 }
 
