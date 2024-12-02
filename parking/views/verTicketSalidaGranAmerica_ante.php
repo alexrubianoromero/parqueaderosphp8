@@ -104,7 +104,6 @@ $fechaHoy = date("Y-m-d H:i:s");
                 INFORMACION ASOCIADA AL PARQUEADERO<BR> 
                 COMPAÑIA MUNDIAL DE SEGUROS  S.A.<BR>
                 POLIZA No CSC-250003026 VIGENCIA 07/05/2023 AL 07/05/2024 <br>
-                *REGIMEN SIMPLIFICADO NO RESPONSABLE DE IVA<br>
                 Para alguna reclamacion con la compañia de seguros comuniquese en bogota 
                 (601) 3274712- (601)3274713.
 

@@ -47,12 +47,7 @@ class reportesView extends vista
             <div style="padding:5px;">
                 <div>
                     <button style="margin-right:20px;"class="btn btn-warning" onclick="verReporteOcupacion();">Reporte Ocupacion</button>
-                    <?php
-                    if($_SESSION['usuario']=='yazmin.romero' || $_SESSION['usuario']=='admin' )
-                    {
-                            // echo '<button class="btn btn-warning" onclick="verReporteTrazabilidad();">Reporte Trazabilidad</button>';
-                    }       
-                    ?>
+                    <!-- <button class="btn btn-warning" onclick="verReporteTrazabilidad();">Reporte Trazabilidad</button> -->
                 </div>
             </div>
             <div class="row" id="divResultadosReportes"></div>

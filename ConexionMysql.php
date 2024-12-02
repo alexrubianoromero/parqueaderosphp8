@@ -1,5 +1,5 @@
 <?php
-class Conexion {
+class ConexionMysql {
     //
     // private $host = 'localhost';
     // private $usuario = 'root';
@@ -20,7 +20,7 @@ class Conexion {
     private $nombreBaseDatos = '';
     private $conexion; 
     
-    public function connectMysql(){
+    public function conectar(){
         try {
             $this->conexion = new PDO("mysql:host={$this->host};dbname={$this->nombreBaseDatos}",$this->usuario,$this->contrasena);
             $this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
