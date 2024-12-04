@@ -1,5 +1,5 @@
 function irPantallaLogueo(){
-    location.href ='https://crecienteparking.com';;
+    location.href ='https://crecienteparking.com';
 }
 function verifiqueCredeciales()
 {

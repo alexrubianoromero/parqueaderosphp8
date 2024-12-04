@@ -9,3 +9,8 @@ dist,js,login,pluguins,users, vista,vistas,index.php
 se realizo revision de un caso y es que habian colocado letras en lugar de numeros y por eso no moxtraba bien los valores 
 del dia 29 de noviembre 
 
+mejoras 
+que puedan cambiar tipo de vehiculo 
+que puedan quitar las tarifas 
+cambiar el nombre de las tarifas habilitar esta opcion
+validar que en valores solo puedan colocar numeros cuabdo le estan colocando una valor a un vehiculo
