@@ -5,3 +5,7 @@ en carpetas del programa soilo pase
 conexion,controladores,controller
 dist,js,login,pluguins,users, vista,vistas,index.php
 
+
+se realizo revision de un caso y es que habian colocado letras en lugar de numeros y por eso no moxtraba bien los valores 
+del dia 29 de noviembre 
+

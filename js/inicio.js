@@ -1,5 +1,5 @@
 function irPantallaLogueo(){
-    location.href ='https://crecienteparking.lagunaglamping.com';;
+    location.href ='https://crecienteparking.com';;
 }
 function verifiqueCredeciales()
 {
