@@ -60,6 +60,7 @@ class tarifasController
         $infoUsuario =  $this->usuarioModel->traerInfoUsuarioId($_SESSION['id_usuario']);
 
         $this->model->actualizarValorMinutoTarifa($request);
+        $this->model->actualizarDescripcionTarifa($request);
         //observaciones, en lugar de idparking colocar algo que denote que es un cambio de valor de tarifa     
         $observaciones = 'Cambio valor minuto parqueadero: '.$infoParqueadero['nombre'].' tarifa: '.$infoTarifa['nombre'];
         $observaciones .= ' Valor anterior minuto: '.$infoTarifa['valorMinuto'];    

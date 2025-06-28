@@ -105,6 +105,7 @@ function grabarModifTarifa()
       {
           var idTarifa = document.getElementById('idtarifaModif').value;
           var valorMinuto = document.getElementById('valorMinutoModif').value;
+          var descripcionTarifa = document.getElementById('descripcionTarifa').value;
           const http=new XMLHttpRequest();
           const url = 'tarifas/tarifas.php';
           http.onreadystatechange = function(){
@@ -117,6 +118,7 @@ function grabarModifTarifa()
             http.send('opcion=grabarModifTarifa'
             +'&idTarifa='+idTarifa
             +'&valorMinuto='+valorMinuto
+            +'&descripcionTarifa='+descripcionTarifa
             );
         } 
     }

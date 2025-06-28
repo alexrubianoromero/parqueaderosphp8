@@ -50,7 +50,7 @@ class reportesView extends vista
                     <?php
                     if($_SESSION['usuario']=='yazmin.romero' || $_SESSION['usuario']=='admin' )
                     {
-                            // echo '<button class="btn btn-warning" onclick="verReporteTrazabilidad();">Reporte Trazabilidad</button>';
+                            echo '<button class="btn btn-warning" onclick="verReporteTrazabilidad();">Reporte Trazabilidad</button>';
                     }       
                     ?>
                 </div>

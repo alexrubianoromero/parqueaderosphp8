@@ -108,4 +108,16 @@ class TarifaModel extends Conexion
         $this->desconectar();
         // $consulta = mysql_query($sql,$this->connectMysql());
     }
+    public function actualizarDescripcionTarifa($request)
+    {
+        $sql = "update tarifas 
+        set descripcion = '".$request['descripcionTarifa']."' 
+        where  id = '".$request['idTarifa']."'
+        ";
+        // die($sql); 
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $this->desconectar();
+        // $consulta = mysql_query($sql,$this->connectMysql());
+    }
 }

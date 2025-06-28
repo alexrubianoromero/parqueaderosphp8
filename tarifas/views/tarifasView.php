@@ -253,7 +253,7 @@ class tarifasView
         <div>
             <label>Descripcion Tarifa</label>
             <div>
-            <input onFocus="blur();" class ="form-control" type="text" id="descripcionTarifa" value ="<?php  echo $infoTarifa['descripcion'];  ?>">          
+            <input  class ="form-control" type="text" id="descripcionTarifa" value ="<?php  echo $infoTarifa['descripcion'];  ?>">          
             </div>
             
         </div>    

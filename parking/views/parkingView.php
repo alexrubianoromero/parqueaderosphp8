@@ -694,7 +694,7 @@ class parkingView extends vista
                         <th>Hora Ingreso</th>
                         <th>Fecha Ingreso</th> 
                         <?php
-                              if($_SESSION['nivel']>5)
+                              if($_SESSION['nivel']>5 && $_SESSION['usuario'] == 'admin')
                               {
                         ?>
                         <th>Modif</th> 
@@ -709,25 +709,26 @@ class parkingView extends vista
                           $infoTipo = $this->tipoVehiculoModel->traerTipoVehiculoId($park['idTipoVehiculo']); 
                           $infoEstadoPArking =    $this->estadoParkingModel->traerEstadosParkingId($park['estado']); 
                           $infoParqueadero =    $this->parqueaderoModel->traerParqueaderoId($park['idParqueadero']);
-                                //  echo '<pre>'; 
-                                // print_r($infoParqueadero);
-                                // echo '</pre>';
-                                // die();
                           echo '<tr>';  
                           echo '<td><button 
-                                        class="btn btn-warning  btn-sm" 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#modalSalidaParking"
-                                        onclick ="liquidarSalidaVehiculo('.$park['id'].');" 
-                                        >'.$park['placa'].'</button></td>'; 
-                            
-                        //   echo '<td><a class ="btn btn-secondary btn-sm" target="_blank" href="parking/views/verTicketEntrada.php?idParking='.$park['id'].'">Ticket</a></td>'; 
+                          class="btn btn-warning  btn-sm" 
+                          data-bs-toggle="modal" 
+                          data-bs-target="#modalSalidaParking"
+                          onclick ="liquidarSalidaVehiculo('.$park['id'].');" 
+                          >'.$park['placa'].'</button></td>'; 
+                          
+                          //   echo '<td><a class ="btn btn-secondary btn-sm" target="_blank" href="parking/views/verTicketEntrada.php?idParking='.$park['id'].'">Ticket</a></td>'; 
                           echo '<td><a class ="btn btn-secondary btn-sm" target="_blank" href="parking/views/'.$infoParqueadero['archivoTicketEntrada'].'?idParking='.$park['id'].'">Ticket</a></td>'; 
                           echo '<td>'.$infoTipo['descripcion'].'</td>'; 
                           echo '<td>'.substr($park['horaIngreso'],11,8).'</td>'; 
                           echo '<td>'.substr($park['horaIngreso'],0,10).'</td>'; 
-                          if($_SESSION['nivel']>5)
+                          if($_SESSION['nivel']>5 && $_SESSION['usuario'] == 'admin' )
                           {
+                            //    echo '<pre>'; 
+                            //   print_r($_SESSION);
+                            //   echo '</pre>';
+                            //   die();
+                            
                             echo '<td><button class="btn btn-sm btn-success"
                             data-bs-toggle="modal" 
                             data-bs-target="#modalModifPlaca"
@@ -871,9 +872,20 @@ class parkingView extends vista
     {
         $infoParking = $this->model->traerInfoParkingIdParking($idParking);
         ?>
-            <div>
-                <label>Placa:</label>
-                <input type="text"  id="placaParaCambiar" value="<?php  echo $infoParking['placa']  ?>" >
+            <div class="row mt-2">
+                <div class="form-group mt-2">
+                    <label>Placa:</label>
+                    <input type="text"  id="placaParaCambiar" value="<?php  echo $infoParking['placa']  ?>" >
+                </div>
+                <div class="mt-2">
+                    <label>Tipo:</label>
+                    
+                </div>
+                <div class="mt-2">
+                    <label>Tarifa:</label>
+                    
+                </div>
+
 
                 <button class="btn btn-warning" onclick="actualizarPlacaParking(<?php echo $idParking; ?>);">Actualizar</button>
             </div>
