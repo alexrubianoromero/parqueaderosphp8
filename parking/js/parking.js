@@ -394,22 +394,48 @@ function buscarPlacaVehiculosParking()
 function actualizarPlacaParking(idParking)
 {
         //  alert('ingresovehiculo'+idTipoVehiculo);
-        var placa = document.getElementById('placaParaCambiar').value;
-        const http=new XMLHttpRequest();
-        const url = 'parking/parking.php';
-        http.onreadystatechange = function(){
+        var valida = validainfoActualizacion();
+        if(valida)
+        {
 
-            if(this.readyState == 4 && this.status ==200){
-                document.getElementById("modalBodymodalModifPlaca").innerHTML  = this.responseText;
-            }
-        };
-        http.open("POST",url);
-        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        http.send('opcion=actualizarPlacaParking'
-                    +'&placa='+placa
-                    +'&idParking='+idParking
-        );
+            var placa = document.getElementById('placaParaCambiar').value;
+            var idTipoVehiculo = document.getElementById('idTipoVehiculoNew').value;
+            var idTarifa = document.getElementById('idTarifavehiculoActualizar').value;
+            
+            const http=new XMLHttpRequest();
+            const url = 'parking/parking.php';
+            http.onreadystatechange = function(){
+                
+                if(this.readyState == 4 && this.status ==200){
+                    document.getElementById("modalBodymodalModifPlaca").innerHTML  = this.responseText;
+                }
+            };
+            http.open("POST",url);
+            http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            http.send('opcion=actualizarPlacaParking'
+                +'&placa='+placa
+                +'&idParking='+idParking
+                +'&idTipoVehiculo='+idTipoVehiculo
+                +'&idTarifa='+idTarifa
+            );
+        }
 }
+
+function validainfoActualizacion()
+{
+     if( document.getElementById('placaParaCambiar').value == ''){
+        alert('Por favor digitar Placa');
+        document.getElementById('placaParaCambiar').focus();
+        return 0;
+    }
+     if( document.getElementById('idTarifavehiculoActualizar').value == ''){
+        alert('Por favor seleccione tarifa');
+        document.getElementById('idTarifavehiculoActualizar').focus();
+        return 0;
+    }
+    return 1;
+}
+
 
 function actualizarValorParking(idParking)
 {

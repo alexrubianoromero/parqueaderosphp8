@@ -135,3 +135,27 @@ function  validaInfoModifTarifa()
 
     return 1;
 }
+
+
+function actualizarSelectTarifas()
+{
+    // alert('cambiar tarifa ');
+     var idTipoVehiculo = document.getElementById('idTipoVehiculoNew').value;
+    //  var idParqueadero = document.getElementById('idParqueadero').value;
+     var idParking = document.getElementById('idParkingActualizar').value;
+
+     const http=new XMLHttpRequest();
+    const url = 'tarifas/tarifas.php';
+    http.onreadystatechange = function(){
+
+        if(this.readyState == 4 && this.status ==200){
+               document.getElementById("div_tarifa_vehiculo_modif").innerHTML  = this.responseText;
+        }
+    };
+    http.open("POST",url);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send('opcion=actualizarSelectTarifas'
+                +'&idTipoVehiculo='+idTipoVehiculo
+                +'&idParking='+idParking
+    );
+}

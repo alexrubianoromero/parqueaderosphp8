@@ -185,13 +185,16 @@ campo 	nofacturaconiva varchar(50) en la tabla de parqueaderos
 //o dejar normales los convenios que cojan los mismos numeros y ya si algo despues se pueden cambiar 
 
 
-
+28/06/2025
 //revisar lo que hace el sistema al registrar un vehiculo 
 y verificar lo que deba actualizar si se cambia el tipo de vehiculo y la tarifa y 
 que deje registro de estos cambios 
 
 eliminar los dos registros de hoy de la trazabilidad en produccion 
 revisar que avise que se cambio el nombre de la tarifa porque solo avisa  si se cambia el valor del minuto 
+
+revisar proceso al registrar  placa
+
 
 
 

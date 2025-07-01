@@ -133,11 +133,27 @@ class parkingController
         $infoparking =  $this->model->traerInfoParkingIdParking($request['idParking']); 
         //actualizar la placa en la tabla de parking
         $this->model->cambiarPlacaParking($request); 
-        $infoCambio['observaciones'] = 'Se realiza actualizacion placa anterior: '.$infoparking['placa'].'  placa que quedo:'.$request['placa']; 
+        $infoCambio['observaciones'] ='';
+        if($request['placa'] != $infoparking['placa'])
+        {
+            $infoCambio['observaciones'] .= ' *Se actualizo placa anterior: '.$infoparking['placa'].'  placa que quedo:'.$request['placa']; 
+        }
+        if($request['idTipoVehiculo'] != $infoparking['idTipoVehiculo'])
+        {
+            $infoTipoAnte =  $this->tipoVehiculoModel->traerTipoVehiculoId($infoparking['idTipoVehiculo']);
+            $infoTipoNuevo =  $this->tipoVehiculoModel->traerTipoVehiculoId($request['idTipoVehiculo']);
+            $infoCambio['observaciones'] .= ' *Se actualizo tipo vehiculo anterior: '.$infoTipoAnte['descripcion'].'  tipo vehiculo que quedo:'.$infoTipoNuevo['descripcion']; 
+        }
+        if($request['idTarifa'] != $infoparking['idTarifa'])
+        {   $infoTarifaAnte = $this->tarifaModel->traerTarifaId($infoparking['idTarifa']);
+            $infoTarifaNueva = $this->tarifaModel->traerTarifaId($request['idTarifa']);
+            $infoCambio['observaciones'] .= ' *Se actualizo tarifa anterior: '.$infoTarifaAnte['descripcion'].'  tarifa que quedo:'.$infoTarifaNueva['descripcion']; 
+        }
+
         $infoCambio['idParking'] = $request['idParking'];
         //dejar trazabilidad del cambio
         $this->trazabilidadCambioModel->grabarTrazabilidad($infoCambio);  
-        echo 'Placa Modificada ';
+        echo 'Informacion Modificada ';
     }
     public function actualizarValorParking($request)
     {

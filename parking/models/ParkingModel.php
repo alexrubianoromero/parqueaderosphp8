@@ -170,8 +170,10 @@ class ParkingModel extends Conexion
     public function cambiarPlacaParking($request)
     {
         $sql = "update parking 
-        set placa = '".$request['placa']."' 
-        where  id = '".$request['idParking']."'
+        set  placa = '".$request['placa']."' 
+            ,idTipoVehiculo = '".$request['idTipoVehiculo']."' 
+            ,idTarifa = '".$request['idTarifa']."' 
+            where  id = '".$request['idParking']."'
         ";
         $query = $this->connectMysql()->prepare($sql); 
         $query -> execute(); 

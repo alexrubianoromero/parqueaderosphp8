@@ -5,6 +5,7 @@ require_once($raiz.'/parqueaderos/models/TipoVehiculoModel.php');
 require_once($raiz.'/parqueaderos/models/ParqueaderoModel.php');  
 require_once($raiz.'/tarifas/models/TarifaModel.php'); 
 require_once($raiz.'/tarifas/models/TipoTarifaModel.php'); 
+require_once($raiz.'/parking/models/ParkingModel.php'); 
 
 class tarifasView
 {
@@ -12,7 +13,7 @@ class tarifasView
     protected $parqueaderoModel;
     protected $tarifaModel;
     protected $tipoTarifaModel;
-    // protected $viewPlantilla;
+    protected $parkingModel;
 
     public function __construct()
     {
@@ -20,6 +21,7 @@ class tarifasView
         $this->parqueaderoModel = new ParqueaderoModel();
         $this->tarifaModel = new TarifaModel();
         $this->tipoTarifaModel = new TipoTarifaModel();
+        $this->parkingModel = new ParkingModel();
 
         // if($_REQUEST['opcion']=='parqueaderoMenu'){
         //     // $this->model->traerParqueaderos();
@@ -269,6 +271,63 @@ class tarifasView
         </div>
    
         <?php
+    }
+
+
+    // public function mostrarSelectTarifaXTipoVehiculoYParqueadero($request)
+    // {
+    //     $infoParking =      $this->parkingModel->traerInfoParkingIdParking($request['idParkingActualizar']);
+    //     $tarifas = $this->tarifaModel->traerTarifaIdParqIdTipVehi($request['idParqueadero'],$request['idTipoVehiculo']);
+    //     echo '<label>Tarifa</label>';
+    //       echo '<select class="form-control" id="idTarifavehiculoActualizar">'; 
+    //         foreach($tarifas as $tarifa)
+    //         {
+    //             if($tarifa['id']== $infoParking['idTarifa'])
+    //             {
+    //                 echo '<option    selected value ="'.$tipo['id'].'">'.$tipo['descripcion'].'</option>';   
+                    
+    //             }else{
+    //                 echo '<option value ="'.$tipo['id'].'">'.$tipo['descripcion'].'</option>';   
+
+    //             }
+    //         }
+    //         echo '</select>'; 
+    // }
+
+    public function mostrarSelectTarifaXTipoVehiculoYParqueadero($infoParking)
+    {
+        $tarifas = $this->tarifaModel->traerTarifaIdParqIdTipVehi($infoParking['idParqueadero'],$infoParking['idTipoVehiculo']);
+        echo '<label>Tarifa</label>';
+          echo '<select class="form-control" id="idTarifavehiculoActualizar">'; 
+            foreach($tarifas as $tarifa)
+            {
+                if($tarifa['id']== $infoParking['idTarifa'])
+                {
+                    echo '<option    selected value ="'.$tarifa['id'].'">'.$tarifa['descripcion'].'</option>';   
+                    
+                }else{
+                    echo '<option value ="'.$tarifa['id'].'">'.$tarifa['descripcion'].'</option>';   
+
+                }
+            }
+            echo '</select>'; 
+    }
+    public function actualizarSelectTarifas($request)
+    {
+        $infoParking =   $this->parkingModel->traerInfoParkingIdParking($request['idParking']);
+            // echo '<pre>'; 
+            //  print_r($infoParking);
+            //  echo '</pre>';
+            //  die();
+        $tarifas = $this->tarifaModel->traerTarifaIdParqIdTipVehi($infoParking['idParqueadero'],$request['idTipoVehiculo']);
+        echo '<label>Tarifa</label>';
+          echo '<select class="form-control" id="idTarifavehiculoActualizar">'; 
+           echo '<option value ="">Seleccione...</option>';   
+            foreach($tarifas as $tarifa)
+            {
+                    echo '<option value ="'.$tarifa['id'].'">'.$tarifa['descripcion'].'</option>';   
+            }
+            echo '</select>'; 
     }
 
 }

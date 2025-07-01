@@ -49,6 +49,13 @@ class tarifasController
         if($_REQUEST['opcion']=='grabarModifTarifa'){
             $this->grabarModifTarifa($_REQUEST);
         } 
+        if($_REQUEST['opcion']=='actualizarSelectTarifas'){
+            //   echo '<pre>'; 
+            //  print_r($_REQUEST);
+            //  echo '</pre>';
+            //  die();
+             $this->view->actualizarSelectTarifas($_REQUEST);
+        } 
 
     }
     

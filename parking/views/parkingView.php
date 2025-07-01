@@ -6,8 +6,10 @@ require_once($raiz.'/parking/models/ParkingModel.php');
 require_once($raiz.'/parking/models/EstadoParkingModel.php'); 
 require_once($raiz.'/formasDePago/models/FormaDePagoModel.php'); 
 require_once($raiz.'/tarifas/models/TarifaModel.php'); 
+require_once($raiz.'/tarifas/views/tarifasView.php'); 
 require_once($raiz.'/recibosDeCaja/models/ReciboDeCajaModel.php'); 
 require_once($raiz.'/porcentajeiva/models/PorcentajeIvaModel.php'); 
+require_once($raiz.'/tiposvehiculo/views/tiposvehiculoView.php'); 
 require_once($raiz.'/vista/vista.php'); 
 class parkingView extends vista
 {
@@ -15,11 +17,13 @@ class parkingView extends vista
     protected $tipoVehiculoModel;
     protected $model;
     protected $tarifaModel;
+    protected $tarifaView;
     protected $estadoParkingModel;
     protected $formaDePagoModel;
     protected $reciboModel;
     protected $parqueaderoModel;
     protected $porcentajeIvaModel;
+    protected $tiposvehiculoView;
     
     public function __construct()
     {
@@ -27,11 +31,13 @@ class parkingView extends vista
         $this->tipoVehiculoModel = new  TipoVehiculoModel(); 
         $this->model = new  ParkingModel(); 
         $this->tarifaModel = new  TarifaModel(); 
+        $this->tarifaView = new  tarifasView(); 
         $this->estadoParkingModel = new  EstadoParkingModel(); 
         $this->formaDePagoModel = new  FormaDePagoModel(); 
         $this->reciboModel = new  ReciboDeCajaModel(); 
         $this->parqueaderoModel = new  ParqueaderoModel(); 
         $this->porcentajeIvaModel = new  PorcentajeIvaModel(); 
+        $this->tiposvehiculoView = new  tiposvehiculoView(); 
     }
     public function menuParking()
     {
@@ -872,18 +878,27 @@ class parkingView extends vista
     {
         $infoParking = $this->model->traerInfoParkingIdParking($idParking);
         ?>
+        <input type="hidden"   id="idParkingActualizar" value = "<?php   echo  $idParking ?>">
             <div class="row mt-2">
                 <div class="form-group mt-2">
                     <label>Placa:</label>
-                    <input type="text"  id="placaParaCambiar" value="<?php  echo $infoParking['placa']  ?>" >
+                    <input class="form-control" type="text"  id="placaParaCambiar" value="<?php  echo $infoParking['placa']  ?>" >
                 </div>
-                <div class="mt-2">
-                    <label>Tipo:</label>
+                <div id="div_tipo_vehiculo_modif" class="form-group mt-2">
+                    
+                    <?php 
+                        $this->tiposvehiculoView->mostrarSelectTipoVehiculo($infoParking);
+                    ?>
                     
                 </div>
-                <div class="mt-2">
-                    <label>Tarifa:</label>
+                <div id="div_tarifa_vehiculo_modif"class="form-group mt-2">
                     
+                    <?php  
+                        // traerTarifaIdParqIdTipVehi($idParqueadero,$idTipoVeh);  
+                        //muestre la tarifa que esta ligadas a este tipo de cehiculo y parquedaero y muestre
+                        //checkeada la que esta en infoparking
+                          $this->tarifaView->mostrarSelectTarifaXTipoVehiculoYParqueadero($infoParking); 
+                    ?>
                 </div>
 
 
