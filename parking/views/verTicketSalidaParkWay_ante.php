@@ -46,7 +46,7 @@ $fechaHoy = date("Y-m-d H:i:s");
 <body>
     <div class="">
 
-        <h3><?php  echo $infoParqueadero['propietario'] ?></h3>
+        <h3>RAMIREZ PARKING</h3>
         NIT: <?php  echo $infoParqueadero['nit'] ?>
         <?php  echo '<br>'.$infoParqueadero['direccion'] ?>
         <?php  echo '<br>'.$infoParqueadero['telefono'] ?>
@@ -102,8 +102,8 @@ $fechaHoy = date("Y-m-d H:i:s");
                 Regimen Simplificado no responsable de iva <br>
                 Horario de domingo a domingo 6:00 AM A 6:00 PM<br> -->
                 INFORMACION ASOCIADA AL PARQUEADERO<BR> 
-                <?php  echo $infoParqueadero['companiaSeguros'] ?><BR>
-                <?php  echo $infoParqueadero['poliza'] ?><br>
+                COMPAÑIA MUNDIAL DE SEGUROS  S.A.<BR>
+                POLIZA No CSC-250005960 VIGENCIA 27/12/2023 AL 27/12/2024<br>
                 *REGIMEN SIMPLIFICADO NO RESPONSABLE DE IVA<BR>
                 Para alguna reclamacion con la compañia de seguros comuniquese en bogota 
                 (601) 3274712- (601)3274713.

@@ -46,16 +46,63 @@ function grabarNuevoParqueadero()
     }
 }
 
+function  validaInfoModifParqueadero()
+{
+    if( document.getElementById('nombreParqueadero').value == ''){
+        alert('Por favor digitar nombre');
+        document.getElementById('nombreParqueadero').focus();
+        return 0;
+    }
+    if( document.getElementById('direccionParqueadero').value == ''){
+        alert('Por favor digitar direccion');
+        document.getElementById('direccionParqueadero').focus();
+        return 0;
+    }
+    if( document.getElementById('telefonoParqueadero').value == ''){
+        alert('Por favor digitar telefono');
+        document.getElementById('telefonoParqueadero').focus();
+        return 0;
+    }
+    if( document.getElementById('emailParqueadero').value == ''){
+        alert('Por favor digitar email');
+        document.getElementById('emailParqueadero').focus();
+        return 0;
+    }
+    if( document.getElementById('propietario').value == ''){
+        alert('Por favor digitar propietario');
+        document.getElementById('propietario').focus();
+        return 0;
+    }
+    if( document.getElementById('nit').value == ''){
+        alert('Por favor digitar identificacion');
+        document.getElementById('nit').focus();
+        return 0;
+    }
+    if( document.getElementById('companiaSeguros').value == ''){
+        alert('Por favor digitar Compañia de Seguros');
+        document.getElementById('companiaSeguros').focus();
+        return 0;
+    }
+    if( document.getElementById('poliza').value == ''){
+        alert('Por favor digitar poliza');
+        document.getElementById('poliza').focus();
+        return 0;
+    }
+  
+    return 1;
+}
+
 function modificacionParqueadero()
 {
-    // var valida =  validaInfoParqueadero();
-    // if(valida == '1')
-    // {
+    var valida =  validaInfoModifParqueadero();
+    if(valida == '1')
+    {
         var idParqueadero = document.getElementById('idParqueadero').value;
         var nombreParqueadero = document.getElementById('nombreParqueadero').value;
         var direccionParqueadero = document.getElementById('direccionParqueadero').value;
         var telefonoParqueadero = document.getElementById('telefonoParqueadero').value;
         var emailParqueadero = document.getElementById('emailParqueadero').value;
+
         var propietario = document.getElementById('propietario').value;
         var nit = document.getElementById('nit').value;
         var companiaSeguros = document.getElementById('companiaSeguros').value;
@@ -82,9 +129,8 @@ function modificacionParqueadero()
                     +'&poliza='+poliza
                     // +'&manejaiva='+manejaiva
                 );
-    // }
+    }
 }
-
 
 
 

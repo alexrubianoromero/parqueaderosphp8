@@ -48,7 +48,7 @@ $fechaHoy = date("Y-m-d H:i:s");
 <body>
     <div class="">
 
-        <h3>CRECIENTE PARKING</h3>
+        <h3><?php  echo $infoParqueadero['propietario'] ?></h3>
         NIT: <?php  echo $infoParqueadero['nit'] ?>
         <br>
         <?php  echo '<br>'.$infoParqueadero['direccion'] ?>

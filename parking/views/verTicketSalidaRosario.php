@@ -46,7 +46,7 @@ $fechaHoy = date("Y-m-d H:i:s");
 <body>
     <div class="">
 
-        <h3>CRECIENTE PARKING</h3>
+        <h3><?php  echo $infoParqueadero['propietario'] ?></h3>
         Nit: <?php  echo $infoParqueadero['nit'] ?>
         <?php  echo '<br>'.$infoParqueadero['direccion'] ?>
         <?php  echo '<br>'.$infoParqueadero['email'] ?>
@@ -117,15 +117,15 @@ $fechaHoy = date("Y-m-d H:i:s");
                 o informar de ellos. <br>
                 Regimen Simplificado no responsable de iva <br>
                 Horario de domingo a domingo 6:00 AM A 6:00 PM<br> -->
-                INVERSIONES CRECIENTE SAS NIT.900.988.979-1 <BR>
+                <?php  echo $infoParqueadero['propietario'].'-'.$infoParqueadero['nit'] ?><BR>
                 RESOLUCION FACTURACION POS 13028091830225DESDE LA 2001 A LA 50000<BR>
                 INFORMACION ASOCIADA AL PARQUEADERO RECIBO<BR>
                 *EL VEHICULO SE ENTREGARA AL PORTADO DE ESTE RECIBO<BR>
                 EN CASO DE PERDIDA DEL RECIBO SE DEBE VERIFICAR LA TITULARIDAD DEL MISMO  CON LA TARJETA DE PROPIEDAD Y SE DEBE CANCELAR UN COSTO DE 10.000 ADICIONAL<BR>
                 NO SE RESPONDE POR OBJETOS DEJADOS EN EL VEHICULO SIN ANTES DE INFORMAR AL INGRESO<BR>
                 *REGIMEN COMUN RESPONSABLE DE IVA<BR>
-                COMPAÑIA MUNDIAL DE SEGUROS  S.A.<BR>
-                POLIZA No CSC-250006148 VIGENCIA 02/02/2024 AL 02/02/2025 <br>
+                <?php  echo $infoParqueadero['companiaSeguros'] ?><BR>
+                <?php  echo $infoParqueadero['poliza'] ?> <br>
                 PARA ALGUNA RECLAMACION CON LA COMPAÑIA DE SEGUROS COMUNIQUESE EN BOGOTA 
                 (601) 3274712- (601)3274713.
                 HORARIO DE DOMINGO A DOMINGO DE 6 AM A 6PM.    

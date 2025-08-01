@@ -110,7 +110,12 @@ class parqueaderoView
                         <th>Telefono</th>
                         <th>Email</th>
                         <th>Iva</th>
-                        <th>Modificar</th>
+                        <?php    
+                        if($_SESSION['usuario'] == 'admin') 
+                        {
+                            echo '<th>Modificar</th>';
+                        }  
+                        ?>
                        
                     </tr>
                 </thead>
@@ -132,13 +137,17 @@ class parqueaderoView
                           echo '<td>'.$parqueadero['telefono'].'</td>'; 
                           echo '<td>'.$parqueadero['email'].'</td>'; 
                           echo '<td>'.$aviso.'</td>'; 
-                          echo '<td><button 
+                          if($_SESSION['usuario'] == 'admin') 
+                          {
+                            echo '<td><button 
                                         class="btn btn-primary"
                                             data-bs-toggle="modal" 
                                             data-bs-target="#modalModifParqueadero"
                                             onclick="formuModifParqueadero('.$parqueadero['id'].');"
                                         >Modificar</button></td>'; 
+                          }             
                           echo '</tr>';  
+                          
                         }  
                     ?>
                 </tbody>

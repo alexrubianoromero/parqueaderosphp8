@@ -46,7 +46,7 @@ $fechaHoy = date("Y-m-d H:i:s");
 <body>
     <div class="">
 
-        <h3><?php  echo $infoParqueadero['propietario'] ?></h3>
+        <h3>RAMIREZ PARKING</h3>
         NIT: <?php  echo $infoParqueadero['nit'] ?>
         <br>
         <?php  echo '<br>'.$infoParqueadero['direccion'] ?>
@@ -75,8 +75,8 @@ $fechaHoy = date("Y-m-d H:i:s");
             </table>
         </div> 
         <div>
-            <?php  echo $infoParqueadero['companiaSeguros'] ?><BR>
-            <?php  echo $infoParqueadero['poliza'] ?>
+            COMPANIA MUNDIAL DE SEGUROS S.A.<BR>
+            POLIZA No CSC-250005960 VIGENCIA 27/12/2023 AL 27/12/2024
             INFORMACION ASOCIADA AL PARQUEADERO<BR>
             *EL VEHICULO SE ENTREGARA AL PORTADOR DE ESTE RECIBO *EN CASO DE PERDIDA DEL RECIBO SE DEBE VERIFICAR 
             LA TITULARIDAD DEL MISMO Y SE DEBE CANCELAR UN COSTO DE $6.000 ADICIONAL. *NO SE RESPONDE POR OBJETOS 
