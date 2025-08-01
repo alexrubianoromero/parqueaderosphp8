@@ -45,6 +45,7 @@ class parqueaderoView
                 </div>
             </div>
             <?php  $this->modalNuevoParqueadero(); ?>
+            <?php  $this->modalModifParqueadero(); ?>
         </body>
         </html>
         <?php
@@ -57,7 +58,7 @@ class parqueaderoView
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Subir Archivo</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Parqueadero</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="modalBodyNuevoParqueadero">
@@ -66,6 +67,30 @@ class parqueaderoView
                 <div class="modal-footer">
                     <button  type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="parqueaderos();" >Cerrar</button>
                     <button  type="button" class="btn btn-primary"  id="btnEnviar"  onclick="grabarNuevoParqueadero();" >Grabar</button>
+                </div>
+                </div>
+            </div>
+            </div>
+
+        <?php
+    }
+    public function modalModifParqueadero()
+    {
+        ?>
+            <!-- Modal -->
+            <div class="modal fade" id="modalModifParqueadero" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modificacion Parqueadero</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalBodyModifParqueadero">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button  type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="parqueaderos();" >Cerrar</button>
+                    <button  type="button" class="btn btn-primary"  id="btnEnviar"  onclick="modificacionParqueadero();" >Modificar</button>
                 </div>
                 </div>
             </div>
@@ -85,6 +110,7 @@ class parqueaderoView
                         <th>Telefono</th>
                         <th>Email</th>
                         <th>Iva</th>
+                        <th>Modificar</th>
                        
                     </tr>
                 </thead>
@@ -106,6 +132,12 @@ class parqueaderoView
                           echo '<td>'.$parqueadero['telefono'].'</td>'; 
                           echo '<td>'.$parqueadero['email'].'</td>'; 
                           echo '<td>'.$aviso.'</td>'; 
+                          echo '<td><button 
+                                        class="btn btn-primary"
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#modalModifParqueadero"
+                                            onclick="formuModifParqueadero('.$parqueadero['id'].');"
+                                        >Modificar</button></td>'; 
                           echo '</tr>';  
                         }  
                     ?>
@@ -155,7 +187,59 @@ class parqueaderoView
         <?php
     }
    
-
+    public function formuModifParqueadero($id)
+    {
+        $infoParq = $this->model->traerParqueaderoId($id);
+         ?>
+         <input type="hidden" id="idParqueadero"  value = "<?php   echo  $infoParq['id'] ?>">   
+        <div class="row">
+                <div class="col-md-6">
+                    <label for="">Nombre Parqueadero:</label>
+                      <input class ="form-control" type="text" id="nombreParqueadero" value = "<?php   echo  $infoParq['nombre'] ?>">          
+                </div>
+                <div class="col-md-6">
+                    <label for="">Direccion:</label>
+                      <input class ="form-control" type="text" id="direccionParqueadero" value = "<?php   echo  $infoParq['direccion'] ?>">          
+                </div>
+                <div class="col-md-6">
+                    <label for="">Telefono:</label>
+                      <input class ="form-control" type="text" id="telefonoParqueadero" value = "<?php   echo  $infoParq['telefono'] ?>">          
+                </div>
+                <div class="col-md-6">
+                    <label for="">Email:</label>
+                      <input class ="form-control" type="text" id="emailParqueadero" value = "<?php   echo  $infoParq['email'] ?>">              
+                </div>
+                <div class="col-md-6">
+                    <label for="">Propietario:</label>
+                      <input class ="form-control" type="text" id="propietario" value = "<?php   echo  $infoParq['propietario'] ?>">             
+                </div>
+                <div class="col-md-6">
+                    <label for="">Identificacion:</label>
+                      <input class ="form-control" type="text" id="nit" value = "<?php   echo  $infoParq['nit'] ?>">             
+                </div>
+                <div class="col-md-6">
+                    <label for="">Compania Seguros:</label>
+                      <input class ="form-control" type="text" id="companiaSeguros" value = "<?php   echo  $infoParq['companiaSeguros'] ?>">            
+                </div>
+                <div class="col-md-12">
+                    <label for="">Poliza</label>
+                      <input class ="form-control" type="text" id="poliza" value = "<?php   echo  $infoParq['poliza'] ?>">           
+                </div>
+                <!-- <div class="col-md-6">
+                    <label for="">Manejo Iva:</label>
+                    <select class="form-control" id="manejaiva">
+                        <option value="">Seleccione..</option>
+                        <option value="0">NO</option>
+                        <option value="1">SI</option>
+                    </select> 
+            
+                </div> -->
+             
+        </div>
+   
+   
+        <?php
+    }
 
 }
 

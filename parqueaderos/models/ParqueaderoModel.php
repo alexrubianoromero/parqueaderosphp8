@@ -62,6 +62,25 @@ class ParqueaderoModel extends Conexion
         $query->execute();
         $this->desconectar();
     }
+    public function modificacionParqueadero($request)
+    {
+        
+        
+        $sql = "update parqueaderos 
+        set nombre =   '".$request['nombreParqueadero']."'    
+        ,direccion =   '".$request['direccionParqueadero']."' 
+        ,telefono =   '".$request['telefonoParqueadero']."' 
+        ,email =   '".$request['emailParqueadero']."' 
+        ,nit =   '".$request['nit']."' 
+        ,propietario =   '".$request['propietario']."' 
+        ,companiaSeguros =   '".$request['companiaSeguros']."' 
+        ,poliza =   '".$request['poliza']."' 
+        where id =  '".$request['idParqueadero']."'   ";
+        // die($sql); 
+        $query = $this->connectMysql()->prepare($sql); 
+        $query->execute();
+        
+    } 
 
     public function actualizarNoReciboIngreso($idPaqueadero,$norecibo)
     {

@@ -25,12 +25,20 @@ class parqueaderoController
             // $this->model->traerParqueaderos();
             $this->view->parqueaderoMenu();
         }    
+        if($_REQUEST['opcion']=='formuModifParqueadero'){
+            // $this->model->traerParqueaderos();
+            $this->view->formuModifParqueadero($_REQUEST['idParqueadero']);
+        }    
         if($_REQUEST['opcion']=='formuNuevoParqueadero'){
             // $this->model->traerParqueaderos();
             $this->view->formuNuevoParqueadero();
         }    
         if($_REQUEST['opcion']=='grabarNuevoParqueadero'){
              $this->grabarNuevoParqueadero($_REQUEST);
+        }    
+        if($_REQUEST['opcion']=='modificacionParqueadero'){
+             $this->model->modificacionParqueadero($_REQUEST);
+             echo 'Modificacion Realizada!';
         }    
     }
 

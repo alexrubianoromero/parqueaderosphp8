@@ -46,6 +46,77 @@ function grabarNuevoParqueadero()
     }
 }
 
+function modificacionParqueadero()
+{
+    // var valida =  validaInfoParqueadero();
+    // if(valida == '1')
+    // {
+        var idParqueadero = document.getElementById('idParqueadero').value;
+        var nombreParqueadero = document.getElementById('nombreParqueadero').value;
+        var direccionParqueadero = document.getElementById('direccionParqueadero').value;
+        var telefonoParqueadero = document.getElementById('telefonoParqueadero').value;
+        var emailParqueadero = document.getElementById('emailParqueadero').value;
+        var propietario = document.getElementById('propietario').value;
+        var nit = document.getElementById('nit').value;
+        var companiaSeguros = document.getElementById('companiaSeguros').value;
+        var poliza = document.getElementById('poliza').value;
+        // var manejaiva = document.getElementById('manejaiva').value;
+        const http=new XMLHttpRequest();
+        const url = 'parqueaderos/parqueadero.php';
+        http.onreadystatechange = function(){
+                if(this.readyState == 4 && this.status ==200){
+                           document.getElementById("modalBodyModifParqueadero").innerHTML  = this.responseText;
+                    }
+                };
+                http.open("POST",url);
+                http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                http.send('opcion=modificacionParqueadero'
+                    +'&idParqueadero='+idParqueadero
+                    +'&nombreParqueadero='+nombreParqueadero
+                    +'&direccionParqueadero='+direccionParqueadero
+                    +'&telefonoParqueadero='+telefonoParqueadero
+                    +'&emailParqueadero='+emailParqueadero
+                    +'&propietario='+propietario
+                    +'&nit='+nit
+                    +'&companiaSeguros='+companiaSeguros
+                    +'&poliza='+poliza
+                    // +'&manejaiva='+manejaiva
+                );
+    // }
+}
+
+
+
+
+function formuModifParqueadero(idParqueadero)
+{
+    // var valida =  validaInfoParqueadero();
+    // if(valida == '1')
+    // {
+        // var nombreParqueadero = document.getElementById('nombreParqueadero').value;
+        // var direccionParqueadero = document.getElementById('direccionParqueadero').value;
+        // var telefonoParqueadero = document.getElementById('telefonoParqueadero').value;
+        // var emailParqueadero = document.getElementById('emailParqueadero').value;
+        // var manejaiva = document.getElementById('manejaiva').value;
+        const http=new XMLHttpRequest();
+        const url = 'parqueaderos/parqueadero.php';
+        http.onreadystatechange = function(){
+                if(this.readyState == 4 && this.status ==200){
+                           document.getElementById("modalBodyModifParqueadero").innerHTML  = this.responseText;
+                    }
+                };
+                http.open("POST",url);
+                http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                http.send('opcion=formuModifParqueadero'
+                    +'&idParqueadero='+idParqueadero
+                    // +'&direccionParqueadero='+direccionParqueadero
+                    // +'&telefonoParqueadero='+telefonoParqueadero
+                    // +'&emailParqueadero='+emailParqueadero
+                    // +'&manejaiva='+manejaiva
+                );
+    // }
+}
+
 function  validaInfoParqueadero()
 {
     if( document.getElementById('nombreParqueadero').value == ''){
@@ -68,10 +139,10 @@ function  validaInfoParqueadero()
         document.getElementById('emailParqueadero').focus();
         return 0;
     }
-    if( document.getElementById('manejaiva').value == ''){
-        alert('Por favor indicar si maneja iva');
-        document.getElementById('manejaiva').focus();
-        return 0;
-    }
+    // if( document.getElementById('manejaiva').value == ''){
+    //     alert('Por favor indicar si maneja iva');
+    //     document.getElementById('manejaiva').focus();
+    //     return 0;
+    // }
     return 1;
 }
