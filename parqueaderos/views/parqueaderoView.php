@@ -39,6 +39,7 @@ class parqueaderoView
                 <div id="div_resultadosparqueadero">
                     <?php
                         $parqueaderos = $this->model->traerParqueaderos();
+                        // echo '<pre>'; print_r($parqueaderos); echo '</pre>'; die();
                         $this->mostrarParqueaderos($parqueaderos);
                     ?>
                 </div>

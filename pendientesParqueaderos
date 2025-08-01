@@ -196,6 +196,18 @@ revisar que avise que se cambio el nombre de la tarifa porque solo avisa  si se 
 revisar proceso al registrar  placa
 
 
+mejoras parqueaderos 
+crear campo nombrepropietario del parqueadero en parqueaderos nombrePropietario varchar 200
+crear campo info asociada al parqueadero
+
+28-07-2025 pase la infromacion a xamppult2 y saque una copia de produccion alli en la 
+carpeta parqueaderosphp8
+
+31-07-2025   voy a hacer el script para crear el campo en la base de datos 
+
+$sql = "ALTER TABLE $tableName ADD $columnName $columnType $columnOptions";
+
+
 
 
 

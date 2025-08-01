@@ -15,9 +15,9 @@ class Conexion {
     // private $conexion; 
 
     private $host = 'localhost';
-    private $usuario = '';
-    private $contrasena = '';
-    private $nombreBaseDatos = '';
+    private $usuario = 'u343394062_pruebas';
+    private $contrasena = 'A12345678b*';
+    private $nombreBaseDatos = 'u343394062_pruebas';
     private $conexion; 
     
     public function connectMysql(){

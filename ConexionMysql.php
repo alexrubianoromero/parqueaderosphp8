@@ -14,7 +14,12 @@ class ConexionMysql {
     // private $nombreBaseDatos = 'ctwtvsxj_base_parqueaderos';
     // private $conexion; 
 
-    private $host = 'localhost';
+    // private $host = 'localhost';
+    // private $usuario = 'root';
+    // private $contrasena = '';
+    // private $nombreBaseDatos = 'base_parqueaderos';
+    // private $conexion; 
+       private $host = 'localhost';
     private $usuario = '';
     private $contrasena = '';
     private $nombreBaseDatos = '';
